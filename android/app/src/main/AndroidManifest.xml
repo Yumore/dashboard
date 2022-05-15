@@ -2,8 +2,8 @@
     package="com.example.admin">
 
     <application
-        android:icon="@mipmap/ic_launcher"
-        android:label="admin">
+        android:icon="@mipmap/icon_logo"
+        android:label="0-admin">
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -26,7 +26,7 @@
                  Flutter's first frame. -->
             <meta-data
                 android:name="io.flutter.embedding.android.SplashScreenDrawable"
-                android:resource="@drawable/launch_background" />
+                android:resource="@drawable/welcome_background" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
