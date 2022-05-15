@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'components/side_menu.dart';
 
+/// 主界面
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
