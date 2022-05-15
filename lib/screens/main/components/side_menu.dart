@@ -1,3 +1,4 @@
+import 'package:admin/routers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,6 +18,31 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Dashboard",
             svgSrc: "assets/icons/menu_dashbord.svg",
+
+            /// 关闭抽屉
+            press: () => Navigator.pop(context),
+          ),
+          DrawerListTile(
+            title: "Blogger",
+            svgSrc: "assets/icons/menu_tran.svg",
+            press: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, ROUTER_FUNNY);
+            },
+          ),
+          DrawerListTile(
+            title: "Reading",
+            svgSrc: "assets/icons/menu_tran.svg",
+            press: () {},
+          ),
+          DrawerListTile(
+            title: "Cartoon",
+            svgSrc: "assets/icons/menu_tran.svg",
+            press: () {},
+          ),
+          DrawerListTile(
+            title: "Reading",
+            svgSrc: "assets/icons/menu_tran.svg",
             press: () {},
           ),
           DrawerListTile(
@@ -25,7 +51,7 @@ class SideMenu extends StatelessWidget {
             press: () {},
           ),
           DrawerListTile(
-            title: "Task",
+            title: "Tasks",
             svgSrc: "assets/icons/menu_task.svg",
             press: () {},
           ),
