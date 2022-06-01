@@ -1,5 +1,5 @@
 import 'package:admin/screens/dashboard/dashboard_screen.dart';
-import 'package:admin/screens/wandroid/funny_screen.dart';
+import 'package:admin/screens/pages/welcome_page.dart';
 
 /// TODO 使用说明
 /// 结束所有页面并返回
@@ -20,7 +20,7 @@ import 'package:admin/screens/wandroid/funny_screen.dart';
 /// --------------------------------
 var staticRouters = {
   ROUTER_DASHBOARD: (context) => DashboardScreen(),
-  ROUTER_FUNNY: (context) => FunnyScreen(),
+  ROUTER_FUNNY: (context) => WelcomePage(),
 };
 
 /// TODO 路由常量

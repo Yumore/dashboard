@@ -8,6 +8,16 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(AppMain());
+
+  // final navigatorKey = GlobalKey<NavigatorState>();
+  //
+  // runApp(MaterialApp(
+  //   navigatorKey: navigatorKey,
+  //   theme: ThemeData(
+  //       primaryColor: AppColors.colorPrimary,
+  //       accentColor: AppColors.colorPrimary),
+  //   home: WelcomePage(),
+  // ));
 }
 
 class AppMain extends StatelessWidget {
