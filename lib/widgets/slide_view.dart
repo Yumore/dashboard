@@ -1,4 +1,4 @@
-import 'package:admin/model/bannel_model.dart';
+import 'package:admin/models/bannel_model.dart';
 import 'package:admin/screens/pages/article_detail_page.dart';
 import 'package:flutter/material.dart';
 

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:admin/http/api_manager.dart';
 import 'package:admin/item/article_item.dart';
-import 'package:admin/model/article_model.dart';
+import 'package:admin/models/article_model.dart';
 import 'package:flutter/material.dart';
 
 class SearchListPage extends StatefulWidget {

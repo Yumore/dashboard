@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:admin/http/api_manager.dart';
 import 'package:admin/item/article_item.dart';
-import 'package:admin/model/bannel_model.dart';
-import 'package:admin/widget/slide_view.dart';
+import 'package:admin/models/bannel_model.dart';
+import 'package:admin/widgets/slide_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeListPage extends StatefulWidget {

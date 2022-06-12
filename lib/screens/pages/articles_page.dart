@@ -1,7 +1,7 @@
-import 'package:admin/model/tree_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 
+import '../../models/tree_model.dart';
 import 'article_list_page.dart';
 
 class ArticlesPage extends StatefulWidget {

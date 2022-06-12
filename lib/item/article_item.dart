@@ -1,11 +1,12 @@
 import 'package:admin/constants/app_colors.dart';
 import 'package:admin/http/api_manager.dart';
-import 'package:admin/model/article_model.dart';
+import 'package:admin/models/article_model.dart';
 import 'package:admin/screens/pages/article_detail_page.dart';
 import 'package:admin/screens/pages/login_page.dart';
-import 'package:admin/utils/data_utils.dart';
-import 'package:admin/utils/string_utils.dart';
 import 'package:flutter/material.dart';
+
+import '../utility/data_utils.dart';
+import '../utility/string_utils.dart';
 
 ///个人感觉条目比较复杂的话可以单独拿出来,而且可以复用.可以对比CollectListPage.dart中的item哪个更合理
 class ArticleItem extends StatefulWidget {

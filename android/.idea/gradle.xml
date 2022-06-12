@@ -10,9 +10,15 @@
         <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
+            <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/better_player-0.0.83/android" />
+            <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/connectivity-3.0.6/android" />
+            <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/flutter_native_splash-2.2.3/android" />
             <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/path_provider_android-2.0.14/android" />
             <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/shared_preferences_android-2.0.12/android" />
-            <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/webview_flutter_android-2.8.8/android" />
+            <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/sqflite-2.0.2+1/android" />
+            <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/url_launcher_android-6.0.17/android" />
+            <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/wakelock-0.6.1+2/android" />
+            <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/webview_flutter_android-2.8.11/android" />
             <option value="E:/Flutter/admin_dashboard_repo/android" />
             <option value="E:/Flutter/admin_dashboard_repo/android/app" />
           </set>

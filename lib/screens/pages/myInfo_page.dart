@@ -3,8 +3,9 @@ import 'package:admin/event/login_event.dart';
 import 'package:admin/screens/pages/about_us_page.dart';
 import 'package:admin/screens/pages/collect_list_page.dart';
 import 'package:admin/screens/pages/login_page.dart';
-import 'package:admin/utils/data_utils.dart';
 import 'package:flutter/material.dart';
+
+import '../../utility/data_utils.dart';
 
 class MyInfoPage extends StatefulWidget {
   @override
@@ -39,7 +40,7 @@ class MyInfoPageState extends State<MyInfoPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     Widget image = Image.asset(
-      'images/ic_launcher_round.png',
+      'assets/images/ic_launcher_round.png',
       width: 100.0,
       height: 100.0,
     );

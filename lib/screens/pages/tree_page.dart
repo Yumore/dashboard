@@ -1,7 +1,8 @@
 import 'package:admin/http/api_manager.dart';
-import 'package:admin/model/tree_model.dart';
 import 'package:admin/screens/pages/articles_page.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/tree_model.dart';
 
 //知识体系
 class TreePage extends StatefulWidget {

@@ -2,17 +2,15 @@ import 'dart:io';
 
 import 'package:admin/http/app_urls.dart';
 import 'package:admin/http/dio_new.dart';
-import 'package:admin/http/http_client.dart';
-import 'package:admin/http/http_config.dart';
-import 'package:admin/http/http_response.dart';
-import 'package:admin/model/article_model.dart';
-import 'package:admin/model/bannel_model.dart';
-import 'package:admin/model/friend_model.dart';
-import 'package:admin/model/hot_key_model.dart';
-import 'package:admin/model/tree_model.dart';
+import 'package:admin/models/article_model.dart';
+import 'package:admin/models/bannel_model.dart';
+import 'package:admin/models/hot_key_model.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../models/friend_model.dart';
+import '../models/tree_model.dart';
 
 class ApiManager {
   factory ApiManager() => _getInstance();

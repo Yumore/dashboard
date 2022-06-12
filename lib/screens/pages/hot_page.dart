@@ -1,9 +1,9 @@
 import 'package:admin/http/api_manager.dart';
-import 'package:admin/model/friend_model.dart';
-import 'package:admin/model/hot_key_model.dart';
+import 'package:admin/models/hot_key_model.dart';
 import 'package:admin/screens/pages/search_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/friend_model.dart';
 import 'article_detail_page.dart';
 
 class HotPage extends StatefulWidget {

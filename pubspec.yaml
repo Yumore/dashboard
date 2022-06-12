@@ -26,7 +26,7 @@ dependencies:
 
     # The following adds the Cupertino Icons font to your application.
     # Use with the CupertinoIcons class for iOS style icons.
-    cupertino_icons: ^1.0.4
+    cupertino_icons: ^1.0.5
 
     google_fonts: ^3.0.1
     flutter_svg: ^1.1.0
@@ -43,11 +43,42 @@ dependencies:
     event_bus: 2.0.0
 
     ## ---------------
-    path_provider: ^2.0.10
+    path_provider: ^2.0.11
+
+    ## ---------------
+    better_player: ^0.0.81
+    cached_network_image: ^3.1.0+1
+    chopper: ^4.0.5
+    connectivity: ^3.0.6
+    flutter_cache_manager: ^3.3.0
+    flutter_spinkit: ^5.1.0
+    get: ^4.6.0
+    html: ^0.15.0
+    logging: ^1.0.2
+    sqflite: ^2.0.2
+    url_launcher: ^6.0.20
+    uuid: ^3.0.6
+    carousel_slider:
+    share:
+    fluttertoast:
+    battery:
+    intl:
+    device_info:
+
 
 dev_dependencies:
+    flutter_lints: ^1.0.0
+    flutter_native_splash: ^2.0.5
     flutter_test:
         sdk: flutter
+
+flutter_native_splash:
+    color: "#0d1321"
+    image: assets/images/splash.png
+
+    android: true
+    ios: true
+    web: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -63,6 +94,9 @@ flutter:
     assets:
         - assets/images/
         - assets/icons/
+        - assets/gif/
+        - img/
+        - mock/
     #   - images/a_dot_ham.jpeg
 
     # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,48 +1,56 @@
-import 'package:admin/constants.dart';
-import 'package:admin/controllers/MenuController.dart';
-import 'package:admin/routers.dart';
-import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(AppMain());
+import '../bindings/managers_binding.dart';
+import '../services/request_service.dart';
+import '../theme/tako_theme.dart';
+import '../utility/tako_route.dart';
 
-  // final navigatorKey = GlobalKey<NavigatorState>();
-  //
-  // runApp(MaterialApp(
-  //   navigatorKey: navigatorKey,
-  //   theme: ThemeData(
-  //       primaryColor: AppColors.colorPrimary,
-  //       accentColor: AppColors.colorPrimary),
-  //   home: WelcomePage(),
-  // ));
+Future<void> main() async {
+  _configureApp();
+  _setUpLogging();
+  runApp(const MyApp());
 }
 
-class AppMain extends StatelessWidget {
-  // This widget is the root of your application.
+void _configureApp() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+}
+
+void _setUpLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((rec) {
+    // ignore: avoid_print
+    print('${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Admin Dashboard',
-
-      /// 注册全局的静态路由
-      routes: staticRouters,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.white),
-        canvasColor: secondaryColor,
-      ),
-      home: MultiProvider(
+    return MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (context) => MenuController(),
+          Provider(
+            create: (_) => RequestService.create(),
+            dispose: (_, RequestService service) => service.client.dispose(),
           ),
         ],
-        child: MainScreen(),
-      ),
-    );
+        child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'TakoPlay',
+          theme: TakoTheme.dark(),
+          initialRoute: '/',
+          initialBinding: ManagerBinding(),
+          getPages: TakoRoute.pages,
+        ));
   }
 }
