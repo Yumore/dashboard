@@ -21,9 +21,23 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+
+Properties properties = new Properties()
+File keyStore = project.rootProject.file("config.properties")
+if (keyStore.exists()) {
+    properties.load(keyStore.newDataInputStream())
+}
+
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     compileSdkVersion 31
@@ -32,46 +46,53 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    lintOptions {
+        abortOnError false
+        checkDependencies true
+        checkReleaseBuilds false
+        warning 'InvalidPackage'
+        disable 'NewApi', 'MissingTranslation', 'NewApi', 'NewApi'
+        ignoreWarnings true
+    }
+
     defaultConfig {
-        applicationId "com.example.admin"
-        minSdkVersion 23
-        targetSdkVersion 31
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.nsapp.dmzj"
+        minSdkVersion 16
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
+    signingConfigs {
+        release {
+            enableV3Signing true
+            enableV4Signing true
+            keyAlias properties.getProperty("config.keyAlias")
+            keyPassword properties.getProperty("config.keyPassword")
+            storeFile file(properties.getProperty("config.storeFile"))
+            storePassword properties.getProperty("config.storePassword")
+        }
+    }
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+    dexOptions {
+        jumboMode true
+        dexInProcess true
+        preDexLibraries true
+        maxProcessCount 4
+        threadCount 8
+        javaMaxHeapSize "4g"
     }
 
-    packagingOptions {
-        jniLibs {
-            keepDebugSymbols += ['*/armeabi/*.so',
-                                 '*/armeabi-v7a/*.so',
-                                 '*/arm64-v8a/*.so',
-                                 '*/x86/*.so',
-                                 '*/x86_64/*.so',
-                                 '*/mips/*.so',
-                                 '*/mips64/*.so']
-        }
-        resources {
-            excludes += ['project.properties',
-                         'META-INF/LICENSE.txt',
-                         'META-INF/LICENSE',
-                         'META-INF/NOTICE.txt',
-                         'META-INF/NOTICE',
-                         'META-INF/DEPENDENCIES.txt',
-                         'META-INF/DEPENDENCIES',
-                         'META-INF/**/*.properties',
-                         'META-INF/kotlinx_coroutines_core.version',
-                         'META-INF/beans.xml']
-            pickFirsts += ['META-INF/']
-        }
-    }
 }
 
 flutter {
@@ -80,4 +101,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
