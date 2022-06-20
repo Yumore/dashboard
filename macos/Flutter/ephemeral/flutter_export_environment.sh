@@ -3,7 +3,6 @@
 export "FLUTTER_ROOT=/opt/flutter"
 export "FLUTTER_APPLICATION_PATH=/Users/nathaniel/workspace/Flutter/00flutter"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
-export "FLUTTER_TARGET=lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.2.0"
 export "FLUTTER_BUILD_NUMBER=210616"

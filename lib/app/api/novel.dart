@@ -4,15 +4,17 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter_dmzj/app/http_util.dart';
 import 'package:flutter_dmzj/protobuf/novel/novel_chapter_response.pb.dart';
 import 'package:flutter_dmzj/protobuf/novel/novel_detail_response.pb.dart';
+
 import 'api_util.dart';
 
 class NovelApi {
-  static NovelApi _novelApi;
+  static NovelApi? _novelApi;
+
   static NovelApi get instance {
     if (_novelApi == null) {
       _novelApi = NovelApi();
     }
-    return _novelApi;
+    return _novelApi!;
   }
 
   /// 轻小说详情
@@ -22,7 +24,7 @@ class NovelApi {
       path,
       queryParameters: ApiUtil.defaultParameter(needLogined: true),
     );
-    var resultBytes = ApiUtil.decrypt(result);
+    var resultBytes = ApiUtil.decrypt(result!);
 
     var data = NovelDetailResponse.fromBuffer(resultBytes);
     if (data.errno != 0) {
@@ -38,7 +40,7 @@ class NovelApi {
       path,
       queryParameters: ApiUtil.defaultParameter(needLogined: true),
     );
-    var resultBytes = ApiUtil.decrypt(result);
+    var resultBytes = ApiUtil.decrypt(result!);
 
     var data = NovelChapterResponse.fromBuffer(resultBytes);
     if (data.errno != 0) {
@@ -51,8 +53,7 @@ class NovelApi {
   String getNovelContentUrl(int volumeId, int chapterId) {
     var path = "/lnovel/${volumeId}_$chapterId.txt";
     var ts = (DateTime.now().millisecondsSinceEpoch / 1000).toStringAsFixed(0);
-    var key =
-        "IBAAKCAQEAsUAdKtXNt8cdrcTXLsaFKj9bSK1nEOAROGn2KJXlEVekcPssKUxSN8dsfba51kmHM";
+    var key = "IBAAKCAQEAsUAdKtXNt8cdrcTXLsaFKj9bSK1nEOAROGn2KJXlEVekcPssKUxSN8dsfba51kmHM";
     key += path;
     key += ts;
     key = md5.convert(utf8.encode(key)).toString().toLowerCase();

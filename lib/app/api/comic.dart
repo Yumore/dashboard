@@ -6,23 +6,23 @@ import 'package:flutter_dmzj/protobuf/comic/update_list_response.pb.dart';
 import 'api_util.dart';
 
 class ComicApi {
-  static ComicApi _comicApi;
+  static ComicApi? _comicApi;
+
   static ComicApi get instance {
     if (_comicApi == null) {
       _comicApi = ComicApi();
     }
-    return _comicApi;
+    return _comicApi!;
   }
 
   /// 首页-更新
-  Future<List<ComicUpdateListItemResponse>> getUpdateList(String type,
-      {int page = 1}) async {
+  Future<List<ComicUpdateListItemResponse>> getUpdateList(String type, {int page = 1}) async {
     var path = "${ApiUtil.BASE_URL_V4}/comic/update/list/$type/$page";
     var result = await HttpUtil.instance.httpGet(
       path,
       queryParameters: ApiUtil.defaultParameter(needLogined: true),
     );
-    var resultBytes = ApiUtil.decrypt(result);
+    var resultBytes = ApiUtil.decrypt(result!);
 
     var data = ComicUpdateListResponse.fromBuffer(resultBytes);
     if (data.errno != 0) {
@@ -38,7 +38,7 @@ class ComicApi {
       path,
       queryParameters: ApiUtil.defaultParameter(needLogined: true),
     );
-    var resultBytes = ApiUtil.decrypt(result);
+    var resultBytes = ApiUtil.decrypt(result!);
 
     var data = ComicDetailResponse.fromBuffer(resultBytes);
     if (data.errno != 0) {
@@ -48,21 +48,15 @@ class ComicApi {
   }
 
   /// 首页-排行榜
-  Future<List<ComicRankListItemResponse>> getRankList(
-      {int tagId = 0, int byTime = 0, int rankType, int page = 0}) async {
+  Future<List<ComicRankListItemResponse>> getRankList({int tagId = 0, int byTime = 0, int rankType = 0, int page = 0}) async {
     var path = "${ApiUtil.BASE_URL_V4}/comic/rank/list";
     var par = ApiUtil.defaultParameter(needLogined: true);
-    par.addAll({
-      'tag_id': tagId,
-      'by_time': byTime,
-      'rank_type': rankType,
-      'page': page
-    });
+    par.addAll({'tag_id': tagId, 'by_time': byTime, 'rank_type': rankType, 'page': page});
     var result = await HttpUtil.instance.httpGet(
       path,
       queryParameters: par,
     );
-    var resultBytes = ApiUtil.decrypt(result);
+    var resultBytes = ApiUtil.decrypt(result!);
 
     var data = ComicRankListResponse.fromBuffer(resultBytes);
     if (data.errno != 0) {

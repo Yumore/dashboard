@@ -5,7 +5,7 @@ import 'package:flutter_dmzj/models/user/user_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigHelper {
-  static SharedPreferences prefs;
+  static SharedPreferences prefs = SharedPreferences.getInstance() as SharedPreferences;
 
   /// APP夜间模式
   static int getThemeMode() {
@@ -46,9 +46,7 @@ class ConfigHelper {
   /// 读取用户信息
   static UserInfo getUserInfo() {
     var userInfoString = prefs.getString("userInfo");
-    return (userInfoString != null && userInfoString.length != 0)
-        ? UserInfo.fromJson(jsonDecode(userInfoString))
-        : null;
+    return (userInfoString != null && userInfoString.length != 0) ? UserInfo.fromJson(jsonDecode(userInfoString)) : UserInfo();
   }
 
   static void setUserInfo(UserInfo value) {
@@ -58,9 +56,7 @@ class ConfigHelper {
   /// 读取用户资料
   static UserProfileModel getUserProfile() {
     var userInfoString = prefs.getString("userProfile");
-    return (userInfoString != null && userInfoString.length != 0)
-        ? UserProfileModel.fromJson(jsonDecode(userInfoString))
-        : null;
+    return (userInfoString != null && userInfoString.length != 0) ? UserProfileModel.fromJson(jsonDecode(userInfoString)) : UserProfileModel();
   }
 
   static void setUserProfile(UserProfileModel value) {

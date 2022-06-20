@@ -13,20 +13,15 @@ class AppTheme with ChangeNotifier {
     "关闭": ThemeMode.light,
   };
 
-  static Map<String, Color> themeColors = {
-    "胖次蓝": Colors.blue,
-    "姨妈红": Colors.red,
-    "咸蛋黄": Colors.yellow,
-    "早苗绿": Colors.green,
-    "少女粉": Colors.pink,
-    "基佬紫": Colors.purple,
-    "朴素灰": Colors.blueGrey
-  };
+  static Map<String, Color> themeColors = {"胖次蓝": Colors.blue, "姨妈红": Colors.red, "咸蛋黄": Colors.yellow, "早苗绿": Colors.green, "少女粉": Colors.pink, "基佬紫": Colors.purple, "朴素灰": Colors.blueGrey};
 
-  ThemeMode _themeMode;
-  String _themeModeName;
+  ThemeMode? _themeMode;
+  String? _themeModeName;
+
   get themeMode => _themeMode;
+
   get themeModeName => _themeModeName;
+
   void changeThemeMode(int index) {
     _themeMode = AppTheme.themeModes.values.toList()[index];
     _themeModeName = AppTheme.themeModes.keys.toList()[index];
@@ -47,11 +42,11 @@ class AppTheme with ChangeNotifier {
   }
 
   List<Widget> _createThemeModeWidget(BuildContext context) {
-    List<Widget> widgets = [];
+    List<Widget> widgets = <Widget>[];
     for (var item in AppTheme.themeModes.keys) {
-      widgets.add(RadioListTile(
+      widgets.add(RadioListTile<String>(
         groupValue: item,
-        value: _themeModeName,
+        value: _themeModeName!,
         title: new Text(
           item,
         ),
@@ -64,10 +59,13 @@ class AppTheme with ChangeNotifier {
     return widgets;
   }
 
-  Color _themeColor;
-  String _themeColorName;
+  Color? _themeColor;
+  String? _themeColorName;
+
   get themeColor => _themeColor;
+
   get themeColorName => _themeColorName;
+
   void changeThemeColor(int index) {
     _themeColor = AppTheme.themeColors.values.toList()[index];
     _themeColorName = AppTheme.themeColors.keys.toList()[index];
@@ -88,11 +86,11 @@ class AppTheme with ChangeNotifier {
   }
 
   List<Widget> _createThemeWidget(BuildContext context) {
-    List<Widget> widgets = [];
+    List<Widget> widgets = <Widget>[];
     for (var item in AppTheme.themeColors.keys) {
-      widgets.add(RadioListTile(
+      widgets.add(RadioListTile<String>(
         groupValue: item,
-        value: _themeColorName,
+        value: _themeColorName!,
         title: new Text(
           item,
           style: TextStyle(color: AppTheme.themeColors[item]),

@@ -18,12 +18,10 @@ class UserHelper {
       var uid = ConfigHelper.getUserInfo()?.uid ?? "";
       var result = "";
       if (cancel) {
-        var response =
-            await http.get(Uri.parse(Api.cancelComicSubscribe(comicId, uid)));
+        var response = await http.get(Uri.parse(Api.cancelComicSubscribe(comicId, uid)));
         result = response.body;
       } else {
-        var response = await http.post(Uri.parse(Api.addComicSubscribe),
-            body: {"obj_ids": comicId.toString(), "uid": uid, "type": "mh"});
+        var response = await http.post(Uri.parse(Api.addComicSubscribe), body: {"obj_ids": comicId.toString(), "uid": uid, "type": "mh"});
         result = response.body;
       }
       var jsonMap = jsonDecode(result);
@@ -51,12 +49,10 @@ class UserHelper {
       var uid = ConfigHelper.getUserInfo()?.uid ?? "";
       var result = "";
       if (cancel) {
-        var response =
-            await http.get(Uri.parse(Api.cancelNovelSubscribe(novelId, uid)));
+        var response = await http.get(Uri.parse(Api.cancelNovelSubscribe(novelId, uid)));
         result = response.body;
       } else {
-        var response = await http.post(Uri.parse(Api.addNovelSubscribe),
-            body: {"obj_ids": novelId.toString(), "uid": uid, "type": "xs"});
+        var response = await http.post(Uri.parse(Api.addNovelSubscribe), body: {"obj_ids": novelId.toString(), "uid": uid, "type": "xs"});
         result = response.body;
       }
       var jsonMap = jsonDecode(result);
@@ -74,9 +70,7 @@ class UserHelper {
     }
   }
 
-  static Future<bool> comicAddViewPoint(
-      int comicId, int chapterId, String content,
-      {int page = 0}) async {
+  static Future<bool> comicAddViewPoint(int comicId, int chapterId, String content, {int page = 0}) async {
     try {
       //TODO 跳转登录
       if (!ConfigHelper.getUserIsLogined() ?? false) {
@@ -115,8 +109,7 @@ class UserHelper {
       //   return false;
       // }
 
-      var response = await http.post(Uri.parse(Api.comicLikeViewPoint()),
-          body: {"sub_type": "100", "vote_id": id.toString()});
+      var response = await http.post(Uri.parse(Api.comicLikeViewPoint()), body: {"sub_type": "100", "vote_id": id.toString()});
       var jsonMap = jsonDecode(response.body);
 
       if (jsonMap["code"] == 0) {
@@ -133,16 +126,14 @@ class UserHelper {
     }
   }
 
-  static Future<bool> comicAddComicHistory(int comicId, int chapterId,
-      {int page = 1}) async {
+  static Future<bool> comicAddComicHistory(int comicId, int chapterId, {int page = 1}) async {
     try {
       //TODO 跳转登录
       if (!ConfigHelper.getUserIsLogined() ?? false) {
         return false;
       }
       var uid = ConfigHelper.getUserInfo()?.uid ?? "";
-      var response = await http.get(Uri.parse(
-          Api.addUserComicHistory(comicId, chapterId, uid, page: page)));
+      var response = await http.get(Uri.parse(Api.addUserComicHistory(comicId, chapterId, uid, page: page)));
       var jsonMap = jsonDecode(response.body);
       if (jsonMap["code"] == 0) {
         return true;
@@ -155,18 +146,14 @@ class UserHelper {
     }
   }
 
-  static Future<bool> comicAddNovelHistory(
-      int novelId, int volumeId, int chapterId,
-      {int page = 1}) async {
+  static Future<bool> comicAddNovelHistory(int novelId, int volumeId, int chapterId, {int page = 1}) async {
     try {
       //TODO 跳转登录
       if (!ConfigHelper.getUserIsLogined() ?? false) {
         return false;
       }
       var uid = ConfigHelper.getUserInfo()?.uid ?? "";
-      var response = await http.get(Uri.parse(Api.addUserNovelHistory(
-          novelId, volumeId, chapterId, uid,
-          page: page)));
+      var response = await http.get(Uri.parse(Api.addUserNovelHistory(novelId, volumeId, chapterId, uid, page: page)));
       var jsonMap = jsonDecode(response.body);
       if (jsonMap["code"] == 0) {
         return true;
@@ -189,8 +176,7 @@ class UserHelper {
       var par = {"uid": int.parse(uid), "sub_id": newsId};
       var parJson = jsonEncode(par);
       var sign = Api.sign(parJson, 'app_news_sub');
-      var response = await http.post(Uri.parse(Api.checkNewsSub()),
-          body: {"parm": parJson, "sign": sign});
+      var response = await http.post(Uri.parse(Api.checkNewsSub()), body: {"parm": parJson, "sign": sign});
       var jsonMap = jsonDecode(response.body);
 
       if (jsonMap["msg"] == "您已订阅过") {
@@ -215,9 +201,7 @@ class UserHelper {
       var par = {"uid": int.parse(uid), "sub_id": newsId};
       var parJson = jsonEncode(par);
       var sign = Api.sign(parJson, 'app_news_sub');
-      var response = await http.post(
-          Uri.parse(cancel ? Api.cancelNewsSub() : Api.addNewsSub()),
-          body: {"parm": parJson, "sign": sign});
+      var response = await http.post(Uri.parse(cancel ? Api.cancelNewsSub() : Api.addNewsSub()), body: {"parm": parJson, "sign": sign});
       var jsonMap = jsonDecode(response.body);
 
       if (jsonMap["result"] == 1000) {
@@ -235,14 +219,12 @@ class UserHelper {
 
   static Future<bool> loadComicHistory() async {
     try {
-      if (!ConfigHelper.getUserIsLogined() ?? false) {
+      if (!ConfigHelper.getUserIsLogined()) {
         return false;
       }
-      var response = await http
-          .get(Uri.parse(Api.userComicHistory(ConfigHelper.getUserInfo().uid)));
+      var response = await http.get(Uri.parse(Api.userComicHistory(ConfigHelper.getUserInfo()!.uid!)));
       List jsonMap = jsonDecode(response.body);
-      List<ComicHistoryItem> detail =
-          jsonMap.map((i) => ComicHistoryItem.fromJson(i)).toList();
+      List<ComicHistoryItem> detail = jsonMap.map((i) => ComicHistoryItem.fromJson(i)).toList();
       if (detail != null) {
         for (var item in detail) {
           var historyItem = await ComicHistoryProvider.getItem(item.comic_id);
@@ -251,8 +233,7 @@ class UserHelper {
             historyItem.page = item.progress?.toDouble() ?? 1;
             await ComicHistoryProvider.update(historyItem);
           } else {
-            await ComicHistoryProvider.insert(ComicHistory(item.comic_id,
-                item.chapter_id, item.progress?.toDouble() ?? 1, 1));
+            await ComicHistoryProvider.insert(ComicHistory(item.comic_id, item.chapter_id, item.progress?.toDouble() ?? 1, 1));
           }
         }
       }

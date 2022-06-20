@@ -4,12 +4,13 @@ import 'package:flutter_dmzj/protobuf/news/news_list_response.pb.dart';
 import 'api_util.dart';
 
 class NewsApi {
-  static NewsApi _comicApi;
+  static NewsApi? _comicApi;
+
   static NewsApi get instance {
     if (_comicApi == null) {
       _comicApi = NewsApi();
     }
-    return _comicApi;
+    return _comicApi!;
   }
 
   /// 新闻列表
@@ -19,7 +20,7 @@ class NewsApi {
       path,
       queryParameters: ApiUtil.defaultParameter(),
     );
-    var resultBytes = ApiUtil.decrypt(result);
+    var resultBytes = ApiUtil.decrypt(result!);
 
     var data = NewsListResponse.fromBuffer(resultBytes);
     if (data.errno != 0) {
