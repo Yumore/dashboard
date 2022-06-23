@@ -6,8 +6,52 @@
       <GradleProjectSettings>
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="E:/Flutter/00flutter/android" />
+        <option name="externalProjectPath" value="$USER_HOME$/workspace/Flutter/00flutter/android" />
         <option name="gradleJvm" value="#JAVA_HOME" />
+        <option name="modules">
+          <set>
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/battery-2.0.3/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/connectivity-3.0.6/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/connectivity_for_web-0.4.0+1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/connectivity_macos-0.2.1+2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/fluttertoast-8.0.9/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/package_info-2.0.2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path_provider-2.0.11/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path_provider_android-2.0.15/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path_provider_ios-2.0.10/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path_provider_linux-2.1.7/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path_provider_macos-2.0.6/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path_provider_windows-2.1.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/screen_brightness-0.2.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/screen_brightness_android-0.1.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/screen_brightness_ios-0.1.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/screen_brightness_macos-0.1.0+1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/share-2.0.4/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-2.0.15/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_android-2.0.12/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_ios-2.1.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_linux-2.1.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_macos-2.0.4/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_web-2.0.4/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_windows-2.1.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/sqflite-2.0.2+1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher-6.1.3/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_android-6.0.17/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_ios-6.0.17/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_linux-3.0.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_macos-3.0.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_web-2.0.12/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_windows-3.0.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/wakelock-0.6.1+2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/wakelock_macos-0.4.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/wakelock_web-0.4.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/webview_flutter-3.0.4/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/webview_flutter_android-2.8.11/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/webview_flutter_wkwebview-2.8.1/android" />
+            <option value="$USER_HOME$/workspace/Flutter/00flutter/android" />
+            <option value="$USER_HOME$/workspace/Flutter/00flutter/android/app" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

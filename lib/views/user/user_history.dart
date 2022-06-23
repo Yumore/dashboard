@@ -170,7 +170,7 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
     print(item.novel_name);
     return InkWell(
       onTap: () {
-        Utils.openPage(context, int.parse(item.lnovel_id), 2);
+        Utils.openPage(context, int.parse(item.lnovel_id!), 2);
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
@@ -184,7 +184,7 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
                   borderRadius: BorderRadius.circular(4),
                   child: Container(
                     width: 80,
-                    child: Utils.createCacheImage(item.cover, 270, 360),
+                    child: Utils.createCacheImage(item.cover!, 270, 360),
                   )),
               SizedBox(
                 width: 12,
@@ -194,17 +194,17 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      item.novel_name,
+                      item.novel_name!,
                       maxLines: 1,
                     ),
                     SizedBox(
                       height: 2,
                     ),
-                    Text("看到" + item.volume_name + " · " + (item.chapter_name ?? ""), style: TextStyle(color: Colors.grey, fontSize: 14)),
+                    Text("看到" + item.volume_name! + " · " + (item.chapter_name ?? ""), style: TextStyle(color: Colors.grey, fontSize: 14)),
                     SizedBox(
                       height: 2,
                     ),
-                    Text(DateUtil.formatDate(DateTime.fromMillisecondsSinceEpoch(item.viewing_time * 1000), format: "yyyy-MM-dd HH:mm:ss"), style: TextStyle(color: Colors.grey, fontSize: 14)),
+                    Text(DateUtil.formatDate(DateTime.fromMillisecondsSinceEpoch(item.viewing_time! * 1000), format: "yyyy-MM-dd HH:mm:ss"), style: TextStyle(color: Colors.grey, fontSize: 14)),
                   ],
                 ),
               )
@@ -229,12 +229,12 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
         _loading = true;
       });
 
-      var response = await http.get(Uri.parse(Api.userNovelHistory(ConfigHelper.getUserInfo().uid)));
+      var response = await http.get(Uri.parse(Api.userNovelHistory(ConfigHelper.getUserInfo().uid!)));
       List jsonMap = jsonDecode(response.body);
       List<NovelHistoryItem> detail = jsonMap.map((i) => NovelHistoryItem.fromJson(i)).toList();
       if (detail != null) {
         for (var item in detail) {
-          ConfigHelper.setNovelHistory(int.parse(item.lnovel_id), item.chapter_id);
+          ConfigHelper.setNovelHistory(int.parse(item.lnovel_id!), item.chapter_id!);
         }
         setState(() {
           _novelList = detail;
@@ -258,7 +258,7 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
         _loading = true;
       });
 
-      var response = await http.get(Uri.parse(Api.userComicHistory(ConfigHelper.getUserInfo().uid)));
+      var response = await http.get(Uri.parse(Api.userComicHistory(ConfigHelper.getUserInfo().uid!)));
       List jsonMap = jsonDecode(response.body);
       List<ComicHistoryItem> detail = jsonMap.map((i) => ComicHistoryItem.fromJson(i)).toList();
       if (detail != null && detail.length != 0) {
@@ -267,10 +267,10 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
           print(item.comic_name);
           if (historyItem != null) {
             historyItem.chapter_id = item.chapter_id;
-            historyItem.page = item.progress?.toDouble() ?? 1;
+            historyItem.page = item.progress.toDouble();
             await ComicHistoryProvider.update(historyItem);
           } else {
-            await ComicHistoryProvider.insert(ComicHistory(item.comic_id, item.chapter_id, item.progress?.toDouble() ?? 1, 1));
+            await ComicHistoryProvider.insert(ComicHistory(item.comic_id, item.chapter_id, item.progress.toDouble(), 1));
           }
 
           //ConfigHelper.setComicHistory(item.comic_id, item.chapter_id);

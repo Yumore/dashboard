@@ -51,11 +51,11 @@ class _UserDetailPageState extends State<UserDetailPage> {
                       height: 36,
                       width: 36,
                       child: CircleAvatar(
-                        backgroundImage: Utils.createCachedImageProvider(_profile!.cover),
+                        backgroundImage: Utils.createCachedImageProvider(_profile!.cover!),
                       ),
                     ),
                     SizedBox(width: 12),
-                    Text(_profile!.nickname),
+                    Text(_profile!.nickname!),
                   ],
                 )
               : Container(),

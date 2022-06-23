@@ -50,7 +50,7 @@ class _ComicDownloadPageState extends State<ComicDownloadPage> {
         itemBuilder: (ctx, i) => CheckboxListTile(
           value: _ls[i].selected,
           title: Text(
-            _ls[i].volume_name + ' - ' + _ls[i].chapter_title,
+            _ls[i].volume_name! + ' - ' + _ls[i].chapter_title,
             style: TextStyle(color: _ls[i].downloaded ? Colors.grey : Theme.of(context).textTheme.bodyText1!.color),
           ),
           subtitle: Text(_ls[i].downloaded ? '已下载' : '未下载'),

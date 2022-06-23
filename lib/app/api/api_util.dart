@@ -23,14 +23,9 @@ class ApiUtil {
 
   static const BASE_URL_V4 = "https://nnv4api.muwai.com";
   static Map<String, dynamic> defaultParameter({bool needLogined = false}) {
-    Map<String, dynamic> map = {
-      "channel": Platform.operatingSystem,
-      "version": "3.0.0",
-      "timestamp":
-          (DateTime.now().millisecondsSinceEpoch / 1000).toStringAsFixed(0)
-    };
+    Map<String, dynamic> map = {"channel": Platform.operatingSystem, "version": "3.0.0", "timestamp": (DateTime.now().millisecondsSinceEpoch / 1000).toStringAsFixed(0)};
     if (needLogined && ConfigHelper.getUserIsLogined()) {
-      map.addAll({'uid': ConfigHelper.getUserInfo()?.uid ?? ""});
+      map.addAll({'uid': ConfigHelper.getUserInfo().uid ?? ""});
     }
     return map;
   }

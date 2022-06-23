@@ -78,7 +78,7 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
                     crossAxisSpacing: 2.0,
                     mainAxisSpacing: 4.0,
                     childAspectRatio: getWidth() / ((getWidth() * (360 / 270)) + 48)),
-                itemBuilder: (context, i) => _getComicItemBuilder(_list[i].id, _list[i].cover, _list[i].name, author: _list[i].authors ?? ""),
+                itemBuilder: (context, i) => _getComicItemBuilder(_list[i].id, _list[i].cover, _list[i].name, author: _list[i].authors),
               )
             : _loading
                 ? _page == 0

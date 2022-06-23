@@ -114,14 +114,14 @@ class _PersonalPageState extends State<PersonalPage> {
                               height: 64,
                               child: CircleAvatar(
                                 radius: 32,
-                                backgroundImage: Utils.createCachedImageProvider(Provider.of<AppUserInfo>(context).loginInfo.photo),
+                                backgroundImage: Utils.createCachedImageProvider(Provider.of<AppUserInfo>(context).loginInfo!.photo!),
                               ),
                             ),
                             SizedBox(
                               height: 8,
                             ),
                             Text(
-                              Provider.of<AppUserInfo>(context).loginInfo.nickname,
+                              Provider.of<AppUserInfo>(context).loginInfo!.nickname!,
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(

@@ -86,10 +86,10 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
                   ? Container()
                   : AppBanner(
                       items: _banners
-                          .map<Widget>((i) => BannerImageItem(
-                                pic: i.cover,
-                                title: i.title,
-                                onTaped: () => Utils.openPage(context, i.id, i.type, url: i.url, title: i.title),
+                          .map<Widget>((item) => BannerImageItem(
+                                pic: item.cover,
+                                title: item.title,
+                                onTaped: () => Utils.openPage(context, item.id, item.type!, url: item.url, title: item.title),
                               ))
                           .toList()),
               // _getItem2("我的订阅", _my_sub,
@@ -329,7 +329,7 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
       if (!Provider.of<AppUserInfo>(context, listen: false).isLogin) {
         return;
       }
-      var response = await http.get(Uri.parse(Api.comicMySub(Provider.of<AppUserInfo>(context, listen: false).loginInfo.uid!)));
+      var response = await http.get(Uri.parse(Api.comicMySub(Provider.of<AppUserInfo>(context, listen: false).loginInfo!.uid!)));
       var jsonMap = jsonDecode(response.body);
 
       List items = jsonMap["data"]["data"];

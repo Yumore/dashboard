@@ -56,7 +56,7 @@ class _NewsHomePageState extends State<NewsHomePage> with TickerProviderStateMix
             : AppBar(
                 title: TabBar(
                   controller: _tabController,
-                  tabs: _tabItems.map((x) => Tab(child: Text(x.tag_name))).toList(),
+                  tabs: _tabItems.map((x) => Tab(child: Text(x.tag_name!))).toList(),
                   isScrollable: true,
                   indicatorSize: TabBarIndicatorSize.label,
                   //labelPadding: EdgeInsets.fromLTRB(12, 8, 12, 8),
@@ -70,9 +70,9 @@ class _NewsHomePageState extends State<NewsHomePage> with TickerProviderStateMix
 
   Widget createTabView(NewsTagItemModel item) {
     if (item.tag_id == 0) {
-      return NewsNewTabView(item.tag_id, true);
+      return NewsNewTabView(item.tag_id!, true);
     } else {
-      return NewsNewTabView(item.tag_id, false);
+      return NewsNewTabView(item.tag_id!, false);
     }
   }
 }
@@ -134,9 +134,9 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
                       : AppBanner(
                           items: _banners
                               .map<Widget>((i) => BannerImageItem(
-                                    pic: i.pic_url,
+                            pic: i.pic_url,
                                     title: i.title,
-                                    onTaped: () => Navigator.push(context, MaterialPageRoute(builder: (_) => NewsDetailPage(i.object_id, i.object_url, i.title))),
+                                    onTaped: () => Navigator.push(context, MaterialPageRoute(builder: (_) => NewsDetailPage(i.object_id!, i.object_url!, i.title!))),
                                   ))
                               .toList()),
                   ListView.builder(
@@ -292,7 +292,7 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
       NewsBannerModel data = NewsBannerModel.fromJson(jsonDecode(response.body));
       if (data.code == 0) {
         setState(() {
-          _banners = data.data;
+          _banners = data.data!;
         });
       }
     } catch (e) {

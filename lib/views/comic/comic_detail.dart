@@ -209,7 +209,7 @@ class _ComicDetailPageState extends State<ComicDetailPage> with AutomaticKeepAli
                             ),
                             SizedBox(height: 2),
                             Text(
-                              "作者:" + tagsToString(_detail!.authors ?? []),
+                              "作者:" + tagsToString(_detail!.authors),
                               style: TextStyle(color: Colors.grey),
                             ),
                             SizedBox(height: 2),
@@ -224,7 +224,7 @@ class _ComicDetailPageState extends State<ComicDetailPage> with AutomaticKeepAli
                             ),
                             SizedBox(height: 2),
                             Text(
-                              "状态:" + tagsToString(_detail!.status ?? []),
+                              "状态:" + tagsToString(_detail!.status),
                               style: TextStyle(color: Colors.grey),
                             ),
                             SizedBox(height: 2),
@@ -574,10 +574,10 @@ class _ComicDetailPageState extends State<ComicDetailPage> with AutomaticKeepAli
 
   Future checkSubscribe() async {
     try {
-      if (!ConfigHelper.getUserIsLogined() ?? false) {
+      if (!ConfigHelper.getUserIsLogined()) {
         return;
       }
-      var response = await http.get(Uri.parse(Api.comicCheckSubscribe(widget.comicId, Provider.of<AppUserInfo>(context, listen: false).loginInfo.uid!)));
+      var response = await http.get(Uri.parse(Api.comicCheckSubscribe(widget.comicId, Provider.of<AppUserInfo>(context, listen: false).loginInfo!.uid!)));
       var jsonMap = jsonDecode(response.body);
       setState(() {
         _isSubscribe = jsonMap["code"] == 0;

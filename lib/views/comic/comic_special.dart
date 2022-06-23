@@ -21,6 +21,7 @@ class ComicSpecialPage extends StatefulWidget {
 class _ComicSpecialPageState extends State<ComicSpecialPage> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +44,7 @@ class _ComicSpecialPageState extends State<ComicSpecialPage> with AutomaticKeepA
   List<ComicSpecialItem> _list = [];
   bool _loading = false;
   int _page = 0;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -68,21 +70,21 @@ class _ComicSpecialPageState extends State<ComicSpecialPage> with AutomaticKeepA
                 child: Card(
                   child: RawMaterialButton(
                     onPressed: () {
-                      Utils.openPage(context, f.id, 5);
+                      Utils.openPage(context, f.id!, 5);
                     },
                     child: Container(
                         padding: EdgeInsets.all(4),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            Utils.createCacheImage(f.small_cover, 710, 280),
+                            Utils.createCacheImage(f.small_cover!, 710, 280),
                             SizedBox(height: 4),
                             Flexible(
                               child: Row(
                                 children: <Widget>[
-                                  Expanded(child: Text(f.title)),
+                                  Expanded(child: Text(f.title!)),
                                   Text(
-                                    DateUtil.formatDate(DateTime.fromMillisecondsSinceEpoch(f.create_time * 1000), format: "yyyy-MM-dd"),
+                                    DateUtil.formatDate(DateTime.fromMillisecondsSinceEpoch(f.create_time! * 1000), format: "yyyy-MM-dd"),
                                     style: TextStyle(color: Colors.grey, fontSize: 12),
                                   ),
                                 ],

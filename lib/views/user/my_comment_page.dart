@@ -26,15 +26,15 @@ class _MyCommentPageState extends State<MyCommentPage> {
         ),
         body: TabBarView(children: [
           UserCommentWidget(
-            int.parse(Provider.of<AppUserInfo>(context).loginInfo.uid),
+            int.parse(Provider.of<AppUserInfo>(context).loginInfo!.uid!),
             type: 0,
           ),
           UserCommentWidget(
-            int.parse(Provider.of<AppUserInfo>(context).loginInfo.uid),
+            int.parse(Provider.of<AppUserInfo>(context).loginInfo!.uid!),
             type: 1,
           ),
           UserCommentWidget(
-            int.parse(Provider.of<AppUserInfo>(context).loginInfo.uid),
+            int.parse(Provider.of<AppUserInfo>(context).loginInfo!.uid!),
             type: 2,
           )
         ]),

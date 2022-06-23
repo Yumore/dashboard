@@ -179,11 +179,11 @@ class _SettingPageState extends State<SettingPage> {
                   Fluttertoast.showToast(msg: "已经是最新版本了");
                   return;
                 }
-                if (await Utils.showAlertDialogAsync(context, Text('有新版本可以更新'), Text(newVer.message))) {
+                if (await Utils.showAlertDialogAsync(context, Text('有新版本可以更新'), Text(newVer.message!))) {
                   if (Platform.isAndroid) {
-                    launch(newVer.android_url);
+                    launch(newVer.android_url!);
                   } else {
-                    launch(newVer.ios_url);
+                    launch(newVer.ios_url!);
                   }
                 }
               }, //Provider.of<AppThemeData>(context).changeThemeColor(3),

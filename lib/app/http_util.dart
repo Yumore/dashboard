@@ -75,6 +75,6 @@ class AppError implements Exception {
 
   @override
   String toString() {
-    return message ?? "出现问题";
+    return message;
   }
 }

@@ -255,7 +255,7 @@ class Utils {
   }
 
   static void openSubscribePage(BuildContext context, {int index = 0}) {
-    if (!ConfigHelper.getUserIsLogined() ?? false) {
+    if (!ConfigHelper.getUserIsLogined()) {
       Fluttertoast.showToast(msg: '没有登录');
       return;
     }
@@ -263,7 +263,7 @@ class Utils {
   }
 
   static void openHistoryPage(BuildContext context) {
-    if (!ConfigHelper.getUserIsLogined() ?? false) {
+    if (!ConfigHelper.getUserIsLogined()) {
       Fluttertoast.showToast(msg: '没有登录');
       return;
     }
@@ -271,7 +271,7 @@ class Utils {
   }
 
   static void openMyCommentPage(BuildContext context) {
-    if (!ConfigHelper.getUserIsLogined() ?? false) {
+    if (!ConfigHelper.getUserIsLogined()) {
       Fluttertoast.showToast(msg: '没有登录');
       return;
     }

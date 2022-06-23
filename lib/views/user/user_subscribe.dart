@@ -214,7 +214,7 @@ class _SubscribeTabViewState extends State<SubscribeTabView> with AutomaticKeepA
         _loading = true;
       });
       var response = await http.get(Uri.parse(Api.userSubscribe(
-          widget.type, _subType, Provider.of<AppUserInfo>(context, listen: false).loginInfo.uid, Provider.of<AppUserInfo>(context, listen: false).loginInfo.dmzj_token,
+          widget.type, _subType, Provider.of<AppUserInfo>(context, listen: false).loginInfo!.uid!, Provider.of<AppUserInfo>(context, listen: false).loginInfo!.dmzj_token!,
           letter: _letters.values.toList()[_selectLetters], page: _page)));
 
       List jsonMap = jsonDecode(response.body);

@@ -362,10 +362,10 @@ class _NovelDetailPageState extends State<NovelDetailPage> with AutomaticKeepAli
 
   Future checkSubscribe() async {
     try {
-      if (!ConfigHelper.getUserIsLogined() ?? false) {
+      if (!ConfigHelper.getUserIsLogined()) {
         return;
       }
-      var response = await http.get(Uri.parse(Api.novelCheckSubscribe(widget.novelId, Provider.of<AppUserInfo>(context, listen: false).loginInfo.uid!)));
+      var response = await http.get(Uri.parse(Api.novelCheckSubscribe(widget.novelId, Provider.of<AppUserInfo>(context, listen: false).loginInfo!.uid!)));
       var jsonMap = jsonDecode(response.body);
       setState(() {
         _isSubscribe = jsonMap["code"] == 0;

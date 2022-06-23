@@ -104,7 +104,7 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                           .map<Widget>((i) => BannerImageItem(
                                 pic: i.cover,
                                 title: i.title,
-                                onTaped: () => Utils.openPage(context, i.id, i.type, url: i.url, title: i.title),
+                                onTaped: () => Utils.openPage(context, i.id, i.type!, url: i.url, title: i.title),
                               ))
                           .toList()),
               _getItem2(
@@ -314,7 +314,7 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                 ? Container()
                 : Flexible(
                     child: Text(
-                    author ?? "",
+                      author,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.grey, fontSize: 12.0),
@@ -535,7 +535,7 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       if (!Provider.of<AppUserInfo>(context, listen: false).isLogin) {
         return;
       }
-      var response = await http.get(Uri.parse(Api.comicMySub(Provider.of<AppUserInfo>(context, listen: false).loginInfo.uid!)));
+      var response = await http.get(Uri.parse(Api.comicMySub(Provider.of<AppUserInfo>(context, listen: false).loginInfo!.uid!)));
       var jsonMap = jsonDecode(response.body);
 
       List items = jsonMap["data"]["data"];

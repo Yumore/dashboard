@@ -104,11 +104,11 @@ class _NovelUpdatePageState extends State<NovelUpdatePage> with AutomaticKeepAli
                     SizedBox(
                       height: 2,
                     ),
-                    Text(item.type ?? "", style: TextStyle(color: Colors.grey, fontSize: 14)),
+                    Text(item.type, style: TextStyle(color: Colors.grey, fontSize: 14)),
                     SizedBox(
                       height: 2,
                     ),
-                    Text(item.last_update_chapter_name ?? "", style: TextStyle(color: Colors.grey, fontSize: 14)),
+                    Text(item.last_update_chapter_name, style: TextStyle(color: Colors.grey, fontSize: 14)),
                     SizedBox(
                       height: 2,
                     ),
@@ -132,6 +132,7 @@ class _NovelUpdatePageState extends State<NovelUpdatePage> with AutomaticKeepAli
   List<NovelUpdateItem> _list = [];
   bool _loading = false;
   int _page = 0;
+
   Future loadData() async {
     try {
       if (_loading) {

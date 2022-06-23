@@ -20,11 +20,11 @@ class _UserPageState extends State<UserPage> {
               height: 36,
               width: 36,
               child: CircleAvatar(
-                backgroundImage: Utils.createCachedImageProvider(Provider.of<AppUserInfo>(context).userProfile.cover),
+                backgroundImage: Utils.createCachedImageProvider(Provider.of<AppUserInfo>(context).userProfile!.cover!),
               ),
             ),
             SizedBox(width: 12),
-            Text(Provider.of<AppUserInfo>(context).loginInfo.nickname),
+            Text(Provider.of<AppUserInfo>(context).loginInfo!.nickname!),
           ],
         ),
         actions: <Widget>[
