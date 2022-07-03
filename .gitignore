@@ -75,4 +75,3 @@ build
 # key.jks
 android/key.properties
 pubspec.lock
-.flutter-plugins-dependencies
