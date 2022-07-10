@@ -1,4 +1,4 @@
-package com.nsapp.dmzj
+package com.nsapp.dashboard
 
 import io.flutter.embedding.android.FlutterActivity
 
