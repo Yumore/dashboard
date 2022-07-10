@@ -33,17 +33,18 @@ dependencies:
     cached_network_image: ^3.0.0
     event_bus: ^2.0.0
     carousel_slider: ^4.0.0
-    common_utils: ^2.1.0
+    #    https://github.com/Yumore/common_utils
+    common_utils:
+        path: ../common_utils
     webview_flutter: ^2.0.6
     photo_view: ^0.12.0
     fluttertoast: ^8.0.8
     sqflite: ^2.0.2
     url_launcher: ^6.0.9
     share: ^2.0.2
-    #  flutter_easyrefresh: ^2.2.1
+    #    https://github.com/Yumore/flutter_easyrefresh v2分支
     flutter_easyrefresh:
         path: ../flutter_easyrefresh
-    #   easy_refresh_flutter3: ^3.0.0
     html_unescape: ^2.0.0
     # 阅读界面电量监听
     battery: ^2.0.3

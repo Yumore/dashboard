@@ -3,7 +3,6 @@
 *.log
 *.pyc
 *.swp
-*.jks
 *.p12
 .DS_Store
 .atom
@@ -13,9 +12,9 @@
 *.iml
 *.ipr
 *.iws
-.idea
+**/.idea
 .vscode
-.gradle
+**/.gradle
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -29,7 +28,7 @@
 .packages
 .pub-cache
 .pub
-build
+**/build
 .flutter-plugins-dependencies
 
 # Android related

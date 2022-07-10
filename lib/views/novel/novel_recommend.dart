@@ -144,7 +144,7 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _getTitle(title, icon: icon!, ontap: ontap!),
+              _getTitle(title, icon: icon, ontap: ontap),
               SizedBox(
                 height: 4.0,
               ),

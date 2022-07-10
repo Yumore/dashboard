@@ -175,23 +175,23 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
 
   Widget _getItem(String title, List items, {Icon? icon, Function? ontap, bool needSubTitle = true, int count = 3, double ratio = 3 / 5.2, double imgWidth = 270, double imgHeight = 360}) {
     return Offstage(
-      offstage: items == null || items.length == 0,
+      offstage: items.isEmpty,
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
-          constraints: BoxConstraints(maxWidth: 584),
+          constraints: const BoxConstraints(maxWidth: 584),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _getTitle(title, icon: icon!, ontap: ontap!),
-              SizedBox(
+              _getTitle(title, icon: icon, ontap: ontap),
+              const SizedBox(
                 height: 4.0,
               ),
               GridView.builder(
                 shrinkWrap: true,
-                physics: ScrollPhysics(),
+                physics: const ScrollPhysics(),
                 itemCount: items.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: count, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0, childAspectRatio: ratio),
                 itemBuilder: (context, i) => _getComicItemBuilder(items[i].id, items[i].type, items[i].cover, items[i].title,
