@@ -35,25 +35,25 @@ class _UserPageState extends State<UserPage> {
               showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
-                    title: Text("退出登录"),
-                    content: Text("确定要退出登录吗?"),
-                    actions: <Widget>[
-                      new FlatButton(
-                        child: new Text("取消"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      new FlatButton(
-                        child: new Text("确定"),
-                        onPressed: () {
-                          Provider.of<AppUserInfo>(context).logout();
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  ));
+                        title: Text("退出登录"),
+                        content: Text("确定要退出登录吗?"),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text("取消"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          new FlatButton(
+                            child: new Text("确定"),
+                            onPressed: () {
+                              Provider.of<AppUserInfo>(context).logout();
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      ));
             },
           )
         ],

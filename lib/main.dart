@@ -27,7 +27,7 @@ import 'app/user_info.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
+    const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ),
   );
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
       title: '动漫之家Flutter',
       theme: ThemeData(
         primarySwatch: Provider.of<AppTheme>(context).themeColor,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           brightness: Brightness.dark,
         ),
       ),
@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     if (newVer == null) {
       return;
     }
-    if (await Utils.showAlertDialogAsync(context, Text('有新版本可以更新'), Text(newVer.message!))) {
+    if (await Utils.showAlertDialogAsync(context, const Text('有新版本可以更新'), Text(newVer.message!))) {
       if (Platform.isAndroid) {
         launch(newVer.android_url!);
       } else {
@@ -155,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             _index = index;
           });
         },
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             label: "漫画",
             icon: Icon(Icons.library_books),

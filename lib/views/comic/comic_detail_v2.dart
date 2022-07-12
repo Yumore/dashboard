@@ -136,7 +136,8 @@ class ComicDetailV2Page extends StatelessWidget {
     );
   }
 
-  Widget _buildInfo(BuildContext context, {
+  Widget _buildInfo(
+    BuildContext context, {
     required String title,
     IconData iconData = Icons.tag,
   }) {

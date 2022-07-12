@@ -71,92 +71,92 @@ class _PersonalPageState extends State<PersonalPage> {
               ),
               Positioned(
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 240,
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [Theme.of(context).accentColor.withOpacity(1), Theme.of(context).accentColor.withOpacity(0.1)],
-                      ),
-                    ),
-                    child: Provider.of<AppUserInfo>(context).isLogin
-                        ? InkWell(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              title: Text("退出登录"),
-                              content: Text("确定要退出登录吗?"),
-                              actions: <Widget>[
-                                new FlatButton(
-                                  child: new Text("取消"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                new FlatButton(
-                                  child: new Text("确定"),
-                                  onPressed: () {
-                                    Provider.of<AppUserInfo>(context, listen: false).logout();
-                                    Navigator.of(context).pop();
-                                  },
-                                )
-                              ],
-                            ));
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: 64,
-                            height: 64,
-                            child: CircleAvatar(
-                              radius: 32,
-                              backgroundImage: Utils.createCachedImageProvider(Provider.of<AppUserInfo>(context).loginInfo!.photo!),
+                width: MediaQuery.of(context).size.width,
+                height: 240,
+                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Theme.of(context).accentColor.withOpacity(1), Theme.of(context).accentColor.withOpacity(0.1)],
+                  ),
+                ),
+                child: Provider.of<AppUserInfo>(context).isLogin
+                    ? InkWell(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                    title: Text("退出登录"),
+                                    content: Text("确定要退出登录吗?"),
+                                    actions: <Widget>[
+                                      new FlatButton(
+                                        child: new Text("取消"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      new FlatButton(
+                                        child: new Text("确定"),
+                                        onPressed: () {
+                                          Provider.of<AppUserInfo>(context, listen: false).logout();
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  ));
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              width: 64,
+                              height: 64,
+                              child: CircleAvatar(
+                                radius: 32,
+                                backgroundImage: Utils.createCachedImageProvider(Provider.of<AppUserInfo>(context).loginInfo!.photo!),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            Provider.of<AppUserInfo>(context).loginInfo!.nickname!,
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            Provider.of<AppUserInfo>(context).userProfile?.description ?? "",
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    )
-                        : InkWell(
-                      onTap: () => Navigator.pushNamed(context, "/Login"),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: 64,
-                            height: 64,
-                            child: CircleAvatar(
-                              child: Icon(Icons.account_circle),
+                            SizedBox(
+                              height: 8,
                             ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            "点击登录",
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                            Text(
+                              Provider.of<AppUserInfo>(context).loginInfo!.nickname!,
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              Provider.of<AppUserInfo>(context).userProfile?.description ?? "",
+                              style: TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      )
+                    : InkWell(
+                        onTap: () => Navigator.pushNamed(context, "/Login"),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              width: 64,
+                              height: 64,
+                              child: CircleAvatar(
+                                child: Icon(Icons.account_circle),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              "点击登录",
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ))
+              ))
             ],
           ),
           Material(
