@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/user_helper.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/news/news_stat_detail.dart';
+import 'package:dashboard/widgets/icon_text_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/user_helper.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/news/news_stat_detail.dart';
-import 'package:flutter_dmzj/widgets/icon_text_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
 import 'package:webview_flutter/webview_flutter.dart';

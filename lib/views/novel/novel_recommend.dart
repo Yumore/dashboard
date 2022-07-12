@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/user_info.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/comic/comic_home_banner_item.dart';
+import 'package:dashboard/models/comic/comic_home_comic_item.dart';
+import 'package:dashboard/models/comic/comic_home_new_item.dart';
+import 'package:dashboard/widgets/app_banner.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/user_info.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/comic/comic_home_banner_item.dart';
-import 'package:flutter_dmzj/models/comic/comic_home_comic_item.dart';
-import 'package:flutter_dmzj/models/comic/comic_home_new_item.dart';
-import 'package:flutter_dmzj/widgets/app_banner.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/comic/comic_category_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/comic/comic_category_item.dart';
 import 'package:http/http.dart' as http;
 
 class ComicCategoryPage extends StatefulWidget {
@@ -75,6 +75,7 @@ class _ComicCategoryPageState extends State<ComicCategoryPage> with AutomaticKee
 
   List<ComicCategoryItem> _list = [];
   bool _loading = false;
+
   Future loadData() async {
     try {
       if (_loading) {

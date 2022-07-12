@@ -1,10 +1,10 @@
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/views/novel/novel_category.dart';
+import 'package:dashboard/views/novel/novel_rank.dart';
+import 'package:dashboard/views/novel/novel_recommend.dart';
+import 'package:dashboard/views/novel/novel_search.dart';
+import 'package:dashboard/views/novel/novel_update.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/views/novel/novel_category.dart';
-import 'package:flutter_dmzj/views/novel/novel_rank.dart';
-import 'package:flutter_dmzj/views/novel/novel_recommend.dart';
-import 'package:flutter_dmzj/views/novel/novel_search.dart';
-import 'package:flutter_dmzj/views/novel/novel_update.dart';
 
 class NovelHomePage extends StatefulWidget {
   @override

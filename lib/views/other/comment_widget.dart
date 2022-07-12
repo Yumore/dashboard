@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/comment_model.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_easyrefresh/material_header.dart';

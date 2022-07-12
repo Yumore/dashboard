@@ -1,5 +1,5 @@
+import 'package:dashboard/app/app_setting.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/app_setting.dart';
 import 'package:provider/provider.dart';
 
 class ComicReaderSettings extends StatefulWidget {
@@ -28,24 +28,24 @@ class _ComicReaderSettingsState extends State<ComicReaderSettings> {
               }),
           !Provider.of<AppSetting>(context).comicSystemBrightness
               ? Row(
-                  children: <Widget>[
-                    SizedBox(width: 12),
-                    Icon(
-                      Icons.brightness_2,
-                      size: 18,
-                    ),
-                    Expanded(
-                        child: Slider(
-                            value: Provider.of<AppSetting>(context).comicBrightness,
-                            max: 1,
-                            min: 0.01,
-                            onChanged: (e) {
-                              Provider.of<AppSetting>(context, listen: false).changeBrightness(e);
-                            })),
-                    Icon(Icons.brightness_5, size: 18),
-                    SizedBox(width: 12),
-                  ],
-                )
+            children: <Widget>[
+              SizedBox(width: 12),
+              Icon(
+                Icons.brightness_2,
+                size: 18,
+              ),
+              Expanded(
+                  child: Slider(
+                      value: Provider.of<AppSetting>(context).comicBrightness,
+                      max: 1,
+                      min: 0.01,
+                      onChanged: (e) {
+                        Provider.of<AppSetting>(context, listen: false).changeBrightness(e);
+                      })),
+              Icon(Icons.brightness_5, size: 18),
+              SizedBox(width: 12),
+            ],
+          )
               : Container(),
           SwitchListTile(
               title: Text(
@@ -70,13 +70,13 @@ class _ComicReaderSettingsState extends State<ComicReaderSettings> {
               }),
           !Provider.of<AppSetting>(context).comicVerticalMode
               ? SwitchListTile(
-                  title: Text(
-                    "日漫模式",
-                  ),
-                  value: Provider.of<AppSetting>(context).comicReadReverse,
-                  onChanged: (e) {
-                    Provider.of<AppSetting>(context, listen: false).changeReadReverse(e);
-                  })
+              title: Text(
+                "日漫模式",
+              ),
+              value: Provider.of<AppSetting>(context).comicReadReverse,
+              onChanged: (e) {
+                Provider.of<AppSetting>(context, listen: false).changeReadReverse(e);
+              })
               : Container(),
           SwitchListTile(
               title: Text(

@@ -1,15 +1,16 @@
 import 'dart:convert';
 
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/comic/comic_ns_search_item.dart';
+import 'package:dashboard/models/search_hot_word.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/comic/comic_ns_search_item.dart';
-import 'package:flutter_dmzj/models/search_hot_word.dart';
 import 'package:http/http.dart' as http;
 
 class ComicSearchBarDelegate extends SearchDelegate<String> {
   ComicSearchBarDelegate({String searchFieldLabel = "输入关键字搜索漫画", TextInputType? keyboardType, TextInputAction textInputAction = TextInputAction.search})
       : super(searchFieldLabel: searchFieldLabel, keyboardType: keyboardType, textInputAction: textInputAction);
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [

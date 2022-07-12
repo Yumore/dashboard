@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter_dmzj/app/http_util.dart';
-import 'package:flutter_dmzj/protobuf/novel/novel_chapter_response.pb.dart';
-import 'package:flutter_dmzj/protobuf/novel/novel_detail_response.pb.dart';
+import 'package:dashboard/app/http_util.dart';
+import 'package:dashboard/protobuf/novel/novel_chapter_response.pb.dart';
+import 'package:dashboard/protobuf/novel/novel_detail_response.pb.dart';
 
 import 'api_util.dart';
 

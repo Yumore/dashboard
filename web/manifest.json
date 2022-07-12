@@ -1,6 +1,6 @@
 {
-    "name": "a_flutter_dmzj",
-    "short_name": "a_flutter_dmzj",
+    "name": "dashboard",
+    "short_name": "dashboard",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

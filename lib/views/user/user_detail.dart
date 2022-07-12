@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/user/user_profile.dart';
+import 'package:dashboard/models/user/user_subscribe_item.dart';
+import 'package:dashboard/widgets/user_comment_widget.dart';
+import 'package:dashboard/widgets/user_subscribe_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/user/user_profile.dart';
-import 'package:flutter_dmzj/models/user/user_subscribe_item.dart';
-import 'package:flutter_dmzj/widgets/user_comment_widget.dart';
-import 'package:flutter_dmzj/widgets/user_subscribe_widget.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_easyrefresh/material_header.dart';

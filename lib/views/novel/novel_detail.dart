@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/api/novel.dart';
+import 'package:dashboard/app/config_helper.dart';
+import 'package:dashboard/app/user_helper.dart';
+import 'package:dashboard/app/user_info.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/protobuf/novel/novel_chapter_response.pb.dart';
+import 'package:dashboard/protobuf/novel/novel_detail_response.pb.dart';
+import 'package:dashboard/views/other/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/api/novel.dart';
-import 'package:flutter_dmzj/app/config_helper.dart';
-import 'package:flutter_dmzj/app/user_helper.dart';
-import 'package:flutter_dmzj/app/user_info.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/protobuf/novel/novel_chapter_response.pb.dart';
-import 'package:flutter_dmzj/protobuf/novel/novel_detail_response.pb.dart';
-import 'package:flutter_dmzj/views/other/comment_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';

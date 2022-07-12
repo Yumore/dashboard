@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_dmzj/models/user/user_model.dart';
-import 'package:flutter_dmzj/models/user/user_profile.dart';
+import 'package:dashboard/models/user/user_model.dart';
+import 'package:dashboard/models/user/user_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigHelper {

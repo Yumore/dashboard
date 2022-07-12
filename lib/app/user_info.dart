@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/config_helper.dart';
+import 'package:dashboard/models/user/user_model.dart';
+import 'package:dashboard/models/user/user_profile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/config_helper.dart';
-import 'package:flutter_dmzj/models/user/user_model.dart';
-import 'package:flutter_dmzj/models/user/user_profile.dart';
 import 'package:http/http.dart' as http;
 
 class AppUserInfo with ChangeNotifier {

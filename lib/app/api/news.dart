@@ -1,5 +1,5 @@
-import 'package:flutter_dmzj/app/http_util.dart';
-import 'package:flutter_dmzj/protobuf/news/news_list_response.pb.dart';
+import 'package:dashboard/app/http_util.dart';
+import 'package:dashboard/protobuf/news/news_list_response.pb.dart';
 
 import 'api_util.dart';
 

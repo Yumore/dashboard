@@ -2,16 +2,22 @@ import 'dart:convert' show json;
 
 class NovelUpdateItem {
   int? _id;
+
   int get id => _id!;
   String? _status;
+
   String get status => _status!;
   String? _name;
+
   String get name => _name!;
   String? _authors;
+
   String get authors => _authors!;
   String? _cover;
+
   String get cover => _cover!;
   List<String>? _types;
+
   List<String> get types => _types!;
 
   String get type {
@@ -26,14 +32,19 @@ class NovelUpdateItem {
   }
 
   int _last_update_chapter_id;
+
   int get last_update_chapter_id => _last_update_chapter_id;
   int _last_update_volume_id;
+
   int get last_update_volume_id => _last_update_volume_id;
   String _last_update_volume_name;
+
   String get last_update_volume_name => _last_update_volume_name;
   String _last_update_chapter_name;
+
   String get last_update_chapter_name => _last_update_chapter_name;
   int _last_update_time;
+
   int get last_update_time => _last_update_time;
 
   NovelUpdateItem({
@@ -59,6 +70,7 @@ class NovelUpdateItem {
         _last_update_volume_name = last_update_volume_name!,
         _last_update_chapter_name = last_update_chapter_name!,
         _last_update_time = last_update_time!;
+
   factory NovelUpdateItem.fromJson(jsonRes) {
     List<String>? types = jsonRes['types'] is List ? [] : null;
     if (types != null) {
@@ -83,6 +95,7 @@ class NovelUpdateItem {
       last_update_time: jsonRes['last_update_time'],
     );
   }
+
   Map<String, dynamic> toJson() => {
         'id': _id,
         'status': _status,

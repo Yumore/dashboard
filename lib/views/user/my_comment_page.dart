@@ -1,6 +1,6 @@
+import 'package:dashboard/app/user_info.dart';
+import 'package:dashboard/widgets/user_comment_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/user_info.dart';
-import 'package:flutter_dmzj/widgets/user_comment_widget.dart';
 import 'package:provider/provider.dart';
 
 class MyCommentPage extends StatefulWidget {

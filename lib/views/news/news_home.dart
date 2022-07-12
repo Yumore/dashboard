@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/api/news.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/news/news_banner_model.dart';
+import 'package:dashboard/models/news/news_tag_model.dart';
+import 'package:dashboard/protobuf/news/news_list_response.pb.dart';
+import 'package:dashboard/views/news/news_detail.dart';
+import 'package:dashboard/widgets/app_banner.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/api/news.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/news/news_banner_model.dart';
-import 'package:flutter_dmzj/models/news/news_tag_model.dart';
-import 'package:flutter_dmzj/protobuf/news/news_list_response.pb.dart';
-import 'package:flutter_dmzj/views/news/news_detail.dart';
-import 'package:flutter_dmzj/widgets/app_banner.dart';
 import 'package:http/http.dart' as http;
 
 class NewsHomePage extends StatefulWidget {

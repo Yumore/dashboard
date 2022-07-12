@@ -1,9 +1,9 @@
 import 'package:common_utils/common_utils.dart';
+import 'package:dashboard/app/api/comic.dart';
+import 'package:dashboard/app/user_helper.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/protobuf/comic/update_list_response.pb.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api/comic.dart';
-import 'package:flutter_dmzj/app/user_helper.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/protobuf/comic/update_list_response.pb.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_easyrefresh/material_header.dart';

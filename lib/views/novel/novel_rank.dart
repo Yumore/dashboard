@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/comic/comic_detail_model.dart';
+import 'package:dashboard/models/novel/novel_rank_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/comic/comic_detail_model.dart';
-import 'package:flutter_dmzj/models/novel/novel_rank_item.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_easyrefresh/material_header.dart';

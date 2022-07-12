@@ -2,21 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import static groovy.io.FileType.FILES
 
-import com.android.builder.model.AndroidProject
 import com.android.build.OutputFile
+import com.android.builder.model.AndroidProject
 import groovy.json.JsonSlurper
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import org.apache.tools.ant.taskdefs.condition.Os
-import org.gradle.api.DefaultTask
-import org.gradle.api.GradleException
-import org.gradle.api.Project
-import org.gradle.api.Plugin
-import org.gradle.api.Task
+import org.gradle.api.*
 import org.gradle.api.file.CopySpec
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Copy
@@ -25,7 +16,8 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.internal.os.OperatingSystem
-import org.gradle.util.VersionNumber
+
+import java.nio.file.Paths
 
 /** For apps only. Provides the flutter extension used in app/build.gradle. */
 class FlutterExtension {
@@ -56,7 +48,7 @@ class FlutterExtension {
 
 buildscript {
     repositories {
-		maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
         google()
@@ -84,26 +76,26 @@ apply plugin: FlutterPlugin
 
 class FlutterPlugin implements Plugin<Project> {
     // private static final String DEFAULT_MAVEN_HOST = "https://storage.googleapis.com";
-	private static final String DEFAULT_MAVEN_HOST = "https://storage.flutter-io.cn"
+    private static final String DEFAULT_MAVEN_HOST = "https://storage.flutter-io.cn"
 
     /** The platforms that can be passed to the `--Ptarget-platform` flag. */
-    private static final String PLATFORM_ARM32  = "android-arm"
-    private static final String PLATFORM_ARM64  = "android-arm64"
-    private static final String PLATFORM_X86    = "android-x86"
+    private static final String PLATFORM_ARM32 = "android-arm"
+    private static final String PLATFORM_ARM64 = "android-arm64"
+    private static final String PLATFORM_X86 = "android-x86"
     private static final String PLATFORM_X86_64 = "android-x64"
 
     /** The ABI architectures supported by Flutter. */
-    private static final String ARCH_ARM32      = "armeabi-v7a"
-    private static final String ARCH_ARM64      = "arm64-v8a"
-    private static final String ARCH_X86        = "x86"
-    private static final String ARCH_X86_64     = "x86_64"
+    private static final String ARCH_ARM32 = "armeabi-v7a"
+    private static final String ARCH_ARM64 = "arm64-v8a"
+    private static final String ARCH_X86 = "x86"
+    private static final String ARCH_X86_64 = "x86_64"
 
     /** Maps platforms to ABI architectures. */
     private static final Map PLATFORM_ARCH_MAP = [
-        (PLATFORM_ARM32)    : ARCH_ARM32,
-        (PLATFORM_ARM64)    : ARCH_ARM64,
-        (PLATFORM_X86)      : ARCH_X86,
-        (PLATFORM_X86_64)   : ARCH_X86_64,
+        (PLATFORM_ARM32) : ARCH_ARM32,
+        (PLATFORM_ARM64) : ARCH_ARM64,
+        (PLATFORM_X86)   : ARCH_X86,
+        (PLATFORM_X86_64): ARCH_X86_64,
     ]
 
     /**
@@ -112,10 +104,10 @@ class FlutterPlugin implements Plugin<Project> {
      * Otherwise, the Play Store will complain that the APK variants have the same version.
      */
     private static final Map ABI_VERSION = [
-        (ARCH_ARM32)        : 1,
-        (ARCH_ARM64)        : 2,
-        (ARCH_X86)          : 3,
-        (ARCH_X86_64)       : 4,
+        (ARCH_ARM32) : 1,
+        (ARCH_ARM64) : 2,
+        (ARCH_X86)   : 3,
+        (ARCH_X86_64): 4,
     ]
 
     /** When split is enabled, multiple APKs are generated per each ABI. */
@@ -177,7 +169,7 @@ class FlutterPlugin implements Plugin<Project> {
                 maven {
                     url repository
                 }
-				maven { url 'https://maven.aliyun.com/repository/google' }
+                maven { url 'https://maven.aliyun.com/repository/google' }
                 maven { url 'https://maven.aliyun.com/repository/jcenter' }
                 maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
             }
@@ -205,7 +197,7 @@ class FlutterPlugin implements Plugin<Project> {
         }
 
         if (project.hasProperty('deferred-component-names')) {
-            String[] componentNames = project.property('deferred-component-names').split(',').collect {":${it}"}
+            String[] componentNames = project.property('deferred-component-names').split(',').collect { ":${it}" }
             project.android {
                 dynamicFeatures = componentNames
             }
@@ -241,7 +233,7 @@ class FlutterPlugin implements Plugin<Project> {
         flutterExecutable = Paths.get(flutterRoot.absolutePath, "bin", flutterExecutableName).toFile()
 
         String flutterProguardRules = Paths.get(flutterRoot.absolutePath, "packages", "flutter_tools",
-                "gradle", "flutter_proguard_rules.pro")
+            "gradle", "flutter_proguard_rules.pro")
         project.android.buildTypes {
             // Add profile build type.
             profile {
@@ -341,7 +333,7 @@ class FlutterPlugin implements Plugin<Project> {
         // embedding.
         if (!isFlutterAppProject() || getPluginList().size() == 0) {
             addApiDependencies(project, buildType.name,
-                    "io.flutter:flutter_embedding_$flutterBuildMode:$engineVersion")
+                "io.flutter:flutter_embedding_$flutterBuildMode:$engineVersion")
         }
         List<String> platforms = getTargetPlatforms().collect()
         // Debug mode includes x86 and x64, which are commonly used in emulators.
@@ -353,7 +345,7 @@ class FlutterPlugin implements Plugin<Project> {
             String arch = PLATFORM_ARCH_MAP[platform].replace("-", "_")
             // Add the `libflutter.so` dependency.
             addApiDependencies(project, buildType.name,
-                    "io.flutter:${arch}_$flutterBuildMode:$engineVersion")
+                "io.flutter:${arch}_$flutterBuildMode:$engineVersion")
         }
     }
 
@@ -413,9 +405,9 @@ class FlutterPlugin implements Plugin<Project> {
             // See https://issuetracker.google.com/139821726, and
             // https://github.com/flutter/flutter/issues/72185 for more details.
             addApiDependencies(
-              pluginProject,
-              buildType.name,
-              "io.flutter:flutter_embedding_$flutterBuildMode:$engineVersion"
+                pluginProject,
+                buildType.name,
+                "io.flutter:flutter_embedding_$flutterBuildMode:$engineVersion"
             )
         }
 
@@ -433,7 +425,7 @@ class FlutterPlugin implements Plugin<Project> {
 
     /**
      * Compares semantic versions ignoring labels.
-     * 
+     *
      * If the versions are equal (ignoring labels), returns one of the two strings arbitrarily.
      *
      * If minor or patch are omitted (non-conformant to semantic versioning), they are considered zero.
@@ -491,7 +483,7 @@ class FlutterPlugin implements Plugin<Project> {
                     }
                 }
             }
-        }  
+        }
     }
 
     /**
@@ -978,7 +970,7 @@ class FlutterPlugin implements Plugin<Project> {
             project.android.applicationVariants.all { variant ->
                 Task assembleTask = getAssembleTask(variant)
                 if (!shouldConfigureFlutterTask(assembleTask)) {
-                  return
+                    return
                 }
                 Task copyFlutterAssetsTask = addFlutterDeps(variant)
                 def variantOutput = variant.outputs.first()
@@ -1030,7 +1022,7 @@ class FlutterPlugin implements Plugin<Project> {
         // Flutter host module project (Add-to-app).
         String hostAppProjectName = project.rootProject.hasProperty('flutter.hostAppProjectName') ? project.rootProject.property('flutter.hostAppProjectName') : "app"
         Project appProject = project.rootProject.findProject(":${hostAppProjectName}")
-        assert appProject != null : "Project :${hostAppProjectName} doesn't exist. To custom the host app project name, set `org.gradle.project.flutter.hostAppProjectName=<project-name>` in gradle.properties."
+        assert appProject != null: "Project :${hostAppProjectName} doesn't exist. To custom the host app project name, set `org.gradle.project.flutter.hostAppProjectName=<project-name>` in gradle.properties."
         // Wait for the host app project configuration.
         appProject.afterEvaluate {
             assert appProject.android != null
@@ -1087,49 +1079,67 @@ abstract class BaseFlutterTask extends DefaultTask {
     File flutterExecutable
     @Input
     String buildMode
-    @Optional @Input
+    @Optional
+    @Input
     String localEngine
-    @Optional @Input
+    @Optional
+    @Input
     String localEngineSrcPath
-    @Optional @Input
+    @Optional
+    @Input
     Boolean fastStart
     @Input
     String targetPath
-    @Optional @Internal
+    @Optional
+    @Internal
     Boolean verbose
-    @Optional @Input
+    @Optional
+    @Input
     String[] fileSystemRoots
-    @Optional @Input
+    @Optional
+    @Input
     String fileSystemScheme
     @Input
     Boolean trackWidgetCreation
-    @Optional @Input
+    @Optional
+    @Input
     List<String> targetPlatformValues
     @Internal
     File sourceDir
     @Internal
     File intermediateDir
-    @Optional @Input
+    @Optional
+    @Input
     String extraFrontEndOptions
-    @Optional @Input
+    @Optional
+    @Input
     String extraGenSnapshotOptions
-    @Optional @Input
+    @Optional
+    @Input
     String splitDebugInfo
-    @Optional @Input
+    @Optional
+    @Input
     Boolean treeShakeIcons
-    @Optional @Input
+    @Optional
+    @Input
     Boolean dartObfuscation
-    @Optional @Input
+    @Optional
+    @Input
     String dartDefines
-    @Optional @Input
+    @Optional
+    @Input
     String bundleSkSLPath
-    @Optional @Input
+    @Optional
+    @Input
     String codeSizeDirectory
-    @Optional @Input
+    @Optional
+    @Input
     String performanceMeasurementFile
-    @Optional @Input
+    @Optional
+    @Input
     Boolean deferredComponents
-    @Optional @Input
+    @Optional
+    @Input
     Boolean validateDeferredComponents
 
     @OutputFiles
@@ -1252,24 +1262,24 @@ class FlutterTask extends BaseFlutterTask {
     }
 
     FileCollection readDependencies(File dependenciesFile, Boolean inputs) {
-      if (dependenciesFile.exists()) {
-        // Dependencies file has Makefile syntax:
-        //   <target> <files>: <source> <files> <separated> <by> <non-escaped space>
-        String depText = dependenciesFile.text
-        // So we split list of files by non-escaped(by backslash) space,
-        def matcher = depText.split(': ')[inputs ? 1 : 0] =~ /(\\ |[^\s])+/
-        // then we replace all escaped spaces with regular spaces
-        def depList = matcher.collect{it[0].replaceAll("\\\\ ", " ")}
-        return project.files(depList)
-      }
-      return project.files()
+        if (dependenciesFile.exists()) {
+            // Dependencies file has Makefile syntax:
+            //   <target> <files>: <source> <files> <separated> <by> <non-escaped space>
+            String depText = dependenciesFile.text
+            // So we split list of files by non-escaped(by backslash) space,
+            def matcher = depText.split(': ')[inputs ? 1 : 0] =~ /(\\ |[^\s])+/
+            // then we replace all escaped spaces with regular spaces
+            def depList = matcher.collect { it[0].replaceAll("\\\\ ", " ") }
+            return project.files(depList)
+        }
+        return project.files()
     }
 
     @InputFiles
     FileCollection getSourceFiles() {
         FileCollection sources = project.files()
         for (File depfile in getDependenciesFiles()) {
-          sources += readDependencies(depfile, true)
+            sources += readDependencies(depfile, true)
         }
         return sources + project.files('pubspec.yaml')
     }
@@ -1278,7 +1288,7 @@ class FlutterTask extends BaseFlutterTask {
     FileCollection getOutputFiles() {
         FileCollection sources = project.files()
         for (File depfile in getDependenciesFiles()) {
-          sources += readDependencies(depfile, false)
+            sources += readDependencies(depfile, false)
         }
         return sources
     }

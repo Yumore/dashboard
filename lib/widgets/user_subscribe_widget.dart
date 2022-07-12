@@ -1,6 +1,6 @@
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/user/user_subscribe_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/user/user_subscribe_item.dart';
 
 class UserSubscribeWidget extends StatefulWidget {
   final List<SubscribeItem> list;
@@ -23,27 +23,27 @@ class _UserSubscribeWidgetState extends State<UserSubscribeWidget> {
   Widget build(BuildContext context) {
     return widget.list.length != 0
         ? GridView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            physics: ScrollPhysics(),
-            itemCount: widget.list.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: MediaQuery.of(context).size.width ~/ 160 < 3 ? 3 : MediaQuery.of(context).size.width ~/ 160,
-                crossAxisSpacing: 2.0,
-                mainAxisSpacing: 4.0,
-                childAspectRatio: getWidth() / ((getWidth() * (360 / 270)) + 64)),
-            itemBuilder: (context, i) =>
-                _getComicItemBuilder(context, widget.list[i].id, widget.type + 1, widget.list[i].sub_img, widget.list[i].name, '更新:' + widget.list[i].sub_update, widget.list[i].status),
-          )
+      shrinkWrap: true,
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+      physics: ScrollPhysics(),
+      itemCount: widget.list.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: MediaQuery.of(context).size.width ~/ 160 < 3 ? 3 : MediaQuery.of(context).size.width ~/ 160,
+          crossAxisSpacing: 2.0,
+          mainAxisSpacing: 4.0,
+          childAspectRatio: getWidth() / ((getWidth() * (360 / 270)) + 64)),
+      itemBuilder: (context, i) =>
+          _getComicItemBuilder(context, widget.list[i].id, widget.type + 1, widget.list[i].sub_img, widget.list[i].name, '更新:' + widget.list[i].sub_update, widget.list[i].status),
+    )
         : Center(
-            child: Container(
-              padding: EdgeInsets.all(24),
-              child: Text(
-                "什么都没有呢~",
-                style: TextStyle(color: Colors.grey),
-              ),
-            ),
-          );
+      child: Container(
+        padding: EdgeInsets.all(24),
+        child: Text(
+          "什么都没有呢~",
+          style: TextStyle(color: Colors.grey),
+        ),
+      ),
+    );
   }
 
   Widget _getComicItemBuilder(BuildContext context, int id, int type, String pic, String title, String lastUpdate, String view) {
@@ -65,14 +65,14 @@ class _UserSubscribeWidgetState extends State<UserSubscribeWidget> {
                 ),
                 Flexible(
                     child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(
-                    lastUpdate,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
-                  ),
-                )),
+                      padding: EdgeInsets.symmetric(horizontal: 4),
+                      child: Text(
+                        lastUpdate,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                      ),
+                    )),
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 4),

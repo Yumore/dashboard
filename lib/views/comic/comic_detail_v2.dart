@@ -1,6 +1,6 @@
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/views/other/comment_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/views/other/comment_widget.dart';
 
 class ComicDetailV2Page extends StatelessWidget {
   final comicId;
@@ -136,8 +136,7 @@ class ComicDetailV2Page extends StatelessWidget {
     );
   }
 
-  Widget _buildInfo(
-    BuildContext context, {
+  Widget _buildInfo(BuildContext context, {
     required String title,
     IconData iconData = Icons.tag,
   }) {

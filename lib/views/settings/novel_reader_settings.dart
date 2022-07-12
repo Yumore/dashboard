@@ -1,5 +1,5 @@
+import 'package:dashboard/app/app_setting.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/app_setting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 

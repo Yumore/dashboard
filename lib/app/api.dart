@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:crypto/crypto.dart';
+
 import 'package:convert/convert.dart';
+import 'package:crypto/crypto.dart';
 
 class Api {
   static final String apiHost = "https://nnv3api.muwai.com";
   static final String version = "3.0.0";
-  static String get timeStamp =>
-      (DateTime.now().millisecondsSinceEpoch / 1000).toStringAsFixed(0);
 
-  static String get newsCategory =>
-      "$apiHost/article/category.json?${defaultParameter()}";
-  static String get newsBanner =>
-      "$apiHost/v3/article/recommend/header.json?${defaultParameter()}";
+  static String get timeStamp => (DateTime.now().millisecondsSinceEpoch / 1000).toStringAsFixed(0);
+
+  static String get newsCategory => "$apiHost/article/category.json?${defaultParameter()}";
+
+  static String get newsBanner => "$apiHost/v3/article/recommend/header.json?${defaultParameter()}";
+
   static String newsList(int id, {int page = 0}) {
     return "$apiHost/v3/article/list/$id/${id == 0 ? 2 : 3}/$page.json";
   }
@@ -44,26 +45,26 @@ class Api {
 
   //用户相关
   static String get loginV2 => "https://user.muwai.com/loginV2/m_confirm";
+
   static String userProfile(String uid, String token) {
     return "$apiHost/UCenter/comicsv2/$uid.json?dmzj_token=$token&${defaultParameter()}";
   }
 
   //漫画
-  static String get comicRecommend =>
-      "$apiHost/recommend_new.json?${defaultParameter()}";
+  static String get comicRecommend => "$apiHost/recommend_new.json?${defaultParameter()}";
 
   /// 轻小说首页
-  static String get novelRecommend =>
-      "$apiHost/novel/recommend.json?${defaultParameter()}";
+  static String get novelRecommend => "$apiHost/novel/recommend.json?${defaultParameter()}";
+
   //猜你喜欢
-  static String get comicLike =>
-      "$apiHost/recommend/batchUpdate?category_id=50&${defaultParameter()}";
+  static String get comicLike => "$apiHost/recommend/batchUpdate?category_id=50&${defaultParameter()}";
+
   //刷新国漫
-  static String get comicGuoman =>
-      "$apiHost/recommend/batchUpdate?category_id=52&${defaultParameter()}";
+  static String get comicGuoman => "$apiHost/recommend/batchUpdate?category_id=52&${defaultParameter()}";
+
   //刷新热门
-  static String get comicHot =>
-      "$apiHost/recommend/batchUpdate?category_id=54&${defaultParameter()}";
+  static String get comicHot => "$apiHost/recommend/batchUpdate?category_id=54&${defaultParameter()}";
+
   //首页我的订阅
   static String comicMySub(String uid) {
     return "$apiHost/recommend/batchUpdate?uid=$uid&category_id=49&${defaultParameter()}";
@@ -100,21 +101,15 @@ class Api {
   }
 
   /// 轻小说排行榜筛选
-  static String get novelRankFilter =>
-      "$apiHost/novel/tag.json?${defaultParameter()}";
+  static String get novelRankFilter => "$apiHost/novel/tag.json?${defaultParameter()}";
 
   /// 漫画排行榜详情
-  static String comicRank(
-      {String tagId = "0",
-      String rank = "0",
-      String sort = "0",
-      int page = 0}) {
+  static String comicRank({String tagId = "0", String rank = "0", String sort = "0", int page = 0}) {
     return "$apiHost/rank/$tagId/$rank/$sort/$page.json?${defaultParameter()}";
   }
 
   /// 轻小说排行榜详情
-  static String novelRank(
-      {String tagId = "0", String sort = "0", int page = 0}) {
+  static String novelRank({String tagId = "0", String sort = "0", int page = 0}) {
     return "$apiHost/novel/rank/$sort/$tagId/$page.json?${defaultParameter()}";
   }
 
@@ -139,8 +134,7 @@ class Api {
   }
 
   /// 轻小说分类
-  static String get novelCategory =>
-      "$apiHost/1/category.json?${defaultParameter()}";
+  static String get novelCategory => "$apiHost/1/category.json?${defaultParameter()}";
 
   /// 漫画作者
   static String comicAuthorDetail(int authorId) {
@@ -188,12 +182,10 @@ class Api {
   }
 
   /// 轻小说筛选条件
-  static String get novelCategoryFilter =>
-      "$apiHost/novel/filter.json?${defaultParameter()}";
+  static String get novelCategoryFilter => "$apiHost/novel/filter.json?${defaultParameter()}";
 
   //漫画类目详情
-  static String comicCategoryDetail(List<int> ids,
-      {int sort = 0, int page = 0}) {
+  static String comicCategoryDetail(List<int> ids, {int sort = 0, int page = 0}) {
     var path = "classify/";
     for (var item in ids) {
       if (item != 0) {
@@ -209,8 +201,7 @@ class Api {
   }
 
   /// 轻小说类目详情
-  static String novelCategoryDetail(
-      {int cateId = 0, int status = 0, int sort = 0, int page = 0}) {
+  static String novelCategoryDetail({int cateId = 0, int status = 0, int sort = 0, int page = 0}) {
     return "$apiHost/novel/$cateId/$status/$sort/$page.json?${defaultParameter()}";
   }
 
@@ -236,8 +227,7 @@ class Api {
   }
 
   //用户订阅,type 0=漫画,1=轻小说,sub_type 全部=1，未读=2，已读=3，完结=4
-  static String userSubscribe(int type, int subType, String uid, String token,
-      {int page = 0, String letter = "all"}) {
+  static String userSubscribe(int type, int subType, String uid, String token, {int page = 0, String letter = "all"}) {
     return "$apiHost/UCenter/subscribe?uid=$uid&sub_type=$subType&letter=$letter&dmzj_token=$token&page=$page&type=$type&${defaultParameter()}";
   }
 
@@ -252,23 +242,14 @@ class Api {
   }
 
   /// 上传观看记录
-  static String addUserComicHistory(int comicId, int chapterId, String uid,
-      {int page = 1}) {
-    Map map = {
-      comicId.toString(): chapterId.toString(),
-      "comicId": comicId.toString(),
-      "chapterId": chapterId.toString(),
-      "page": page,
-      "time": timeStamp
-    };
+  static String addUserComicHistory(int comicId, int chapterId, String uid, {int page = 1}) {
+    Map map = {comicId.toString(): chapterId.toString(), "comicId": comicId.toString(), "chapterId": chapterId.toString(), "page": page, "time": timeStamp};
     var json = Uri.encodeComponent(jsonEncode(map));
     return "https://interface.muwai.com/api/record/getRe?st=comic&uid=$uid&callback=record_jsonpCallback&json=[$json]&type=3";
   }
 
   /// 上传小说观看记录
-  static String addUserNovelHistory(
-      int novelId, int volumeId, int chapterId, String uid,
-      {int page = 1}) {
+  static String addUserNovelHistory(int novelId, int volumeId, int chapterId, String uid, {int page = 1}) {
     Map map = {
       novelId.toString(): chapterId.toString(),
       "lnovel_id": novelId.toString(),
@@ -283,8 +264,7 @@ class Api {
   }
 
   /// 评论
-  static String commentV2(int id, int type,
-      {int page = 1, bool ishot = false}) {
+  static String commentV2(int id, int type, {int page = 1, bool ishot = false}) {
     return "https://interface.muwai.com/api/NewComment2/list?type=$type&obj_id=$id&hot=${ishot ? 1 : 0}&page_index=$page&_=${DateTime.now().millisecondsSinceEpoch}";
   }
 
@@ -319,12 +299,10 @@ class Api {
   }
 
   /// 漫画搜索热词
-  static String get comicSearchHotWord =>
-      "$apiHost/search/hot/0.json?${defaultParameter()}";
+  static String get comicSearchHotWord => "$apiHost/search/hot/0.json?${defaultParameter()}";
 
   /// 轻小说搜索热词
-  static String get novelSearchHotWord =>
-      "$apiHost/search/hot/1.json?${defaultParameter()}";
+  static String get novelSearchHotWord => "$apiHost/search/hot/1.json?${defaultParameter()}";
 
   static String comicNSSearch(String keyword) {
     return "https://dmzj.nsapps.cn/api/dmzj/search?keyword=${Uri.encodeComponent(keyword)}";

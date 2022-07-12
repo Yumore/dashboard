@@ -21,8 +21,8 @@ import io.reactivex.disposables.Disposable;
 
 
 public class MainActivity extends FlutterActivity {
-    private static final String CHANNEL = "samples.flutter.io/battery";
     public static final String STREAM = "com.yourcompany.eventchannelsample/stream";
+    private static final String CHANNEL = "samples.flutter.io/battery";
     private MapView mapView;
     private Disposable timerSubscription;
 
@@ -35,48 +35,48 @@ public class MainActivity extends FlutterActivity {
         ViewRegistrant.registerWith(this, mapView);
 
         new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler(
-                (call, result) -> {
-                    if (call.method.equals("getBatteryLevel")) {
-                        int batteryLevel = MainActivity.this.getBatteryLevel();
+            (call, result) -> {
+                if (call.method.equals("getBatteryLevel")) {
+                    int batteryLevel = MainActivity.this.getBatteryLevel();
 
-                        if (batteryLevel != -1) {
-                            result.success(batteryLevel);
-                        } else {
-                            result.error("UNAVAILABLE", "Battery level not available.", null);
-                        }
-                    } else if (call.method.equals("goAboutActivity")) {
-                        Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-                        MainActivity.this.startActivity(intent);
-                        result.success("success");
+                    if (batteryLevel != -1) {
+                        result.success(batteryLevel);
                     } else {
-                        result.notImplemented();
+                        result.error("UNAVAILABLE", "Battery level not available.", null);
                     }
-                });
+                } else if (call.method.equals("goAboutActivity")) {
+                    Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                    MainActivity.this.startActivity(intent);
+                    result.success("success");
+                } else {
+                    result.notImplemented();
+                }
+            });
 
         new EventChannel(getFlutterView(), STREAM).setStreamHandler(
-                new EventChannel.StreamHandler() {
-                    @Override
-                    public void onListen(Object args, final EventChannel.EventSink events) {
-                        timerSubscription = Observable
-                                .interval(0, 1, TimeUnit.SECONDS)
-                                .subscribe(
-                                        (Long timer) -> {
-                                            events.success(timer);// 发送事件
-                                        },
-                                        (Throwable error) -> {
-                                            events.error("STREAM", "EventChannel发生异常", error.getMessage());
-                                        }
-                                );
-                    }
+            new EventChannel.StreamHandler() {
+                @Override
+                public void onListen(Object args, final EventChannel.EventSink events) {
+                    timerSubscription = Observable
+                        .interval(0, 1, TimeUnit.SECONDS)
+                        .subscribe(
+                            (Long timer) -> {
+                                events.success(timer);// 发送事件
+                            },
+                            (Throwable error) -> {
+                                events.error("STREAM", "EventChannel发生异常", error.getMessage());
+                            }
+                        );
+                }
 
-                    @Override
-                    public void onCancel(Object args) {
-                        if (timerSubscription != null) {
-                            timerSubscription.dispose();
-                            timerSubscription = null;
-                        }
+                @Override
+                public void onCancel(Object args) {
+                    if (timerSubscription != null) {
+                        timerSubscription.dispose();
+                        timerSubscription = null;
                     }
                 }
+            }
         );
 
     }
@@ -88,9 +88,9 @@ public class MainActivity extends FlutterActivity {
             batteryLevel = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
         } else {
             Intent intent = new ContextWrapper(getApplicationContext()).
-                    registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+                registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             batteryLevel = (intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) * 100) /
-                    intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         }
         return batteryLevel;
     }

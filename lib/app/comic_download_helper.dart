@@ -1,5 +1,5 @@
+import 'package:dashboard/sql/comic_down.dart';
 import 'package:event_bus/event_bus.dart';
-import 'package:flutter_dmzj/sql/comic_down.dart';
 
 // 章节ID
 // 漫画ID

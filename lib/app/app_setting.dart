@@ -1,5 +1,5 @@
+import 'package:dashboard/app/config_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/config_helper.dart';
 
 class AppSetting with ChangeNotifier {
   AppSetting() {

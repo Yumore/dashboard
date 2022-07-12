@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:dashboard/app/app_theme.dart';
+import 'package:dashboard/app/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/app_theme.dart';
-import 'package:flutter_dmzj/app/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';

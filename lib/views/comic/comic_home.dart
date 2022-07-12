@@ -1,11 +1,11 @@
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/views/comic/comic_category.dart';
+import 'package:dashboard/views/comic/comic_rank.dart';
+import 'package:dashboard/views/comic/comic_recommend.dart';
+import 'package:dashboard/views/comic/comic_search.dart';
+import 'package:dashboard/views/comic/comic_special.dart';
+import 'package:dashboard/views/comic/comic_update.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/views/comic/comic_category.dart';
-import 'package:flutter_dmzj/views/comic/comic_rank.dart';
-import 'package:flutter_dmzj/views/comic/comic_recommend.dart';
-import 'package:flutter_dmzj/views/comic/comic_search.dart';
-import 'package:flutter_dmzj/views/comic/comic_special.dart';
-import 'package:flutter_dmzj/views/comic/comic_update.dart';
 
 class ComicHomePage extends StatefulWidget {
   @override

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/novel/novel_search_result_item.dart';
+import 'package:dashboard/models/search_hot_word.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/novel/novel_search_result_item.dart';
-import 'package:flutter_dmzj/models/search_hot_word.dart';
 import 'package:http/http.dart' as http;
 
 class NovelSearchBarDelegate extends SearchDelegate<String> {

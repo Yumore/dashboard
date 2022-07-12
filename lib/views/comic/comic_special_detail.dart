@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/user_helper.dart';
+import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/models/comic/comic_specia_datail_model.dart';
+import 'package:dashboard/views/other/comment_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dmzj/app/api.dart';
-import 'package:flutter_dmzj/app/user_helper.dart';
-import 'package:flutter_dmzj/app/utils.dart';
-import 'package:flutter_dmzj/models/comic/comic_specia_datail_model.dart';
-import 'package:flutter_dmzj/views/other/comment_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
 
