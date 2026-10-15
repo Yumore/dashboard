@@ -9,11 +9,10 @@ import 'package:dashboard/models/novel/novel_history_item.dart';
 import 'package:dashboard/sql/comic_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:http/http.dart' as http;
 
 class UserHistoryPage extends StatefulWidget {
-  UserHistoryPage({Key? key}) : super(key: key);
+  const UserHistoryPage({Key? key}) : super(key: key);
 
   @override
   _UserHistoryPageState createState() => _UserHistoryPageState();
@@ -33,10 +32,10 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text("历史记录"),
-            bottom: TabBar(tabs: [Tab(text: "漫画"), Tab(text: "轻小说")]),
+            title: const Text("历史记录"),
+            bottom: const TabBar(tabs: [Tab(text: "漫画"), Tab(text: "轻小说")]),
           ),
-          body: TabBarView(children: [
+          body: const TabBarView(children: [
             HistoryTabItem(0),
             HistoryTabItem(1),
           ]),
@@ -47,13 +46,14 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
 class HistoryTabItem extends StatefulWidget {
   final int type;
 
-  HistoryTabItem(this.type, {Key? key}) : super(key: key);
+  const HistoryTabItem(this.type, {Key? key}) : super(key: key);
 
   @override
   _HistoryTabItemState createState() => _HistoryTabItemState();
 }
 
-class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAliveClientMixin {
+class _HistoryTabItemState extends State<HistoryTabItem>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -79,7 +79,7 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
     super.build(context);
     return _loading
         ? Container(
-            child: Center(
+            child: const Center(
               child: CircularProgressIndicator(),
             ),
           )
@@ -124,20 +124,22 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
         Utils.openPage(context, item.comic_id, 1);
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Container(
-          padding: EdgeInsets.only(bottom: 8),
-          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
+          padding: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Container(
+                  child: SizedBox(
                     width: 80,
                     child: Utils.createCacheImage(item.cover, 270, 360),
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Expanded(
@@ -148,14 +150,22 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
                       item.comic_name,
                       maxLines: 1,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
-                    Text("看到" + item.chapter_name, style: TextStyle(color: Colors.grey, fontSize: 14)),
-                    SizedBox(
+                    Text("看到" + item.chapter_name,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
+                    const SizedBox(
                       height: 2,
                     ),
-                    Text(DateUtil.formatDate(DateTime.fromMillisecondsSinceEpoch(item.viewing_time * 1000), format: "yyyy-MM-dd HH:mm:ss"), style: TextStyle(color: Colors.grey, fontSize: 14)),
+                    Text(
+                        DateUtil.formatDate(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                item.viewing_time * 1000),
+                            format: "yyyy-MM-dd HH:mm:ss"),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
                   ],
                 ),
               )
@@ -173,20 +183,22 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
         Utils.openPage(context, int.parse(item.lnovel_id!), 2);
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Container(
-          padding: EdgeInsets.only(bottom: 8),
-          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
+          padding: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Container(
+                  child: SizedBox(
                     width: 80,
                     child: Utils.createCacheImage(item.cover!, 270, 360),
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Expanded(
@@ -197,14 +209,26 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
                       item.novel_name!,
                       maxLines: 1,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
-                    Text("看到" + item.volume_name! + " · " + (item.chapter_name ?? ""), style: TextStyle(color: Colors.grey, fontSize: 14)),
-                    SizedBox(
+                    Text(
+                        "看到" +
+                            item.volume_name! +
+                            " · " +
+                            (item.chapter_name ?? ""),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
+                    const SizedBox(
                       height: 2,
                     ),
-                    Text(DateUtil.formatDate(DateTime.fromMillisecondsSinceEpoch(item.viewing_time! * 1000), format: "yyyy-MM-dd HH:mm:ss"), style: TextStyle(color: Colors.grey, fontSize: 14)),
+                    Text(
+                        DateUtil.formatDate(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                item.viewing_time! * 1000),
+                            format: "yyyy-MM-dd HH:mm:ss"),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
                   ],
                 ),
               )
@@ -229,17 +253,18 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
         _loading = true;
       });
 
-      var response = await http.get(Uri.parse(Api.userNovelHistory(ConfigHelper.getUserInfo().uid!)));
+      var response = await http.get(
+          Uri.parse(Api.userNovelHistory(ConfigHelper.getUserInfo().uid!)));
       List jsonMap = jsonDecode(response.body);
-      List<NovelHistoryItem> detail = jsonMap.map((i) => NovelHistoryItem.fromJson(i)).toList();
-      if (detail != null) {
-        for (var item in detail) {
-          ConfigHelper.setNovelHistory(int.parse(item.lnovel_id!), item.chapter_id!);
-        }
-        setState(() {
-          _novelList = detail;
-        });
+      List<NovelHistoryItem> detail =
+          jsonMap.map((i) => NovelHistoryItem.fromJson(i)).toList();
+      for (var item in detail) {
+        ConfigHelper.setNovelHistory(
+            int.parse(item.lnovel_id!), item.chapter_id!);
       }
+      setState(() {
+        _novelList = detail;
+      });
     } catch (e) {
       print(e);
     } finally {
@@ -258,20 +283,18 @@ class _HistoryTabItemState extends State<HistoryTabItem> with AutomaticKeepAlive
         _loading = true;
       });
 
-      var response = await http.get(Uri.parse(Api.userComicHistory(ConfigHelper.getUserInfo().uid!)));
+      var response = await http.get(
+          Uri.parse(Api.userComicHistory(ConfigHelper.getUserInfo().uid!)));
       List jsonMap = jsonDecode(response.body);
-      List<ComicHistoryItem> detail = jsonMap.map((i) => ComicHistoryItem.fromJson(i)).toList();
-      if (detail != null && detail.length != 0) {
+      List<ComicHistoryItem> detail =
+          jsonMap.map((i) => ComicHistoryItem.fromJson(i)).toList();
+      if (detail.isNotEmpty) {
         for (var item in detail) {
           var historyItem = await ComicHistoryProvider.getItem(item.comic_id);
           print(item.comic_name);
-          if (historyItem != null) {
-            historyItem.chapter_id = item.chapter_id;
-            historyItem.page = item.progress.toDouble();
-            await ComicHistoryProvider.update(historyItem);
-          } else {
-            await ComicHistoryProvider.insert(ComicHistory(item.comic_id, item.chapter_id, item.progress.toDouble(), 1));
-          }
+          historyItem.chapter_id = item.chapter_id;
+          historyItem.page = item.progress.toDouble();
+          await ComicHistoryProvider.update(historyItem);
 
           //ConfigHelper.setComicHistory(item.comic_id, item.chapter_id);
         }

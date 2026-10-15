@@ -8,11 +8,14 @@ import 'package:dashboard/views/comic/comic_update.dart';
 import 'package:flutter/material.dart';
 
 class ComicHomePage extends StatefulWidget {
+  const ComicHomePage({Key? key}) : super(key: key);
+
   @override
   _ComicHomePageState createState() => _ComicHomePageState();
 }
 
-class _ComicHomePageState extends State<ComicHomePage> with TickerProviderStateMixin {
+class _ComicHomePageState extends State<ComicHomePage>
+    with TickerProviderStateMixin {
   TabController? _tabController;
 
   @override
@@ -30,7 +33,7 @@ class _ComicHomePageState extends State<ComicHomePage> with TickerProviderStateM
         appBar: AppBar(
           title: TabBar(
             controller: _tabController,
-            tabs: <Widget>[
+            tabs: const <Widget>[
               Tab(child: Text("推荐")),
               Tab(child: Text("更新")),
               Tab(child: Text("分类")),
@@ -43,17 +46,18 @@ class _ComicHomePageState extends State<ComicHomePage> with TickerProviderStateM
           ),
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search),
                 tooltip: "搜索",
                 onPressed: () {
-                  showSearch(context: context, delegate: ComicSearchBarDelegate());
+                  showSearch(
+                      context: context, delegate: ComicSearchBarDelegate());
                   //Utils.openPage(context, 1798, 1);
                 }) //18417
           ],
         ),
         body: TabBarView(
           controller: _tabController,
-          children: <Widget>[
+          children: const <Widget>[
             ComicRecommend(),
             ComicUpdatePage(),
             ComicCategoryPage(),

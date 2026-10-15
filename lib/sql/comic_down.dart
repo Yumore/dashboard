@@ -1,16 +1,16 @@
 import 'package:sqflite/sqflite.dart';
 
-final String comicDownloadTableName = 'ComicDownload';
-final String comicDownloadColumnChapterID = 'ChapterID';
-final String comicDownloadColumnChapterName = 'ChapterName';
-final String comicDownloadColumnComicID = 'ComicID';
-final String comicDownloadColumnComicName = 'ComicName';
-final String comicDownloadColumnStatus = 'Status';
-final String comicDownloadColumnVolume = 'Volume';
-final String comicDownloadColumnPage = 'Page';
-final String comicDownloadColumnCount = 'Count';
-final String comicDownloadColumnSavePath = 'SavePath';
-final String comicDownloadColumnUrls = 'Urls';
+const String comicDownloadTableName = 'ComicDownload';
+const String comicDownloadColumnChapterID = 'ChapterID';
+const String comicDownloadColumnChapterName = 'ChapterName';
+const String comicDownloadColumnComicID = 'ComicID';
+const String comicDownloadColumnComicName = 'ComicName';
+const String comicDownloadColumnStatus = 'Status';
+const String comicDownloadColumnVolume = 'Volume';
+const String comicDownloadColumnPage = 'Page';
+const String comicDownloadColumnCount = 'Count';
+const String comicDownloadColumnSavePath = 'SavePath';
+const String comicDownloadColumnUrls = 'Urls';
 
 class ComicDownloadSqlItem {
   int chapterID = 0;
@@ -24,7 +24,9 @@ class ComicDownloadSqlItem {
   String? savePath;
   String? urls;
 
-  ComicDownloadSqlItem(this.chapterID, this.chapterName, this.comicID, this.comicName, this.status, this.volume, {this.page = 0, this.count = 0, this.savePath, this.urls});
+  ComicDownloadSqlItem(this.chapterID, this.chapterName, this.comicID,
+      this.comicName, this.status, this.volume,
+      {this.page = 0, this.count = 0, this.savePath, this.urls});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -65,23 +67,24 @@ class ComicDownloadProvider {
   }
 
   static Future<ComicDownloadSqlItem> getItem(int id) async {
-    List<Map<String, dynamic>> maps = await database!.query(comicDownloadTableName,
-        columns: [
-          comicDownloadColumnChapterID,
-          comicDownloadColumnChapterName,
-          comicDownloadColumnComicID,
-          comicDownloadColumnComicName,
-          comicDownloadColumnStatus,
-          comicDownloadColumnVolume,
-          comicDownloadColumnPage,
-          comicDownloadColumnCount,
-          comicDownloadColumnSavePath,
-          comicDownloadColumnUrls,
-        ],
-        where: '$comicDownloadColumnChapterID = ?',
-        whereArgs: [id]);
+    List<Map<String, dynamic>> maps =
+        await database!.query(comicDownloadTableName,
+            columns: [
+              comicDownloadColumnChapterID,
+              comicDownloadColumnChapterName,
+              comicDownloadColumnComicID,
+              comicDownloadColumnComicName,
+              comicDownloadColumnStatus,
+              comicDownloadColumnVolume,
+              comicDownloadColumnPage,
+              comicDownloadColumnCount,
+              comicDownloadColumnSavePath,
+              comicDownloadColumnUrls,
+            ],
+            where: '$comicDownloadColumnChapterID = ?',
+            whereArgs: [id]);
 
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       return ComicDownloadSqlItem.fromMap(maps.first);
     }
     return ComicDownloadSqlItem.fromMap(<String, dynamic>{});
@@ -91,27 +94,30 @@ class ComicDownloadProvider {
     return await database!.delete(comicDownloadTableName);
   }
 
-  static Future<ComicDownloadSqlItem> updateOrInsert(ComicDownloadSqlItem item) async {
+  static Future<ComicDownloadSqlItem> updateOrInsert(
+      ComicDownloadSqlItem item) async {
     var data = await getItem(item.chapterID);
-    if (data != null) {
-      await update(item);
-      return item;
-    } else {
-      return await insert(item);
-    }
+    await update(item);
+    return item;
   }
 
   static Future<List<ComicDownloadSqlItem>> getItems() async {
-    List<ComicDownloadSqlItem> maps = (await database!.query(comicDownloadTableName)).map<ComicDownloadSqlItem>((x) => ComicDownloadSqlItem.fromMap(x)).toList();
+    List<ComicDownloadSqlItem> maps =
+        (await database!.query(comicDownloadTableName))
+            .map<ComicDownloadSqlItem>((x) => ComicDownloadSqlItem.fromMap(x))
+            .toList();
     return maps;
   }
 
   static Future<int> delete(int id) async {
-    return await database!.delete(comicDownloadTableName, where: '$comicDownloadColumnChapterID = ?', whereArgs: [id]);
+    return await database!.delete(comicDownloadTableName,
+        where: '$comicDownloadColumnChapterID = ?', whereArgs: [id]);
   }
 
   static Future<int> update(ComicDownloadSqlItem item) async {
-    return await database!.update(comicDownloadTableName, item.toMap(), where: '$comicDownloadColumnChapterID = ?', whereArgs: [item.chapterID]);
+    return await database!.update(comicDownloadTableName, item.toMap(),
+        where: '$comicDownloadColumnChapterID = ?',
+        whereArgs: [item.chapterID]);
   }
 
   static Future close() async => database!.close();

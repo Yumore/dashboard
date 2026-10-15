@@ -7,25 +7,24 @@ import 'package:dashboard/models/comic/comic_detail_model.dart';
 import 'package:dashboard/models/novel/novel_rank_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class NovelRankPage extends StatefulWidget {
-  NovelRankPage({Key? key}) : super(key: key);
+  const NovelRankPage({Key? key}) : super(key: key);
 
   @override
   _NovelRankPageState createState() => _NovelRankPageState();
 }
 
-class _NovelRankPageState extends State<NovelRankPage> with AutomaticKeepAliveClientMixin {
+class _NovelRankPageState extends State<NovelRankPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   Map _types = {"全部分类": "0"};
   String _type = "全部分类";
 
-  Map _sorts = {
+  final Map _sorts = {
     "人气排行": "0",
     "订阅排行": "1",
   };
@@ -52,9 +51,12 @@ class _NovelRankPageState extends State<NovelRankPage> with AutomaticKeepAliveCl
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
           child: Row(
-            children: <Widget>[Expanded(child: createFilter(_types)), Expanded(child: createFilter(_sorts, type: 1))],
+            children: <Widget>[
+              Expanded(child: createFilter(_types)),
+              Expanded(child: createFilter(_sorts, type: 1))
+            ],
           ),
         ),
         Expanded(
@@ -67,7 +69,7 @@ class _NovelRankPageState extends State<NovelRankPage> with AutomaticKeepAliveCl
             header: MaterialHeader(),
             footer: MaterialFooter(),
             child: _loading && _page == 0
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : ListView.builder(
@@ -87,13 +89,13 @@ class _NovelRankPageState extends State<NovelRankPage> with AutomaticKeepAliveCl
       select = _sort;
     }
     return PopupMenuButton<String>(
-      child: Container(
+      child: SizedBox(
           height: 36,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(select),
-              Icon(
+              const Icon(
                 Icons.arrow_drop_down,
                 color: Colors.grey,
               )
@@ -129,20 +131,22 @@ class _NovelRankPageState extends State<NovelRankPage> with AutomaticKeepAliveCl
         Utils.openPage(context, item.id, 2);
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Container(
-          padding: EdgeInsets.only(bottom: 8),
-          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
+          padding: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Container(
+                  child: SizedBox(
                     width: 80,
                     child: Utils.createCacheImage(item.cover, 270, 360),
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Expanded(
@@ -153,28 +157,33 @@ class _NovelRankPageState extends State<NovelRankPage> with AutomaticKeepAliveCl
                       item.name,
                       maxLines: 1,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
                     Text.rich(
                       TextSpan(children: [
-                        WidgetSpan(
+                        const WidgetSpan(
                             child: Icon(
                           Icons.account_circle,
                           color: Colors.grey,
                           size: 18,
                         )),
-                        TextSpan(
+                        const TextSpan(
                           text: " ",
                         ),
-                        TextSpan(text: item.authors, style: TextStyle(color: Colors.grey, fontSize: 14))
+                        TextSpan(
+                            text: item.authors,
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 14))
                       ]),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4,
                     ),
-                    Text(item.type, style: TextStyle(color: Colors.grey, fontSize: 14)),
-                    SizedBox(
+                    Text(item.type,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
+                    const SizedBox(
                       height: 4,
                     ),
                     Text(
@@ -183,7 +192,8 @@ class _NovelRankPageState extends State<NovelRankPage> with AutomaticKeepAliveCl
                               item.last_update_time * 1000,
                               locale: 'zh',
                             ),
-                        style: TextStyle(color: Colors.grey, fontSize: 14)),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
                   ],
                 ),
               )
@@ -206,22 +216,22 @@ class _NovelRankPageState extends State<NovelRankPage> with AutomaticKeepAliveCl
       setState(() {
         _loading = true;
       });
-      var response = await http.get(Uri.parse(Api.novelRank(tagId: _types[_type], sort: _sorts[_sort], page: _page)));
+      var response = await http.get(Uri.parse(Api.novelRank(
+          tagId: _types[_type], sort: _sorts[_sort], page: _page)));
       List jsonMap = jsonDecode(response.body);
-      List<NovelRankItem> detail = jsonMap.map((i) => NovelRankItem.fromJson(i)).toList();
-      if (detail != null) {
-        setState(() {
-          if (_page == 0) {
-            _list = detail;
-          } else {
-            _list.addAll(detail);
-          }
-        });
-        if (detail.length != 0) {
-          _page++;
+      List<NovelRankItem> detail =
+          jsonMap.map((i) => NovelRankItem.fromJson(i)).toList();
+      setState(() {
+        if (_page == 0) {
+          _list = detail;
         } else {
-          Fluttertoast.showToast(msg: "加载完毕");
+          _list.addAll(detail);
         }
+      });
+      if (detail.isNotEmpty) {
+        _page++;
+      } else {
+        Fluttertoast.showToast(msg: "加载完毕");
       }
     } catch (e) {
       print(e);
@@ -236,18 +246,19 @@ class _NovelRankPageState extends State<NovelRankPage> with AutomaticKeepAliveCl
     try {
       var response = await http.get(Uri.parse(Api.novelRankFilter));
       List jsonMap = jsonDecode(response.body);
-      List<ComicDetailTagItem> detail = jsonMap.map((i) => ComicDetailTagItem.fromJson(i)).toList();
-      if (detail != null) {
-        Map list = {};
-        for (var item in detail) {
-          list.addAll({(item.tag_id == 0 ? "全部分类" : item.tag_name): item.tag_id.toString()});
-        }
-        setState(() {
-          _types = list;
-          _loading = false;
+      List<ComicDetailTagItem> detail =
+          jsonMap.map((i) => ComicDetailTagItem.fromJson(i)).toList();
+      Map list = {};
+      for (var item in detail) {
+        list.addAll({
+          (item.tag_id == 0 ? "全部分类" : item.tag_name): item.tag_id.toString()
         });
-        await loadData();
       }
+      setState(() {
+        _types = list;
+        _loading = false;
+      });
+      await loadData();
     } catch (e) {
       print(e);
     }

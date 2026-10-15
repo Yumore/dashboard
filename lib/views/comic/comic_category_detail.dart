@@ -13,13 +13,16 @@ class ComicCategoryDetailPage extends StatefulWidget {
   final String title;
   final int id;
 
-  ComicCategoryDetailPage(this.id, this.title, {Key? key}) : super(key: key);
+  const ComicCategoryDetailPage(this.id, this.title, {Key? key})
+      : super(key: key);
 
   @override
-  _ComicCategoryDetailPageState createState() => _ComicCategoryDetailPageState();
+  _ComicCategoryDetailPageState createState() =>
+      _ComicCategoryDetailPageState();
 }
 
-class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with AutomaticKeepAliveClientMixin {
+class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -49,13 +52,13 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
       appBar: AppBar(
         title: Text(widget.title),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         actions: <Widget>[
           Builder(
             builder: (BuildContext context) => IconButton(
-              icon: Icon(Icons.filter_list),
+              icon: const Icon(Icons.filter_list),
               onPressed: () {
                 Scaffold.of(context).openEndDrawer();
               },
@@ -69,29 +72,34 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
       body: EasyRefresh(
         header: MaterialHeader(),
         footer: MaterialFooter(),
-        child: _list.length != 0
+        child: _list.isNotEmpty
             ? GridView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                physics: ScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                physics: const ScrollPhysics(),
                 itemCount: _list.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: MediaQuery.of(context).size.width ~/ 160 < 3 ? 3 : MediaQuery.of(context).size.width ~/ 160,
+                    crossAxisCount: MediaQuery.of(context).size.width ~/ 160 < 3
+                        ? 3
+                        : MediaQuery.of(context).size.width ~/ 160,
                     crossAxisSpacing: 2.0,
                     mainAxisSpacing: 4.0,
-                    childAspectRatio: getWidth() / ((getWidth() * (360 / 270)) + 64)),
-                itemBuilder: (context, i) => _getComicItemBuilder(_list[i].id, _list[i].cover, _list[i].title, author: _list[i].authors, status: _list[i].status),
+                    childAspectRatio:
+                        getWidth() / ((getWidth() * (360 / 270)) + 64)),
+                itemBuilder: (context, i) => _getComicItemBuilder(
+                    _list[i].id, _list[i].cover, _list[i].title,
+                    author: _list[i].authors, status: _list[i].status),
               )
             : _loading
                 ? _page == 0
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : Container()
                 : Center(
                     child: Container(
-                      padding: EdgeInsets.all(24),
-                      child: Text(
+                      padding: const EdgeInsets.all(24),
+                      child: const Text(
                         "什么都没有呢~",
                         style: TextStyle(color: Colors.grey),
                       ),
@@ -114,34 +122,48 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(left: 4),
+                padding: const EdgeInsets.only(left: 4),
                 child: Text(
                   f.title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
               Wrap(
                 children: f.items
                     .map((x) => Padding(
-                          padding: EdgeInsets.only(left: 4, right: 4),
+                          padding: const EdgeInsets.only(left: 4, right: 4),
                           child: ButtonTheme(
                             minWidth: 20,
                             height: 28,
                             child: OutlinedButton(
                               style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
+                                shape: WidgetStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     side: BorderSide(
-                                      color: x == f.item ? Theme.of(context).colorScheme.secondary : Colors.transparent,
+                                      color: x == f.item
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .secondary
+                                          : Colors.transparent,
                                     ),
                                   ),
                                 ),
-                                foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary),
+                                foregroundColor: WidgetStateProperty.all(
+                                    Theme.of(context).colorScheme.secondary),
                               ),
                               child: Text(
                                 x.tag_name,
-                                style: TextStyle(color: x == f.item ? Theme.of(context).accentColor : Theme.of(context).textTheme.button!.color),
+                                style: TextStyle(
+                                    color: x == f.item
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .secondary
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelLarge!
+                                            .color),
                               ),
                               onPressed: () async {
                                 _page = 0;
@@ -166,8 +188,8 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 4),
-              child: Text(
+              padding: const EdgeInsets.only(left: 4),
+              child: const Text(
                 "排序",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
@@ -175,25 +197,34 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
             Wrap(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 4, right: 4),
+                  padding: const EdgeInsets.only(left: 4, right: 4),
                   child: ButtonTheme(
                     minWidth: 20,
                     height: 28,
                     child: OutlinedButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                             side: BorderSide(
-                              color: _sort == 0 ? Theme.of(context).colorScheme.secondary : Colors.transparent,
+                              color: _sort == 0
+                                  ? Theme.of(context).colorScheme.secondary
+                                  : Colors.transparent,
                             ),
                           ),
                         ),
-                        foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary),
+                        foregroundColor: WidgetStateProperty.all(
+                            Theme.of(context).colorScheme.secondary),
                       ),
                       child: Text(
                         "人气排序",
-                        style: TextStyle(color: _sort == 0 ? Theme.of(context).accentColor : Theme.of(context).textTheme.button!.color),
+                        style: TextStyle(
+                            color: _sort == 0
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .color),
                       ),
                       onPressed: () async {
                         _page = 0;
@@ -207,25 +238,34 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 4, right: 4),
+                  padding: const EdgeInsets.only(left: 4, right: 4),
                   child: ButtonTheme(
                     minWidth: 20,
                     height: 28,
                     child: OutlinedButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                             side: BorderSide(
-                              color: _sort == 1 ? Theme.of(context).colorScheme.secondary : Colors.transparent,
+                              color: _sort == 1
+                                  ? Theme.of(context).colorScheme.secondary
+                                  : Colors.transparent,
                             ),
                           ),
                         ),
-                        foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary),
+                        foregroundColor: WidgetStateProperty.all(
+                            Theme.of(context).colorScheme.secondary),
                       ),
                       child: Text(
                         "更新排序",
-                        style: TextStyle(color: _sort == 1 ? Theme.of(context).accentColor : Theme.of(context).textTheme.button!.color),
+                        style: TextStyle(
+                            color: _sort == 1
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .color),
                       ),
                       onPressed: () async {
                         _page = 0;
@@ -243,12 +283,13 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
           ],
         ));
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: ListView(children: list),
     );
   }
 
-  Widget _getComicItemBuilder(int id, String pic, String title, {String author = "", String status = ""}) {
+  Widget _getComicItemBuilder(int id, String pic, String title,
+      {String author = "", String status = ""}) {
     return Card(
       child: InkWell(
           onTap: () => Utils.openPage(context, id, 1, title: title),
@@ -258,7 +299,7 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
               children: <Widget>[
                 Utils.createCacheImage(pic, 270, 360),
                 Padding(
-                  padding: EdgeInsets.only(left: 4, right: 4, top: 4),
+                  padding: const EdgeInsets.only(left: 4, right: 4, top: 4),
                   child: Text(
                     title,
                     maxLines: 1,
@@ -267,22 +308,23 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
                 ),
                 Flexible(
                     child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     author,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    style: const TextStyle(color: Colors.grey, fontSize: 12.0),
                   ),
                 )),
                 Flexible(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: Text(
                       status,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                      style:
+                          const TextStyle(color: Colors.grey, fontSize: 12.0),
                     ),
                   ),
                 ),
@@ -304,24 +346,26 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
       setState(() {
         _loading = true;
       });
-      var response = await http.get(Uri.parse(Api.comicCategoryDetail(_fiters.map((f) => f.item.tag_id).toList(), sort: _sort, page: _page)));
+      var response = await http.get(Uri.parse(Api.comicCategoryDetail(
+          _fiters.map((f) => f.item.tag_id).toList(),
+          sort: _sort,
+          page: _page)));
 
       List jsonMap = jsonDecode(response.body);
 
-      List<ComicCategoryDetailItem> detail = jsonMap.map((f) => ComicCategoryDetailItem.fromJson(f)).toList();
-      if (detail != null) {
-        setState(() {
-          if (_page == 0) {
-            _list = detail;
-          } else {
-            _list.addAll(detail);
-          }
-        });
-        if (detail.length != 0) {
-          _page++;
+      List<ComicCategoryDetailItem> detail =
+          jsonMap.map((f) => ComicCategoryDetailItem.fromJson(f)).toList();
+      setState(() {
+        if (_page == 0) {
+          _list = detail;
         } else {
-          Fluttertoast.showToast(msg: "加载完毕");
+          _list.addAll(detail);
         }
+      });
+      if (detail.isNotEmpty) {
+        _page++;
+      } else {
+        Fluttertoast.showToast(msg: "加载完毕");
       }
     } catch (e) {
       print(e);
@@ -339,21 +383,16 @@ class _ComicCategoryDetailPageState extends State<ComicCategoryDetailPage> with 
     try {
       var response = await http.get(Uri.parse(Api.comicCategoryFilter()));
       List jsonMap = jsonDecode(response.body);
-      List<ComicCategoryDetailFilter> detail = jsonMap.map((f) => ComicCategoryDetailFilter.fromJson(f)).toList();
-      if (detail != null) {
-        for (var item in detail) {
-          var _item = item.items.firstWhere((f) => f.tag_id == widget.id);
-          if (_item != null) {
-            item.item = _item;
-          } else {
-            item.item = item.items[0];
-          }
-        }
-        setState(() {
-          _fiters = detail;
-        });
-        loadData();
+      List<ComicCategoryDetailFilter> detail =
+          jsonMap.map((f) => ComicCategoryDetailFilter.fromJson(f)).toList();
+      for (var item in detail) {
+        var _item = item.items.firstWhere((f) => f.tag_id == widget.id);
+        item.item = _item;
       }
+      setState(() {
+        _fiters = detail;
+      });
+      loadData();
     } catch (e) {
       print(e);
     }

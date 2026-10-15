@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class AppBanner extends StatefulWidget {
   final List<Widget>? items;
 
-  AppBanner({Key? key, this.items}) : super(key: key);
+  const AppBanner({Key? key, this.items}) : super(key: key);
 
+  @override
   _AppBannerState createState() => _AppBannerState();
 }
 
@@ -16,8 +17,8 @@ class _AppBannerState extends State<AppBanner> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
-      constraints: BoxConstraints(maxWidth: 600),
+      padding: const EdgeInsets.all(8),
+      constraints: const BoxConstraints(maxWidth: 600),
       child: Stack(
         alignment: AlignmentDirectional.bottomEnd,
         children: <Widget>[
@@ -34,10 +35,10 @@ class _AppBannerState extends State<AppBanner> {
                 viewportFraction: 1.0,
                 autoPlay: true,
               ),
-              items: widget.items!.length != 0
+              items: widget.items!.isNotEmpty
                   ? widget.items
                   : [
-                      Center(
+                      const Center(
                         child: CircularProgressIndicator(),
                       )
                     ],
@@ -52,8 +53,14 @@ class _AppBannerState extends State<AppBanner> {
                   return Container(
                     width: 8.0,
                     height: 8.0,
-                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: currentBannerIndex == widget.items!.indexOf(index) ? Theme.of(context).accentColor : Color.fromRGBO(0, 0, 0, 0.4)),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:
+                            currentBannerIndex == widget.items!.indexOf(index)
+                                ? Theme.of(context).colorScheme.secondary
+                                : const Color.fromRGBO(0, 0, 0, 0.4)),
                   );
                 }).toList(),
               ))
@@ -68,7 +75,8 @@ class BannerImageItem extends StatelessWidget {
   final Function? onTaped;
   final String? title;
 
-  BannerImageItem({Key? key, this.pic, this.onTaped, this.title = ""}) : super(key: key);
+  const BannerImageItem({Key? key, this.pic, this.onTaped, this.title = ""})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -81,19 +89,20 @@ class BannerImageItem extends StatelessWidget {
           CachedNetworkImage(
             imageUrl: pic!,
             fit: BoxFit.cover,
-            httpHeaders: {"Referer": "http://www.dmzj.com/"},
-            placeholder: (context, url) => Center(
+            httpHeaders: const {"Referer": "http://www.dmzj.com/"},
+            placeholder: (context, url) => const Center(
               child: Center(child: Icon(Icons.photo)),
             ),
-            errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+            errorWidget: (context, url, error) =>
+                const Center(child: Icon(Icons.error)),
           ),
           Positioned(
               bottom: 4,
               left: 8,
               child: Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text(title!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       shadows: [
                         Shadow(

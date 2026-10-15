@@ -6,8 +6,6 @@ import 'package:dashboard/models/comic/comic_category_detail_filter.dart';
 import 'package:dashboard/models/novel/novel_category_detail_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,13 +13,16 @@ class NovelCategoryDetailPage extends StatefulWidget {
   final String title;
   final int id;
 
-  NovelCategoryDetailPage(this.id, this.title, {Key? key}) : super(key: key);
+  const NovelCategoryDetailPage(this.id, this.title, {Key? key})
+      : super(key: key);
 
   @override
-  _NovelCategoryDetailPageState createState() => _NovelCategoryDetailPageState();
+  _NovelCategoryDetailPageState createState() =>
+      _NovelCategoryDetailPageState();
 }
 
-class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with AutomaticKeepAliveClientMixin {
+class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -53,7 +54,7 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
         actions: <Widget>[
           Builder(
             builder: (BuildContext context) => IconButton(
-              icon: Icon(Icons.filter_list),
+              icon: const Icon(Icons.filter_list),
               onPressed: () {
                 Scaffold.of(context).openEndDrawer();
               },
@@ -67,29 +68,34 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
       body: EasyRefresh(
         header: MaterialHeader(),
         footer: MaterialFooter(),
-        child: _list.length != 0
+        child: _list.isNotEmpty
             ? GridView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                physics: ScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                physics: const ScrollPhysics(),
                 itemCount: _list.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: MediaQuery.of(context).size.width ~/ 160 < 3 ? 3 : MediaQuery.of(context).size.width ~/ 160,
+                    crossAxisCount: MediaQuery.of(context).size.width ~/ 160 < 3
+                        ? 3
+                        : MediaQuery.of(context).size.width ~/ 160,
                     crossAxisSpacing: 2.0,
                     mainAxisSpacing: 4.0,
-                    childAspectRatio: getWidth() / ((getWidth() * (360 / 270)) + 48)),
-                itemBuilder: (context, i) => _getComicItemBuilder(_list[i].id, _list[i].cover, _list[i].name, author: _list[i].authors),
+                    childAspectRatio:
+                        getWidth() / ((getWidth() * (360 / 270)) + 48)),
+                itemBuilder: (context, i) => _getComicItemBuilder(
+                    _list[i].id, _list[i].cover, _list[i].name,
+                    author: _list[i].authors),
               )
             : _loading
                 ? _page == 0
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : Container()
                 : Center(
                     child: Container(
-                      padding: EdgeInsets.all(24),
-                      child: Text(
+                      padding: const EdgeInsets.all(24),
+                      child: const Text(
                         "什么都没有呢~",
                         style: TextStyle(color: Colors.grey),
                       ),
@@ -112,32 +118,47 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(left: 4),
+                padding: const EdgeInsets.only(left: 4),
                 child: Text(
                   f.title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
               Wrap(
                 children: f.items
                     .map((x) => Padding(
-                          padding: EdgeInsets.only(left: 4, right: 4),
+                          padding: const EdgeInsets.only(left: 4, right: 4),
                           child: ButtonTheme(
                             minWidth: 20,
                             height: 28,
                             child: OutlinedButton(
                               style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
+                                shape: WidgetStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
-                                    side: BorderSide(color: x == f.item ? Theme.of(context).accentColor : Colors.transparent),
+                                    side: BorderSide(
+                                        color: x == f.item
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .secondary
+                                            : Colors.transparent),
                                   ),
                                 ),
-                                foregroundColor: MaterialStateProperty.all(Theme.of(context).accentColor),
+                                foregroundColor: WidgetStateProperty.all(
+                                    Theme.of(context).colorScheme.secondary),
                               ),
                               child: Text(
                                 x.tag_name,
-                                style: TextStyle(color: x == f.item ? Theme.of(context).accentColor : Theme.of(context).textTheme.button!.color),
+                                style: TextStyle(
+                                    color: x == f.item
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .secondary
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelLarge!
+                                            .color),
                               ),
                               onPressed: () async {
                                 _page = 0;
@@ -162,8 +183,8 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 4),
-              child: Text(
+              padding: const EdgeInsets.only(left: 4),
+              child: const Text(
                 "排序",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
@@ -171,23 +192,33 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
             Wrap(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 4, right: 4),
+                  padding: const EdgeInsets.only(left: 4, right: 4),
                   child: ButtonTheme(
                     minWidth: 20,
                     height: 28,
                     child: OutlinedButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            side: BorderSide(color: _sort == 0 ? Theme.of(context).accentColor : Colors.transparent),
+                            side: BorderSide(
+                                color: _sort == 0
+                                    ? Theme.of(context).colorScheme.secondary
+                                    : Colors.transparent),
                           ),
                         ),
-                        foregroundColor: MaterialStateProperty.all(Theme.of(context).accentColor),
+                        foregroundColor: WidgetStateProperty.all(
+                            Theme.of(context).colorScheme.secondary),
                       ),
                       child: Text(
                         "人气排序",
-                        style: TextStyle(color: _sort == 0 ? Theme.of(context).accentColor : Theme.of(context).textTheme.button!.color),
+                        style: TextStyle(
+                            color: _sort == 0
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .color),
                       ),
                       onPressed: () async {
                         _page = 0;
@@ -201,23 +232,33 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 4, right: 4),
+                  padding: const EdgeInsets.only(left: 4, right: 4),
                   child: ButtonTheme(
                     minWidth: 20,
                     height: 28,
                     child: OutlinedButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            side: BorderSide(color: _sort == 1 ? Theme.of(context).accentColor : Colors.transparent),
+                            side: BorderSide(
+                                color: _sort == 1
+                                    ? Theme.of(context).colorScheme.secondary
+                                    : Colors.transparent),
                           ),
                         ),
-                        foregroundColor: MaterialStateProperty.all(Theme.of(context).accentColor),
+                        foregroundColor: WidgetStateProperty.all(
+                            Theme.of(context).colorScheme.secondary),
                       ),
                       child: Text(
                         "更新排序",
-                        style: TextStyle(color: _sort == 1 ? Theme.of(context).accentColor : Theme.of(context).textTheme.button!.color),
+                        style: TextStyle(
+                            color: _sort == 1
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .color),
                       ),
                       onPressed: () async {
                         _page = 0;
@@ -235,12 +276,13 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
           ],
         ));
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: ListView(children: list),
     );
   }
 
-  Widget _getComicItemBuilder(int id, String pic, String title, {String author = ""}) {
+  Widget _getComicItemBuilder(int id, String pic, String title,
+      {String author = ""}) {
     return Card(
       child: InkWell(
           onTap: () => Utils.openPage(context, id, 2, title: title),
@@ -250,7 +292,8 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
               children: <Widget>[
                 Utils.createCacheImage(pic, 270, 360),
                 Padding(
-                  padding: EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
+                  padding: const EdgeInsets.only(
+                      left: 4, right: 4, top: 4, bottom: 4),
                   child: Text(
                     title,
                     maxLines: 1,
@@ -259,12 +302,12 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
                 ),
                 Flexible(
                     child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     author,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    style: const TextStyle(color: Colors.grey, fontSize: 12.0),
                   ),
                 )),
               ],
@@ -285,11 +328,16 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
       setState(() {
         _loading = true;
       });
-      var response = await http.get(Uri.parse(Api.novelCategoryDetail(cateId: _fiters[0].item.tag_id, status: _fiters[1].item.tag_id, sort: _sort, page: _page)));
+      var response = await http.get(Uri.parse(Api.novelCategoryDetail(
+          cateId: _fiters[0].item.tag_id,
+          status: _fiters[1].item.tag_id,
+          sort: _sort,
+          page: _page)));
 
       List jsonMap = jsonDecode(response.body);
 
-      List<NovelCategoryDetailItem> detail = jsonMap.map((f) => NovelCategoryDetailItem.fromJson(f)).toList();
+      List<NovelCategoryDetailItem> detail =
+          jsonMap.map((f) => NovelCategoryDetailItem.fromJson(f)).toList();
       setState(() {
         if (_page == 0) {
           _list = detail;
@@ -297,7 +345,7 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
           _list.addAll(detail);
         }
       });
-      if (detail.length != 0) {
+      if (detail.isNotEmpty) {
         _page++;
       } else {
         Fluttertoast.showToast(msg: "加载完毕");
@@ -318,14 +366,11 @@ class _NovelCategoryDetailPageState extends State<NovelCategoryDetailPage> with 
     try {
       var response = await http.get(Uri.parse(Api.novelCategoryFilter));
       List jsonMap = jsonDecode(response.body);
-      List<ComicCategoryDetailFilter> detail = jsonMap.map((f) => ComicCategoryDetailFilter.fromJson(f)).toList();
+      List<ComicCategoryDetailFilter> detail =
+          jsonMap.map((f) => ComicCategoryDetailFilter.fromJson(f)).toList();
       for (var item in detail) {
         var _item = item.items.firstWhere((f) => f.tag_id == widget.id);
-        if (_item != null) {
-          item.item = _item;
-        } else {
-          item.item = item.items[0];
-        }
+        item.item = _item;
       }
       setState(() {
         _fiters = detail;

@@ -29,7 +29,7 @@ class CommentHelper {
 
   static Future<CommnetResult> checkStatus() async {
     try {
-      var uid = ConfigHelper.getUserInfo()?.uid ?? "";
+      var uid = ConfigHelper.getUserInfo().uid ?? "";
 
       var result = "";
       var response = await http.get(Uri.parse(Api.checkCommentV3(uid)));
@@ -51,7 +51,7 @@ class CommentHelper {
         //TODO 跳转登录
         return CommnetResult(false, "没有登录");
       }
-      var token = ConfigHelper.getUserInfo()?.dmzj_token ?? "";
+      var token = ConfigHelper.getUserInfo().dmzj_token ?? "";
       var response = await http.post(Uri.parse(Api.addCommentV3(type)),
           body: {"obj_id": objId, "to_comment_id": toCommentId, "origin_comment_id": originCommentId, "to_uid": toUid, "sender_terminal": 1, "content": content, "dmzj_token": token, "_debug": 0});
       var jsonMap = jsonDecode(response.body);

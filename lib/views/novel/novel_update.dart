@@ -6,19 +6,18 @@ import 'package:dashboard/app/utils.dart';
 import 'package:dashboard/models/novel/novel_update_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class NovelUpdatePage extends StatefulWidget {
-  NovelUpdatePage({Key? key}) : super(key: key);
+  const NovelUpdatePage({Key? key}) : super(key: key);
 
   @override
   _NovelUpdatePageState createState() => _NovelUpdatePageState();
 }
 
-class _NovelUpdatePageState extends State<NovelUpdatePage> with AutomaticKeepAliveClientMixin {
+class _NovelUpdatePageState extends State<NovelUpdatePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -60,20 +59,22 @@ class _NovelUpdatePageState extends State<NovelUpdatePage> with AutomaticKeepAli
         Utils.openPage(context, item.id, 2);
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Container(
-          padding: EdgeInsets.only(bottom: 8),
-          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
+          padding: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Container(
+                  child: SizedBox(
                     width: 80,
                     child: Utils.createCacheImage(item.cover, 270, 360),
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Expanded(
@@ -84,32 +85,39 @@ class _NovelUpdatePageState extends State<NovelUpdatePage> with AutomaticKeepAli
                       item.name,
                       maxLines: 1,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
                     Text.rich(
                       TextSpan(children: [
-                        WidgetSpan(
+                        const WidgetSpan(
                             child: Icon(
                           Icons.account_circle,
                           color: Colors.grey,
                           size: 18,
                         )),
-                        TextSpan(
+                        const TextSpan(
                           text: " ",
                         ),
-                        TextSpan(text: item.authors, style: TextStyle(color: Colors.grey, fontSize: 14))
+                        TextSpan(
+                            text: item.authors,
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 14))
                       ]),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
-                    Text(item.type, style: TextStyle(color: Colors.grey, fontSize: 14)),
-                    SizedBox(
+                    Text(item.type,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
+                    const SizedBox(
                       height: 2,
                     ),
-                    Text(item.last_update_chapter_name, style: TextStyle(color: Colors.grey, fontSize: 14)),
-                    SizedBox(
+                    Text(item.last_update_chapter_name,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
+                    const SizedBox(
                       height: 2,
                     ),
                     Text(
@@ -118,7 +126,8 @@ class _NovelUpdatePageState extends State<NovelUpdatePage> with AutomaticKeepAli
                               item.last_update_time * 1000,
                               locale: 'zh',
                             ),
-                        style: TextStyle(color: Colors.grey, fontSize: 14)),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
                   ],
                 ),
               )
@@ -143,20 +152,19 @@ class _NovelUpdatePageState extends State<NovelUpdatePage> with AutomaticKeepAli
       });
       var response = await http.get(Uri.parse(Api.novelUpdate(page: _page)));
       List jsonMap = jsonDecode(response.body);
-      List<NovelUpdateItem> detail = jsonMap.map((i) => NovelUpdateItem.fromJson(i)).toList();
-      if (detail != null) {
-        setState(() {
-          if (_page == 0) {
-            _list = detail;
-          } else {
-            _list.addAll(detail);
-          }
-        });
-        if (detail.length != 0) {
-          _page++;
+      List<NovelUpdateItem> detail =
+          jsonMap.map((i) => NovelUpdateItem.fromJson(i)).toList();
+      setState(() {
+        if (_page == 0) {
+          _list = detail;
         } else {
-          Fluttertoast.showToast(msg: "加载完毕");
+          _list.addAll(detail);
         }
+      });
+      if (detail.isNotEmpty) {
+        _page++;
+      } else {
+        Fluttertoast.showToast(msg: "加载完毕");
       }
     } catch (e) {
       print(e);

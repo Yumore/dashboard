@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ComicDownloadPage extends StatefulWidget {
   final ComicDetail detail;
 
-  ComicDownloadPage(this.detail, {Key? key}) : super(key: key);
+  const ComicDownloadPage(this.detail, {Key? key}) : super(key: key);
 
   @override
   _ComicDownloadPageState createState() => _ComicDownloadPageState();
@@ -31,10 +31,10 @@ class _ComicDownloadPageState extends State<ComicDownloadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('选择章节'),
+        title: const Text('选择章节'),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.select_all),
+              icon: const Icon(Icons.select_all),
               onPressed: () {
                 _selectAll = !_selectAll;
                 for (var item in _ls.where((x) => !x.downloaded)) {
@@ -51,7 +51,10 @@ class _ComicDownloadPageState extends State<ComicDownloadPage> {
           value: _ls[i].selected,
           title: Text(
             _ls[i].volume_name! + ' - ' + _ls[i].chapter_title,
-            style: TextStyle(color: _ls[i].downloaded ? Colors.grey : Theme.of(context).textTheme.bodyText1!.color),
+            style: TextStyle(
+                color: _ls[i].downloaded
+                    ? Colors.grey
+                    : Theme.of(context).textTheme.bodyLarge!.color),
           ),
           subtitle: Text(_ls[i].downloaded ? '已下载' : '未下载'),
           onChanged: (e) {
@@ -65,7 +68,7 @@ class _ComicDownloadPageState extends State<ComicDownloadPage> {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'ComicDownload',
-        child: Icon(Icons.file_download),
+        child: const Icon(Icons.file_download),
         onPressed: () {
           Fluttertoast.showToast(msg: '就快写好了');
         },

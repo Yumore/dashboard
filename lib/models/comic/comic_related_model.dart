@@ -20,20 +20,22 @@ class ComicRelated {
         _novels = novels;
 
   factory ComicRelated.fromJson(jsonRes) {
-    List<ComicRelatedAuthorComics>? author_comics = jsonRes['author_comics'] is List ? [] : null;
-    if (author_comics != null) {
+    List<ComicRelatedAuthorComics>? authorComics =
+        jsonRes['author_comics'] is List ? [] : null;
+    if (authorComics != null) {
       for (var item in jsonRes['author_comics']) {
         if (item != null) {
-          author_comics.add(ComicRelatedAuthorComics.fromJson(item));
+          authorComics.add(ComicRelatedAuthorComics.fromJson(item));
         }
       }
     }
 
-    List<ComicRelatedItem>? theme_comics = jsonRes['theme_comics'] is List ? [] : null;
-    if (theme_comics != null) {
+    List<ComicRelatedItem>? themeComics =
+        jsonRes['theme_comics'] is List ? [] : null;
+    if (themeComics != null) {
       for (var item in jsonRes['theme_comics']) {
         if (item != null) {
-          theme_comics.add(ComicRelatedItem.fromJson(item));
+          themeComics.add(ComicRelatedItem.fromJson(item));
         }
       }
     }
@@ -48,8 +50,8 @@ class ComicRelated {
     }
 
     return ComicRelated(
-      author_comics: author_comics,
-      theme_comics: theme_comics,
+      author_comics: authorComics,
+      theme_comics: themeComics,
       novels: novels,
     );
   }

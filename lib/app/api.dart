@@ -5,8 +5,8 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 
 class Api {
-  static final String apiHost = "https://nnv3api.muwai.com";
-  static final String version = "3.0.0";
+  static const String apiHost = "https://nnv3api.muwai.com";
+  static const String version = "3.0.0";
 
   static String get timeStamp => (DateTime.now().millisecondsSinceEpoch / 1000).toStringAsFixed(0);
 
@@ -321,7 +321,7 @@ class Api {
   }
 
   static String sign(String content, String mode) {
-    var _content = new Utf8Encoder().convert(mode + content);
+    var _content = const Utf8Encoder().convert(mode + content);
     return hex.encode(md5.convert(_content).bytes);
   }
 }

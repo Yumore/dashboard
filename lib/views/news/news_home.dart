@@ -14,11 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class NewsHomePage extends StatefulWidget {
+  const NewsHomePage({Key? key}) : super(key: key);
+
   @override
   _NewsHomePageState createState() => _NewsHomePageState();
 }
 
-class _NewsHomePageState extends State<NewsHomePage> with TickerProviderStateMixin {
+class _NewsHomePageState extends State<NewsHomePage>
+    with TickerProviderStateMixin {
   List<NewsTagItemModel> _tabItems = [];
 
   TabController? _tabController;
@@ -26,7 +29,7 @@ class _NewsHomePageState extends State<NewsHomePage> with TickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: _tabItems.length, vsync: this);
+    _tabController = TabController(length: _tabItems.length, vsync: this);
     loadCate();
   }
 
@@ -34,7 +37,8 @@ class _NewsHomePageState extends State<NewsHomePage> with TickerProviderStateMix
     try {
       var response = await http.get(Uri.parse(Api.newsCategory));
       List jsonMap = jsonDecode(response.body);
-      List<NewsTagItemModel> data = jsonMap.map((i) => NewsTagItemModel.fromJson(i)).toList();
+      List<NewsTagItemModel> data =
+          jsonMap.map((i) => NewsTagItemModel.fromJson(i)).toList();
       setState(() {
         data.insert(0, NewsTagItemModel(tag_id: 0, tag_name: "最新"));
 
@@ -49,14 +53,16 @@ class _NewsHomePageState extends State<NewsHomePage> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    _tabController = new TabController(length: _tabItems.length, vsync: this);
+    _tabController = TabController(length: _tabItems.length, vsync: this);
     return Scaffold(
-        appBar: _tabItems.length == 0
+        appBar: _tabItems.isEmpty
             ? AppBar()
             : AppBar(
                 title: TabBar(
                   controller: _tabController,
-                  tabs: _tabItems.map((x) => Tab(child: Text(x.tag_name!))).toList(),
+                  tabs: _tabItems
+                      .map((x) => Tab(child: Text(x.tag_name!)))
+                      .toList(),
                   isScrollable: true,
                   indicatorSize: TabBarIndicatorSize.label,
                   //labelPadding: EdgeInsets.fromLTRB(12, 8, 12, 8),
@@ -81,7 +87,7 @@ class NewsNewTabView extends StatefulWidget {
   final int id;
   final bool hasBanner;
 
-  NewsNewTabView(this.id, this.hasBanner, {Key? key}) : super(key: key);
+  const NewsNewTabView(this.id, this.hasBanner, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -89,7 +95,8 @@ class NewsNewTabView extends StatefulWidget {
   }
 }
 
-class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveClientMixin {
+class NewsNewTabViewState extends State<NewsNewTabView>
+    with AutomaticKeepAliveClientMixin {
   ScrollController scrollController = ScrollController();
   List<NewsBannerItemModel> _banners = [];
   List<NewsListItemResponse> _news = [];
@@ -113,7 +120,8 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
     });
     loadData();
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
         loadData();
       }
     });
@@ -134,14 +142,20 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
                       : AppBanner(
                           items: _banners
                               .map<Widget>((i) => BannerImageItem(
-                            pic: i.pic_url,
+                                    pic: i.pic_url,
                                     title: i.title,
-                                    onTaped: () => Navigator.push(context, MaterialPageRoute(builder: (_) => NewsDetailPage(i.object_id!, i.object_url!, i.title!))),
+                                    onTaped: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => NewsDetailPage(
+                                                i.object_id!,
+                                                i.object_url!,
+                                                i.title!))),
                                   ))
                               .toList()),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: ScrollPhysics(),
+                    physics: const ScrollPhysics(),
                     itemCount: _news.length + 1,
                     itemBuilder: listItemBuilder,
                   )
@@ -150,7 +164,7 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
           : ListView.builder(
               controller: scrollController,
               shrinkWrap: true,
-              physics: ScrollPhysics(),
+              physics: const ScrollPhysics(),
               itemCount: _news.length + 1,
               itemBuilder: listItemBuilder,
             ),
@@ -160,24 +174,29 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
   Widget listItemBuilder(context, index) {
     return index != _news.length
         ? InkWell(
-            onTap: () => Utils.openPage(context, _news[index].articleId, 7, title: _news[index].title, url: _news[index].pageUrl),
+            onTap: () => Utils.openPage(context, _news[index].articleId, 7,
+                title: _news[index].title, url: _news[index].pageUrl),
             child: Container(
-              padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
               child: Container(
-                padding: EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
+                padding: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom:
+                            BorderSide(color: Colors.grey.withOpacity(0.1)))),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
+                    SizedBox(
                       width: 100,
                       height: 62,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: Utils.createCacheImage(_news[index].rowPicUrl, 720, 450),
+                        child: Utils.createCacheImage(
+                            _news[index].rowPicUrl, 720, 450),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 12,
                     ),
                     Expanded(
@@ -185,7 +204,7 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Container(
+                          SizedBox(
                             height: 44,
                             child: Text(
                               _news[index].title,
@@ -199,15 +218,19 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
                               Expanded(
                                 child: Text(
                                   TimelineUtil.format(
-                                    int.parse(_news[index].createTime.toString()) * 1000,
+                                    int.parse(_news[index]
+                                            .createTime
+                                            .toString()) *
+                                        1000,
                                     locale: 'zh',
                                   ),
-                                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                                  style: const TextStyle(
+                                      color: Colors.grey, fontSize: 12),
                                 ),
                               ),
                               Row(
                                 children: <Widget>[
-                                  Padding(
+                                  const Padding(
                                     child: Icon(
                                       Icons.thumb_up,
                                       size: 12.0,
@@ -217,15 +240,18 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
                                   ),
                                   Text(
                                     _news[index].moodAmount.toString(),
-                                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontSize: 12),
                                   ),
-                                  Padding(
-                                    child: Icon(Icons.chat, size: 12.0, color: Colors.grey),
+                                  const Padding(
+                                    child: Icon(Icons.chat,
+                                        size: 12.0, color: Colors.grey),
                                     padding: EdgeInsets.fromLTRB(8, 0, 4, 0),
                                   ),
                                   Text(
                                     _news[index].commentAmount.toString(),
-                                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontSize: 12),
                                   )
                                 ],
                               )
@@ -240,7 +266,7 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
             ),
           )
         : Offstage(
-            child: Center(
+            child: const Center(
               child: Padding(
                 child: Text("加载中..."),
                 padding: EdgeInsets.all(8),
@@ -272,7 +298,7 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
       // List jsonMap = jsonDecode(response.body);
       // List<NewsListItemModel> data =
       //     jsonMap.map((i) => NewsListItemModel.fromJson(i)).toList();
-      if (data.length != 0) {
+      if (data.isNotEmpty) {
         setState(() {
           _news.addAll(data);
         });
@@ -289,7 +315,8 @@ class NewsNewTabViewState extends State<NewsNewTabView> with AutomaticKeepAliveC
     try {
       var response = await http.get(Uri.parse(Api.newsBanner));
 
-      NewsBannerModel data = NewsBannerModel.fromJson(jsonDecode(response.body));
+      NewsBannerModel data =
+          NewsBannerModel.fromJson(jsonDecode(response.body));
       if (data.code == 0) {
         setState(() {
           _banners = data.data!;

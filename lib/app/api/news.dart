@@ -7,9 +7,7 @@ class NewsApi {
   static NewsApi? _comicApi;
 
   static NewsApi get instance {
-    if (_comicApi == null) {
-      _comicApi = NewsApi();
-    }
+    _comicApi ??= NewsApi();
     return _comicApi!;
   }
 

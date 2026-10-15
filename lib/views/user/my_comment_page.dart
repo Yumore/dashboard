@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MyCommentPage extends StatefulWidget {
-  MyCommentPage({Key? key}) : super(key: key);
+  const MyCommentPage({Key? key}) : super(key: key);
 
   @override
   _MyCommentPageState createState() => _MyCommentPageState();
@@ -17,8 +17,8 @@ class _MyCommentPageState extends State<MyCommentPage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("我的评论"),
-          bottom: TabBar(tabs: [
+          title: const Text("我的评论"),
+          bottom: const TabBar(tabs: [
             Tab(text: "漫画"),
             Tab(text: "小说"),
             Tab(text: "新闻"),

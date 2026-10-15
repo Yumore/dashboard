@@ -6,8 +6,6 @@ import 'package:dashboard/app/utils.dart';
 import 'package:dashboard/models/user_comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +15,7 @@ class UserCommentWidget extends StatefulWidget {
   final int type;
   final int userId;
 
-  UserCommentWidget(
+  const UserCommentWidget(
     this.userId, {
     Key? key,
     this.type = 0,
@@ -27,7 +25,8 @@ class UserCommentWidget extends StatefulWidget {
   _UserCommentWidgetState createState() => _UserCommentWidgetState();
 }
 
-class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKeepAliveClientMixin {
+class _UserCommentWidgetState extends State<UserCommentWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   int _page = 0;
@@ -48,26 +47,26 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
     }
   }
 
-  HtmlUnescape _htmlUnescape = new HtmlUnescape();
+  final HtmlUnescape _htmlUnescape = HtmlUnescape();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return EasyRefresh(
-      child: _list.length != 0
+      child: _list.isNotEmpty
           ? ListView.builder(
               itemCount: _list.length,
               itemBuilder: (ctx, i) {
                 return createItem(_list[i]);
               })
           : _loading
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : Center(
                   child: Container(
-                    padding: EdgeInsets.all(24),
-                    child: Text(
+                    padding: const EdgeInsets.all(24),
+                    child: const Text(
                       "什么都没有呢~",
                       style: TextStyle(color: Colors.grey),
                     ),
@@ -92,16 +91,17 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
           color: Colors.grey.withOpacity(0.1),
         ),
       )),
-      padding: EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
+      padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
+          SizedBox(
             width: 60,
             child: InkWell(
               onTap: () {
                 if (widget.type == 2) {
-                  Utils.openPage(context, item.obj_id, 7, title: item.obj_name, url: item.page_url);
+                  Utils.openPage(context, item.obj_id, 7,
+                      title: item.obj_name, url: item.page_url);
                 } else {
                   Utils.openPage(context, item.obj_id, widget.type + 1);
                 }
@@ -112,7 +112,7 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
               ),
             ),
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Expanded(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,13 +126,13 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text(
+                  const Text(
                     "",
                     style: TextStyle(color: Colors.grey),
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               InkWell(
@@ -140,7 +140,7 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
                   print("打开评论");
                 },
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: Theme.of(context).cardColor,
@@ -148,11 +148,13 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      item.masterComment != null ? createMasterComment(item) : Container(),
+                      item.masterComment != null
+                          ? createMasterComment(item)
+                          : Container(),
                       Text(
                         text,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
@@ -160,17 +162,29 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
                         children: <Widget>[
                           InkWell(
                             child: Text(
-                              "点赞" + (item.like_amount == 0 ? "" : "(${item.like_amount})"),
-                              style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),
+                              "点赞" +
+                                  (item.like_amount == 0
+                                      ? ""
+                                      : "(${item.like_amount})"),
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontSize: 12),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 16,
                           ),
                           InkWell(
                             child: Text(
-                              "回复" + (item.reply_amount == 0 ? "" : "(${item.reply_amount})"),
-                              style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),
+                              "回复" +
+                                  (item.reply_amount == 0
+                                      ? ""
+                                      : "(${item.reply_amount})"),
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontSize: 12),
                             ),
                           ),
                           Expanded(child: Container()),
@@ -179,7 +193,8 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
                               item.create_time * 1000,
                               locale: 'zh',
                             ),
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 12),
                           )
                         ],
                       )
@@ -207,11 +222,13 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
 
   Widget createMsterCommentItem(UserMasterComment item) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Container(
         width: double.infinity,
-        decoration: BoxDecoration(color: Colors.grey.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(4)),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -221,11 +238,15 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
                   child: InkWell(
                     child: Text(
                       item.nickname,
-                      style: TextStyle(color: Theme.of(context).accentColor),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                 ),
-                TextSpan(text: ": " + _htmlUnescape.convert(item.content), style: TextStyle(color: Theme.of(context).textTheme.bodyText1?.color))
+                TextSpan(
+                    text: ": " + _htmlUnescape.convert(item.content),
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyLarge?.color))
               ]),
             ),
           ],
@@ -245,24 +266,24 @@ class _UserCommentWidgetState extends State<UserCommentWidget> with AutomaticKee
         _loading = true;
       });
 
-      var response = await http.get(Uri.parse(Api.userComment(widget.userId, type: widget.type, page: _page)));
+      var response = await http.get(Uri.parse(
+          Api.userComment(widget.userId, type: widget.type, page: _page)));
 
       List jsonMap = jsonDecode(response.body);
 
-      List<UserCommentItem> detail = jsonMap.map((f) => UserCommentItem.fromJson(f)).toList();
-      if (detail != null) {
-        setState(() {
-          if (_page == 0) {
-            _list = detail;
-          } else {
-            _list.addAll(detail);
-          }
-        });
-        if (detail.length != 0) {
-          _page++;
+      List<UserCommentItem> detail =
+          jsonMap.map((f) => UserCommentItem.fromJson(f)).toList();
+      setState(() {
+        if (_page == 0) {
+          _list = detail;
         } else {
-          Fluttertoast.showToast(msg: "加载完毕");
+          _list.addAll(detail);
         }
+      });
+      if (detail.isNotEmpty) {
+        _page++;
+      } else {
+        Fluttertoast.showToast(msg: "加载完毕");
       }
     } catch (e) {
       print(e);

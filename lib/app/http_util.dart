@@ -4,18 +4,14 @@ class HttpUtil {
   static HttpUtil? _httpUtil;
 
   static HttpUtil get instance {
-    if (_httpUtil == null) {
-      _httpUtil = HttpUtil();
-    }
+    _httpUtil ??= HttpUtil();
     return _httpUtil!;
   }
 
   late Dio dio;
 
   HttpUtil() {
-    dio = Dio(
-      BaseOptions(),
-    );
+    dio = Dio(BaseOptions());
   }
 
   Future<String?> httpGet(
@@ -35,7 +31,7 @@ class HttpUtil {
 
       return result.data;
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         dioErrorHandle(e);
       } else {
         throw AppError("网络请求失败");
@@ -44,22 +40,18 @@ class HttpUtil {
     }
   }
 
-  void dioErrorHandle(DioError e) {
+  void dioErrorHandle(DioException e) {
     switch (e.type) {
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         throw AppError("请求被取消");
-        break;
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         throw AppError("请求失败:${e.response!.statusCode}");
-        break;
-      case DioErrorType.connectTimeout:
-      case DioErrorType.sendTimeout:
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
         throw AppError("网络连接超时,请稍后再试");
-        break;
       default:
         throw AppError("请求失败,无法连接至服务器");
-        break;
     }
   }
 }
@@ -68,10 +60,7 @@ class AppError implements Exception {
   int? code;
   String message;
 
-  AppError(
-    this.message, {
-    this.code,
-  });
+  AppError(this.message, {this.code});
 
   @override
   String toString() {

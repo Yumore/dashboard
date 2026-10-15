@@ -21,7 +21,7 @@ class NovelUpdateItem {
   List<String> get types => _types!;
 
   String get type {
-    if (_types == null || _types!.length == 0) {
+    if (_types == null || _types!.isEmpty) {
       return "";
     }
     var str = "";

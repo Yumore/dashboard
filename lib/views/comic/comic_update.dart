@@ -5,21 +5,20 @@ import 'package:dashboard/app/utils.dart';
 import 'package:dashboard/protobuf/comic/update_list_response.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ComicUpdatePage extends StatefulWidget {
-  ComicUpdatePage({Key? key}) : super(key: key);
+  const ComicUpdatePage({Key? key}) : super(key: key);
 
   @override
   _ComicUpdatePageState createState() => _ComicUpdatePageState();
 }
 
-class _ComicUpdatePageState extends State<ComicUpdatePage> with AutomaticKeepAliveClientMixin {
+class _ComicUpdatePageState extends State<ComicUpdatePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  Map _types = {
+  final Map _types = {
     "全部漫画": "100",
     "原创漫画": "1",
     "译制漫画": "0",
@@ -47,28 +46,38 @@ class _ComicUpdatePageState extends State<ComicUpdatePage> with AutomaticKeepAli
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
           child: Row(
             children: _types.keys
                 .map(
                   (f) => Padding(
-                    padding: EdgeInsets.only(right: 8),
+                    padding: const EdgeInsets.only(right: 8),
                     child: ButtonTheme(
                       minWidth: 20,
                       height: 32,
                       child: OutlinedButton(
                         style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
-                              side: BorderSide(color: _types[f] == _mode ? Theme.of(context).accentColor : Colors.transparent),
+                              side: BorderSide(
+                                  color: _types[f] == _mode
+                                      ? Theme.of(context).colorScheme.secondary
+                                      : Colors.transparent),
                             ),
                           ),
-                          foregroundColor: MaterialStateProperty.all(Theme.of(context).accentColor),
+                          foregroundColor: WidgetStateProperty.all(
+                              Theme.of(context).colorScheme.secondary),
                         ),
                         child: Text(
                           f,
-                          style: TextStyle(color: _types[f] == _mode ? Theme.of(context).accentColor : Theme.of(context).textTheme.button!.color),
+                          style: TextStyle(
+                              color: _types[f] == _mode
+                                  ? Theme.of(context).colorScheme.secondary
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .color),
                         ),
                         onPressed: () async {
                           _page = 1;
@@ -110,20 +119,22 @@ class _ComicUpdatePageState extends State<ComicUpdatePage> with AutomaticKeepAli
         Utils.openPage(context, item.comicId, 1);
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Container(
-          padding: EdgeInsets.only(bottom: 8),
-          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
+          padding: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Container(
+                  child: SizedBox(
                     width: 80,
                     child: Utils.createCacheImage(item.cover, 270, 360),
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Expanded(
@@ -135,32 +146,39 @@ class _ComicUpdatePageState extends State<ComicUpdatePage> with AutomaticKeepAli
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
                     Text.rich(
                       TextSpan(children: [
-                        WidgetSpan(
+                        const WidgetSpan(
                             child: Icon(
                           Icons.account_circle,
                           color: Colors.grey,
                           size: 18,
                         )),
-                        TextSpan(
+                        const TextSpan(
                           text: " ",
                         ),
-                        TextSpan(text: item.authors, style: TextStyle(color: Colors.grey, fontSize: 14))
+                        TextSpan(
+                            text: item.authors,
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 14))
                       ]),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
-                    Text(item.types, style: TextStyle(color: Colors.grey, fontSize: 14)),
-                    SizedBox(
+                    Text(item.types,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
+                    const SizedBox(
                       height: 2,
                     ),
-                    Text(item.lastUpdateChapterName, style: TextStyle(color: Colors.grey, fontSize: 14)),
-                    SizedBox(
+                    Text(item.lastUpdateChapterName,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
+                    const SizedBox(
                       height: 2,
                     ),
                     Text(
@@ -169,13 +187,14 @@ class _ComicUpdatePageState extends State<ComicUpdatePage> with AutomaticKeepAli
                               int.parse(item.lastUpdatetime.toString()) * 1000,
                               locale: 'zh',
                             ),
-                        style: TextStyle(color: Colors.grey, fontSize: 14)),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
                   ],
                 ),
               ),
               Center(
                 child: IconButton(
-                    icon: Icon(Icons.favorite_border),
+                    icon: const Icon(Icons.favorite_border),
                     onPressed: () {
                       UserHelper.comicSubscribe(item.comicId);
                     }),
@@ -205,19 +224,17 @@ class _ComicUpdatePageState extends State<ComicUpdatePage> with AutomaticKeepAli
       // List jsonMap = jsonDecode(response.body);
       // List<ComicUpdateItem> detail =
       //     jsonMap.map((i) => ComicUpdateItem.fromJson(i)).toList();
-      if (detail != null) {
-        setState(() {
-          if (_page == 1) {
-            _list = detail;
-          } else {
-            _list.addAll(detail);
-          }
-        });
-        if (detail.length != 0) {
-          _page++;
+      setState(() {
+        if (_page == 1) {
+          _list = detail;
         } else {
-          Fluttertoast.showToast(msg: "加载完毕");
+          _list.addAll(detail);
         }
+      });
+      if (detail.isNotEmpty) {
+        _page++;
+      } else {
+        Fluttertoast.showToast(msg: "加载完毕");
       }
     } catch (e) {
       print(e);

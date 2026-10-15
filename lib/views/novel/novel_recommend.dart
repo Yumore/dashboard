@@ -14,12 +14,14 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class NovelRecommend extends StatefulWidget {
-  NovelRecommend({Key? key}) : super(key: key);
+  const NovelRecommend({Key? key}) : super(key: key);
 
+  @override
   NovelRecommendState createState() => NovelRecommendState();
 }
 
-class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveClientMixin {
+class NovelRecommendState extends State<NovelRecommend>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -79,7 +81,9 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
         onRefresh: refreshData,
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: _expand ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
+            crossAxisAlignment: _expand
+                ? CrossAxisAlignment.stretch
+                : CrossAxisAlignment.center,
             children: <Widget>[
               //bannera
               (Platform.isIOS && _hideBanner)
@@ -89,7 +93,9 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
                           .map<Widget>((item) => BannerImageItem(
                                 pic: item.cover,
                                 title: item.title,
-                                onTaped: () => Utils.openPage(context, item.id, item.type!, url: item.url, title: item.title),
+                                onTaped: () => Utils.openPage(
+                                    context, item.id, item.type!,
+                                    url: item.url, title: item.title),
                               ))
                           .toList()),
               // _getItem2("我的订阅", _my_sub,
@@ -98,7 +104,10 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
               //     ratio: 3 / 4.7),
 
               _getItem("最近更新", _new,
-                  icon: Icon(Icons.chevron_right, color: Colors.grey), needSubTitle: false, ratio: getWidth() / ((getWidth() * (360 / 270)) + 28), ontap: () => Utils.changeNovelHomeTabIndex.fire(1)),
+                  icon: const Icon(Icons.chevron_right, color: Colors.grey),
+                  needSubTitle: false,
+                  ratio: getWidth() / ((getWidth() * (360 / 270)) + 28),
+                  ontap: () => Utils.changeNovelHomeTabIndex.fire(1)),
 
               _getItem(
                 "动画进行时",
@@ -115,7 +124,7 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
                 _hot,
                 ratio: getWidth() / ((getWidth() * (360 / 270)) + 44),
               ),
-              Container(
+              const SizedBox(
                 width: double.infinity,
                 //padding: EdgeInsets.all(12),
                 child: Center(
@@ -132,29 +141,46 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
     );
   }
 
-  Widget _getItem(String title, List items, {Icon? icon, Function? ontap, bool needSubTitle = true, int count = 3, double ratio = 3 / 5.2, double imgWidth = 270, double imgHeight = 360}) {
+  Widget _getItem(String title, List items,
+      {Icon? icon,
+      Function? ontap,
+      bool needSubTitle = true,
+      int count = 3,
+      double ratio = 3 / 5.2,
+      double imgWidth = 270,
+      double imgHeight = 360}) {
     return Offstage(
-      offstage: items == null || items.length == 0,
+      offstage: items.isEmpty,
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
-          constraints: BoxConstraints(maxWidth: 584),
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(8)),
+          constraints: const BoxConstraints(maxWidth: 584),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _getTitle(title, icon: icon, ontap: ontap),
-              SizedBox(
+              const SizedBox(
                 height: 4.0,
               ),
               GridView.builder(
                 shrinkWrap: true,
-                physics: ScrollPhysics(),
+                physics: const ScrollPhysics(),
                 itemCount: items.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: count, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0, childAspectRatio: ratio),
-                itemBuilder: (context, i) => _getComicItemBuilder(items[i].id, items[i].type, items[i].cover, items[i].title,
-                    author: needSubTitle ? items[i].sub_title : "", url: items[i].url, width: imgWidth, height: imgHeight),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: count,
+                    crossAxisSpacing: 4.0,
+                    mainAxisSpacing: 4.0,
+                    childAspectRatio: ratio),
+                itemBuilder: (context, i) => _getComicItemBuilder(
+                    items[i].id, items[i].type, items[i].cover, items[i].title,
+                    author: needSubTitle ? items[i].sub_title : "",
+                    url: items[i].url,
+                    width: imgWidth,
+                    height: imgHeight),
               ),
             ],
           ),
@@ -168,10 +194,11 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
       children: <Widget>[
         Expanded(
           child: Padding(
-              padding: EdgeInsets.fromLTRB(4, 4, 4, 0),
+              padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
               child: Text(
                 title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               )),
         ),
         Offstage(
@@ -182,9 +209,9 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
                 borderRadius: BorderRadius.circular(12),
                 onTap: () => ontap,
                 child: Padding(
-                    padding: EdgeInsets.all(4),
+                    padding: const EdgeInsets.all(4),
                     child: icon ??
-                        Icon(
+                        const Icon(
                           Icons.refresh,
                           color: Colors.grey,
                         )),
@@ -194,11 +221,16 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
     );
   }
 
-  Widget _getComicItemBuilder(int id, int type, String pic, String title, {String author = "", String url = "", double width = 270, double height = 360}) {
+  Widget _getComicItemBuilder(int id, int type, String pic, String title,
+      {String author = "",
+      String url = "",
+      double width = 270,
+      double height = 360}) {
     return RawMaterialButton(
-      onPressed: () => Utils.openPage(context, id, type, url: url, title: title),
+      onPressed: () =>
+          Utils.openPage(context, id, type, url: url, title: title),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -210,27 +242,27 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
                   child: CachedNetworkImage(
                     imageUrl: pic,
                     fit: BoxFit.cover,
-                    httpHeaders: {"Referer": "http://www.dmzj.com/"},
+                    httpHeaders: const {"Referer": "http://www.dmzj.com/"},
                     placeholder: (context, url) => AspectRatio(
                       aspectRatio: width / height,
-                      child: Container(
+                      child: SizedBox(
                         width: width,
                         height: height,
-                        child: Icon(Icons.photo),
+                        child: const Icon(Icons.photo),
                       ),
                     ),
                     errorWidget: (context, url, error) => AspectRatio(
                       aspectRatio: width / height,
-                      child: Container(
+                      child: SizedBox(
                         width: width,
                         height: height,
-                        child: Icon(Icons.error),
+                        child: const Icon(Icons.error),
                       ),
                     ),
                   )),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 4, bottom: 4),
+              padding: const EdgeInsets.only(top: 4, bottom: 4),
               child: Text(
                 title,
                 maxLines: 1,
@@ -244,7 +276,7 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
                     author,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    style: const TextStyle(color: Colors.grey, fontSize: 12.0),
                   ))
           ],
         ),
@@ -269,8 +301,9 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
       //Banner
       {
         List bannerItem = jsonMap[0]["data"];
-        List<ComicHomeBannerItem> banners = bannerItem.map((i) => ComicHomeBannerItem.fromJson(i)).toList();
-        if (banners.length != 0) {
+        List<ComicHomeBannerItem> banners =
+            bannerItem.map((i) => ComicHomeBannerItem.fromJson(i)).toList();
+        if (banners.isNotEmpty) {
           setState(() {
             _banners = banners.where((e) => e.type != 10).toList();
           });
@@ -280,8 +313,9 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
       //最近更新
       {
         List items = jsonMap[1]["data"];
-        List<ComicHomeComicItem> _items = items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeComicItem> _items =
+            items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _new = _items;
           });
@@ -290,8 +324,9 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
       //动画进行
       {
         List items = jsonMap[2]["data"];
-        List<ComicHomeComicItem> _items = items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeComicItem> _items =
+            items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _animeIng = _items;
           });
@@ -300,8 +335,9 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
       //动画专区
       {
         List items = jsonMap[3]["data"];
-        List<ComicHomeComicItem> _items = items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeComicItem> _items =
+            items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _anime = _items;
           });
@@ -310,8 +346,9 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
       //经典
       {
         List items = jsonMap[4]["data"];
-        List<ComicHomeComicItem> _items = items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeComicItem> _items =
+            items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _hot = _items;
           });
@@ -329,12 +366,14 @@ class NovelRecommendState extends State<NovelRecommend> with AutomaticKeepAliveC
       if (!Provider.of<AppUserInfo>(context, listen: false).isLogin) {
         return;
       }
-      var response = await http.get(Uri.parse(Api.comicMySub(Provider.of<AppUserInfo>(context, listen: false).loginInfo!.uid!)));
+      var response = await http.get(Uri.parse(Api.comicMySub(
+          Provider.of<AppUserInfo>(context, listen: false).loginInfo!.uid!)));
       var jsonMap = jsonDecode(response.body);
 
       List items = jsonMap["data"]["data"];
-      List<ComicHomeNewItem> _items = items.map((i) => ComicHomeNewItem.fromJson(i)).toList();
-      if (_items.length != 0) {}
+      List<ComicHomeNewItem> _items =
+          items.map((i) => ComicHomeNewItem.fromJson(i)).toList();
+      if (_items.isNotEmpty) {}
     } catch (e) {
       print(e);
     }

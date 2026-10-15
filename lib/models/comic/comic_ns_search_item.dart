@@ -81,10 +81,11 @@ class ComicNSSearchItem {
 
   factory ComicNSSearchItem.fromJson2(jsonRes) {
     String status = jsonRes['status'];
-    if (status.isEmpty)
+    if (status.isEmpty) {
       status = "连载中";
-    else
+    } else {
       status = "已完结";
+    }
     return ComicNSSearchItem.sacg(
       id: jsonRes['id'],
       title: jsonRes['comic_name'],

@@ -13,7 +13,15 @@ class AppTheme with ChangeNotifier {
     "关闭": ThemeMode.light,
   };
 
-  static Map<String, Color> themeColors = {"胖次蓝": Colors.blue, "姨妈红": Colors.red, "咸蛋黄": Colors.yellow, "早苗绿": Colors.green, "少女粉": Colors.pink, "基佬紫": Colors.purple, "朴素灰": Colors.blueGrey};
+  static Map<String, Color> themeColors = {
+    "胖次蓝": Colors.blue,
+    "姨妈红": Colors.red,
+    "咸蛋黄": Colors.yellow,
+    "早苗绿": Colors.green,
+    "少女粉": Colors.pink,
+    "基佬紫": Colors.purple,
+    "朴素灰": Colors.blueGrey
+  };
 
   ThemeMode? _themeMode;
   String? _themeModeName;
@@ -33,8 +41,8 @@ class AppTheme with ChangeNotifier {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return new SimpleDialog(
-          title: new Text('夜间模式'),
+        return SimpleDialog(
+          title: const Text('夜间模式'),
           children: _createThemeModeWidget(context),
         );
       },
@@ -47,7 +55,7 @@ class AppTheme with ChangeNotifier {
       widgets.add(RadioListTile<String>(
         groupValue: item,
         value: _themeModeName!,
-        title: new Text(
+        title: Text(
           item,
         ),
         onChanged: (value) {
@@ -77,8 +85,8 @@ class AppTheme with ChangeNotifier {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return new SimpleDialog(
-          title: new Text('切换主题'),
+        return SimpleDialog(
+          title: const Text('切换主题'),
           children: _createThemeWidget(context),
         );
       },
@@ -91,7 +99,7 @@ class AppTheme with ChangeNotifier {
       widgets.add(RadioListTile<String>(
         groupValue: item,
         value: _themeColorName!,
-        title: new Text(
+        title: Text(
           item,
           style: TextStyle(color: AppTheme.themeColors[item]),
         ),

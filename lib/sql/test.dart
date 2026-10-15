@@ -1,9 +1,9 @@
 import 'package:sqflite/sqflite.dart';
 
-final String testTableName = 'Test';
-final String testColumnId = 'Id';
-final String testColumnName = 'Name';
-final String testColumnDesc = 'Desc';
+const String testTableName = 'Test';
+const String testColumnId = 'Id';
+const String testColumnName = 'Name';
+const String testColumnDesc = 'Desc';
 
 class TestSqlItem {
   String? id;
@@ -44,7 +44,7 @@ class TestProvider {
         where: '$testColumnId = ?',
         whereArgs: [id]);
 
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       return TestSqlItem.fromMap(maps.first);
     }
     return TestSqlItem.fromMap(<String, dynamic>{});
@@ -55,16 +55,20 @@ class TestProvider {
   }
 
   static Future<List<TestSqlItem>> getItems() async {
-    List<TestSqlItem> maps = (await database!.query(testTableName)).map<TestSqlItem>((x) => TestSqlItem.fromMap(x)).toList();
+    List<TestSqlItem> maps = (await database!.query(testTableName))
+        .map<TestSqlItem>((x) => TestSqlItem.fromMap(x))
+        .toList();
     return maps;
   }
 
   static Future<int> delete(String id) async {
-    return await database!.delete(testTableName, where: '$testColumnId = ?', whereArgs: [id]);
+    return await database!
+        .delete(testTableName, where: '$testColumnId = ?', whereArgs: [id]);
   }
 
   static Future<int> update(TestSqlItem item) async {
-    return await database!.update(testTableName, item.toMap(), where: '$testColumnId = ?', whereArgs: [item.id]);
+    return await database!.update(testTableName, item.toMap(),
+        where: '$testColumnId = ?', whereArgs: [item.id]);
   }
 
   static Future close() async => database!.close();

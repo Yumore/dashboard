@@ -8,8 +8,6 @@ import 'package:dashboard/widgets/user_comment_widget.dart';
 import 'package:dashboard/widgets/user_subscribe_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,7 +15,8 @@ class UserDetailPage extends StatefulWidget {
   final int userId;
   final int initPage;
 
-  UserDetailPage(this.userId, {Key? key, this.initPage = 0}) : super(key: key);
+  const UserDetailPage(this.userId, {Key? key, this.initPage = 0})
+      : super(key: key);
 
   @override
   _UserDetailPageState createState() => _UserDetailPageState();
@@ -47,19 +46,20 @@ class _UserDetailPageState extends State<UserDetailPage> {
           title: _profile != null
               ? Row(
                   children: <Widget>[
-                    Container(
+                    SizedBox(
                       height: 36,
                       width: 36,
                       child: CircleAvatar(
-                        backgroundImage: Utils.createCachedImageProvider(_profile!.cover!),
+                        backgroundImage:
+                            Utils.createCachedImageProvider(_profile!.cover!),
                       ),
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Text(_profile!.nickname!),
                   ],
                 )
               : Container(),
-          bottom: TabBar(tabs: [
+          bottom: const TabBar(tabs: [
             Tab(text: "漫画订阅"),
             Tab(text: "漫画评论"),
             Tab(text: "小说订阅"),
@@ -67,7 +67,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
           ]),
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.mail_outline),
+                icon: const Icon(Icons.mail_outline),
                 onPressed: () {
                   Fluttertoast.showToast(msg: '啊，还没写完呢');
                 })
@@ -96,14 +96,13 @@ class _UserDetailPageState extends State<UserDetailPage> {
 
   Future loadProfile() async {
     try {
-      var result = await http.get(Uri.parse(Api.userProfile(widget.userId.toString(), "")));
+      var result = await http
+          .get(Uri.parse(Api.userProfile(widget.userId.toString(), "")));
       var body = result.body;
       var data = UserProfileModel.fromJson(jsonDecode(body));
-      if (data != null) {
-        setState(() {
-          _profile = data;
-        });
-      }
+      setState(() {
+        _profile = data;
+      });
     } catch (e) {
       print(e);
     }
@@ -114,13 +113,15 @@ class SubscribeTabView extends StatefulWidget {
   final int type;
   final int uid;
 
-  SubscribeTabView({Key? key, this.uid = 0, this.type = 0}) : super(key: key);
+  const SubscribeTabView({Key? key, this.uid = 0, this.type = 0})
+      : super(key: key);
 
   @override
   _SubscribeTabViewState createState() => _SubscribeTabViewState();
 }
 
-class _SubscribeTabViewState extends State<SubscribeTabView> with AutomaticKeepAliveClientMixin {
+class _SubscribeTabViewState extends State<SubscribeTabView>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -130,7 +131,7 @@ class _SubscribeTabViewState extends State<SubscribeTabView> with AutomaticKeepA
     loadData();
   }
 
-  int _subType = 1;
+  final int _subType = 1;
 
   @override
   void setState(fn) {
@@ -147,7 +148,7 @@ class _SubscribeTabViewState extends State<SubscribeTabView> with AutomaticKeepA
       footer: MaterialFooter(),
       child: SingleChildScrollView(
         child: _loading && _page == 0
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : UserSubscribeWidget(
@@ -176,24 +177,25 @@ class _SubscribeTabViewState extends State<SubscribeTabView> with AutomaticKeepA
       setState(() {
         _loading = true;
       });
-      var response = await http.get(Uri.parse(Api.userSubscribe(widget.type, _subType, widget.uid.toString(), "", letter: "all", page: _page)));
+      var response = await http.get(Uri.parse(Api.userSubscribe(
+          widget.type, _subType, widget.uid.toString(), "",
+          letter: "all", page: _page)));
 
       List jsonMap = jsonDecode(response.body);
 
-      List<SubscribeItem> detail = jsonMap.map((f) => SubscribeItem.fromJson(f)).toList();
-      if (detail != null) {
-        setState(() {
-          if (_page == 0) {
-            _list = detail;
-          } else {
-            _list.addAll(detail);
-          }
-        });
-        if (detail.length != 0) {
-          _page++;
+      List<SubscribeItem> detail =
+          jsonMap.map((f) => SubscribeItem.fromJson(f)).toList();
+      setState(() {
+        if (_page == 0) {
+          _list = detail;
         } else {
-          Fluttertoast.showToast(msg: "加载完毕");
+          _list.addAll(detail);
         }
+      });
+      if (detail.isNotEmpty) {
+        _page++;
+      } else {
+        Fluttertoast.showToast(msg: "加载完毕");
       }
     } catch (e) {
       print(e);

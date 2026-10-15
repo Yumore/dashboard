@@ -7,11 +7,14 @@ import 'package:dashboard/views/novel/novel_update.dart';
 import 'package:flutter/material.dart';
 
 class NovelHomePage extends StatefulWidget {
+  const NovelHomePage({Key? key}) : super(key: key);
+
   @override
   _NovelHomePageState createState() => _NovelHomePageState();
 }
 
-class _NovelHomePageState extends State<NovelHomePage> with TickerProviderStateMixin {
+class _NovelHomePageState extends State<NovelHomePage>
+    with TickerProviderStateMixin {
   TabController? _tabController;
 
   @override
@@ -29,23 +32,29 @@ class _NovelHomePageState extends State<NovelHomePage> with TickerProviderStateM
         appBar: AppBar(
           title: TabBar(
             controller: _tabController,
-            tabs: <Widget>[Tab(child: Text("推荐")), Tab(child: Text("更新")), Tab(child: Text("分类")), Tab(child: Text("排行"))],
+            tabs: const <Widget>[
+              Tab(child: Text("推荐")),
+              Tab(child: Text("更新")),
+              Tab(child: Text("分类")),
+              Tab(child: Text("排行"))
+            ],
             indicatorSize: TabBarIndicatorSize.label,
             //labelPadding: EdgeInsets.all(8),
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               tooltip: "搜索",
               onPressed: () {
-                showSearch(context: context, delegate: NovelSearchBarDelegate());
+                showSearch(
+                    context: context, delegate: NovelSearchBarDelegate());
               },
             )
           ],
         ),
         body: TabBarView(
           controller: _tabController,
-          children: <Widget>[
+          children: const <Widget>[
             NovelRecommend(),
             NovelUpdatePage(),
             NovelCategoryPage(),

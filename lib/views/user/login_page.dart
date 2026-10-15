@@ -11,8 +11,9 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
+  @override
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -26,12 +27,12 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("登录"),
+          title: const Text("登录"),
           actions: <Widget>[
             MaterialButton(
               textColor: Colors.white,
               onPressed: () => _openRegister(),
-              child: Text("注册"),
+              child: const Text("注册"),
             )
           ],
         ),
@@ -39,10 +40,10 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                 child: TextField(
                   controller: _userController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.account_circle),
                     fillColor: Colors.transparent,
                     filled: true,
@@ -51,14 +52,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                 child: TextField(
                   controller: _passwordController,
                   onSubmitted: (text) {
                     _doLogin(_userController.text, _passwordController.text);
                   },
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.lock),
                     fillColor: Colors.transparent,
                     filled: true,
@@ -68,16 +69,17 @@ class _LoginPageState extends State<LoginPage> {
               ),
               !_loading
                   ? Padding(
-                      padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                       child: MaterialButton(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                         textColor: Colors.white,
                         minWidth: double.infinity,
-                        child: Text("登录"),
-                        onPressed: () => _doLogin(_userController.text, _passwordController.text),
+                        child: const Text("登录"),
+                        onPressed: () => _doLogin(
+                            _userController.text, _passwordController.text),
                       ),
                     )
-                  : Padding(
+                  : const Padding(
                       padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
                       child: Center(
                         child: CircularProgressIndicator(),
@@ -137,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _doLogin(String username, String password) async {
-    if (username.length == 0 || password.length == 0) {
+    if (username.isEmpty || password.isEmpty) {
       Fluttertoast.showToast(msg: "检查你的输入", toastLength: Toast.LENGTH_SHORT);
       return;
     }
@@ -146,14 +148,18 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      var result = await http.post(Uri.parse(Api.loginV2), body: {"passwd": password, "nickname": username});
+      var result = await http.post(Uri.parse(Api.loginV2),
+          body: {"passwd": password, "nickname": username});
       var body = result.body;
       var data = UserLgoinModel.fromJson(jsonDecode(body));
       if (data.result == 1) {
         Provider.of<AppUserInfo>(context, listen: false).changeIsLogin(true);
-        Provider.of<AppUserInfo>(context, listen: false).changeBindTel(data.data!.bind_phone!.length != 0);
-        Provider.of<AppUserInfo>(context, listen: false).changeLoginInfo(data.data!);
-        Provider.of<AppUserInfo>(context, listen: false).getUserProfile(data.data!.uid!, data.data!.dmzj_token!);
+        Provider.of<AppUserInfo>(context, listen: false)
+            .changeBindTel(data.data!.bind_phone!.isNotEmpty);
+        Provider.of<AppUserInfo>(context, listen: false)
+            .changeLoginInfo(data.data!);
+        Provider.of<AppUserInfo>(context, listen: false)
+            .getUserProfile(data.data!.uid!, data.data!.dmzj_token!);
         Fluttertoast.showToast(msg: "登录成功", toastLength: Toast.LENGTH_SHORT);
         UserHelper.loadComicHistory();
         Navigator.pop(context);

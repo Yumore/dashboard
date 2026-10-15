@@ -13,14 +13,14 @@ class ComicDetailV2Page extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("久保同学不放过我"),
+          title: const Text("久保同学不放过我"),
           actions: [
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.share),
+              icon: const Icon(Icons.share),
             ),
           ],
-          bottom: TabBar(
+          bottom: const TabBar(
             tabs: [
               Tab(
                 child: Text("详情"),
@@ -37,15 +37,15 @@ class ComicDetailV2Page extends StatelessWidget {
         body: TabBarView(
           children: [
             ListView(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               children: [
                 buildDetail(context),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
               ],
             ),
-            CommentWidget(4, 50425),
+            const CommentWidget(4, 50425),
             Container(),
           ],
         ),
@@ -62,7 +62,7 @@ class ComicDetailV2Page extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(8),
       ),
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,16 +72,20 @@ class ComicDetailV2Page extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(
-                onTap: () => Utils.showImageViewDialog(context, "https://images.dmzj.com/webpic/19/200203jbtxbfgw.jpg"),
+                onTap: () => Utils.showImageViewDialog(context,
+                    "https://images.dmzj.com/webpic/19/200203jbtxbfgw.jpg"),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Container(
+                  child: SizedBox(
                     width: 100,
-                    child: Utils.createCacheImage("https://images.dmzj.com/webpic/19/200203jbtxbfgw.jpg", 270, 360),
+                    child: Utils.createCacheImage(
+                        "https://images.dmzj.com/webpic/19/200203jbtxbfgw.jpg",
+                        270,
+                        360),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Expanded(
@@ -119,10 +123,10 @@ class ComicDetailV2Page extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
-          Text(
+          const Text(
             "财富，权力，曾经拥有一切的海贼王戈尔多·罗杰，在临死前畱下暸一句话：“想要我的财富吗？那就去找吧，我的一切都在那裏，在那伟大的航道！”于是越来越多的人奔嚮大海，驶入伟大的航道，世界迎来暸大海贼时代！很多年后，一个小孩对这一个断暸手臂的海贼髮誓：“我一定要成为海贼王！”于是10年后，一个伟大的传说开始暸。这是个关于一群爱做梦孩子的故事，他们拥有热情，他们拥有毅力，他们拥有伙伴……",
             style: TextStyle(
               color: Colors.grey,
@@ -148,22 +152,22 @@ class ComicDetailV2Page extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
               borderRadius: BorderRadius.circular(12),
             ),
-            padding: EdgeInsets.all(4),
+            padding: const EdgeInsets.all(4),
             child: Icon(
               iconData,
               color: Colors.white,
               size: 12,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           Text(
             title,
-            style: TextStyle(fontSize: 14, color: Colors.grey),
+            style: const TextStyle(fontSize: 14, color: Colors.grey),
           ),
         ],
       ),
@@ -172,28 +176,28 @@ class ComicDetailV2Page extends StatelessWidget {
 
   Widget buildBottom(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       child: Row(
         children: [
           Expanded(
             child: TextButton.icon(
               onPressed: () {},
-              icon: Icon(Icons.play_circle_outline),
-              label: Text("阅读"),
+              icon: const Icon(Icons.play_circle_outline),
+              label: const Text("阅读"),
             ),
           ),
           Expanded(
             child: TextButton.icon(
               onPressed: () {},
-              icon: Icon(Icons.favorite_border),
-              label: Text("收藏"),
+              icon: const Icon(Icons.favorite_border),
+              label: const Text("收藏"),
             ),
           ),
           Expanded(
             child: TextButton.icon(
               onPressed: () {},
-              icon: Icon(Icons.file_download),
-              label: Text("下载"),
+              icon: const Icon(Icons.file_download),
+              label: const Text("下载"),
             ),
           ),
         ],

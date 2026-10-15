@@ -7,7 +7,8 @@ class ComicTCPage extends StatefulWidget {
   final int comicId;
   final int chapterId;
 
-  ComicTCPage(this.list, this.comicId, this.chapterId, {Key? key}) : super(key: key);
+  const ComicTCPage(this.list, this.comicId, this.chapterId, {Key? key})
+    : super(key: key);
 
   @override
   ComicTCPageState createState() => ComicTCPageState();
@@ -21,16 +22,14 @@ class ComicTCPageState extends State<ComicTCPage> {
     }
   }
 
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("吐槽"),
-      ),
+      appBar: AppBar(title: const Text("吐槽")),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 48),
+        padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 48),
         child: Wrap(
           children: widget.list.map<Widget>((f) {
             var color = 0.2;
@@ -43,7 +42,7 @@ class ComicTCPageState extends State<ComicTCPage> {
               }
             }
             return Padding(
-              padding: EdgeInsets.all(2),
+              padding: const EdgeInsets.all(2),
               child: InkWell(
                 onTap: () async {
                   var result = await UserHelper.comicLikeViewPoint(f.id);
@@ -54,11 +53,19 @@ class ComicTCPageState extends State<ComicTCPage> {
                   }
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(color: Theme.of(context).accentColor.withOpacity(color), borderRadius: BorderRadius.circular(8)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.secondary.withOpacity(color),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: Text(
                     f.content,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -67,35 +74,52 @@ class ComicTCPageState extends State<ComicTCPage> {
         ),
       ),
       bottomSheet: Container(
-        decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.withOpacity(0.2)))),
+        decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: Colors.grey.withOpacity(0.2))),
+        ),
         height: 48,
         width: double.infinity,
         child: Row(
           children: <Widget>[
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: TextField(
                   controller: _textEditingController,
-                  decoration: InputDecoration(contentPadding: EdgeInsets.symmetric(horizontal: 8), border: OutlineInputBorder(borderSide: BorderSide()), hintText: "说点什么吧~"),
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                    border: OutlineInputBorder(borderSide: BorderSide()),
+                    hintText: "说点什么吧~",
+                  ),
                 ),
               ),
             ),
-            FlatButton.icon(
-                onPressed: () async {
-                  if (_textEditingController.text.isEmpty) {
-                    return;
-                  }
-                  var result = await UserHelper.comicAddViewPoint(widget.comicId, widget.chapterId, _textEditingController.text);
-                  if (result) {
-                    setState(() {
-                      widget.list.add(ComicChapterViewPoint(content: _textEditingController.text, num: 0, page: 0));
-                    });
-                    _textEditingController.text = "";
-                  }
-                },
-                icon: Icon(Icons.send),
-                label: Text("发送"))
+            TextButton.icon(
+              onPressed: () async {
+                if (_textEditingController.text.isEmpty) {
+                  return;
+                }
+                var result = await UserHelper.comicAddViewPoint(
+                  widget.comicId,
+                  widget.chapterId,
+                  _textEditingController.text,
+                );
+                if (result) {
+                  setState(() {
+                    widget.list.add(
+                      ComicChapterViewPoint(
+                        content: _textEditingController.text,
+                        num: 0,
+                        page: 0,
+                      ),
+                    );
+                  });
+                  _textEditingController.text = "";
+                }
+              },
+              icon: const Icon(Icons.send),
+              label: const Text("发送"),
+            ),
           ],
         ),
       ),

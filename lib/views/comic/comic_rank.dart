@@ -9,25 +9,24 @@ import 'package:dashboard/models/comic/comic_detail_model.dart';
 import 'package:dashboard/protobuf/comic/rank_list_response.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class ComicRankPage extends StatefulWidget {
-  ComicRankPage({Key? key}) : super(key: key);
+  const ComicRankPage({Key? key}) : super(key: key);
 
   @override
   _ComicUpdatePageState createState() => _ComicUpdatePageState();
 }
 
-class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAliveClientMixin {
+class _ComicUpdatePageState extends State<ComicRankPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   Map<String, int> _tags = {"全部分类": 0};
   String _tag = "全部分类";
 
-  Map<String, int> _byTimes = {
+  final Map<String, int> _byTimes = {
     "日排行": 0,
     "周排行": 1,
     "月排行": 2,
@@ -35,7 +34,7 @@ class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAlive
   };
   String _byTime = "日排行";
 
-  Map<String, int> _types = {
+  final Map<String, int> _types = {
     "人气排行": 0,
     "吐槽排行": 1,
     "订阅排行": 2,
@@ -63,9 +62,13 @@ class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAlive
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
           child: Row(
-            children: <Widget>[Expanded(child: createFilter(_tags)), Expanded(child: createFilter(_types, type: 1)), Expanded(child: createFilter(_byTimes, type: 2))],
+            children: <Widget>[
+              Expanded(child: createFilter(_tags)),
+              Expanded(child: createFilter(_types, type: 1)),
+              Expanded(child: createFilter(_byTimes, type: 2))
+            ],
           ),
         ),
         Expanded(
@@ -96,13 +99,13 @@ class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAlive
       select = _byTime;
     }
     return PopupMenuButton<String>(
-      child: Container(
+      child: SizedBox(
           height: 36,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(select),
-              Icon(
+              const Icon(
                 Icons.arrow_drop_down,
                 color: Colors.grey,
               )
@@ -140,20 +143,22 @@ class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAlive
         Utils.openPage(context, item.comicId, 1);
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Container(
-          padding: EdgeInsets.only(bottom: 8),
-          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
+          padding: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: Colors.grey.withOpacity(0.1)))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Container(
+                  child: SizedBox(
                     width: 80,
                     child: Utils.createCacheImage(item.cover, 270, 360),
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Expanded(
@@ -165,28 +170,33 @@ class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAlive
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
                     Text.rich(
                       TextSpan(children: [
-                        WidgetSpan(
+                        const WidgetSpan(
                             child: Icon(
                           Icons.account_circle,
                           color: Colors.grey,
                           size: 18,
                         )),
-                        TextSpan(
+                        const TextSpan(
                           text: " ",
                         ),
-                        TextSpan(text: item.authors, style: TextStyle(color: Colors.grey, fontSize: 14))
+                        TextSpan(
+                            text: item.authors,
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 14))
                       ]),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4,
                     ),
-                    Text(item.types, style: TextStyle(color: Colors.grey, fontSize: 14)),
-                    SizedBox(
+                    Text(item.types,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
+                    const SizedBox(
                       height: 4,
                     ),
                     Text(
@@ -195,13 +205,14 @@ class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAlive
                               int.parse(item.lastUpdatetime.toString()) * 1000,
                               locale: 'zh',
                             ),
-                        style: TextStyle(color: Colors.grey, fontSize: 14)),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14)),
                   ],
                 ),
               ),
               Center(
                 child: IconButton(
-                    icon: Icon(Icons.favorite_border),
+                    icon: const Icon(Icons.favorite_border),
                     onPressed: () {
                       UserHelper.comicSubscribe(item.comicId);
                     }),
@@ -225,7 +236,11 @@ class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAlive
       setState(() {
         _loading = true;
       });
-      var detail = await ComicApi.instance.getRankList(tagId: _tags[_tag]!, rankType: _types[_type]!, byTime: _byTimes[_byTime]!, page: _page);
+      var detail = await ComicApi.instance.getRankList(
+          tagId: _tags[_tag]!,
+          rankType: _types[_type]!,
+          byTime: _byTimes[_byTime]!,
+          page: _page);
       // var response = await http.get(
       //   Uri.parse(
       //     Api.comicRank(
@@ -237,19 +252,17 @@ class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAlive
       // );
       //List jsonMap = jsonDecode(response.body);
 
-      if (detail != null) {
-        setState(() {
-          if (_page == 1) {
-            _list = detail;
-          } else {
-            _list.addAll(detail);
-          }
-        });
-        if (detail.length != 0) {
-          _page++;
+      setState(() {
+        if (_page == 1) {
+          _list = detail;
         } else {
-          Fluttertoast.showToast(msg: "加载完毕");
+          _list.addAll(detail);
         }
+      });
+      if (detail.isNotEmpty) {
+        _page++;
+      } else {
+        Fluttertoast.showToast(msg: "加载完毕");
       }
     } catch (e) {
       print(e);
@@ -265,17 +278,16 @@ class _ComicUpdatePageState extends State<ComicRankPage> with AutomaticKeepAlive
     try {
       var response = await http.get(Uri.parse(Api.comicRankFilter()));
       List jsonMap = jsonDecode(response.body);
-      List<ComicDetailTagItem> detail = jsonMap.map((i) => ComicDetailTagItem.fromJson(i)).toList();
-      if (detail != null) {
-        Map<String, int> list = {};
-        for (var item in detail) {
-          list.addAll({(item.tag_id == 0 ? "全部分类" : item.tag_name): item.tag_id});
-        }
-        setState(() {
-          _tags = list;
-        });
-        await loadData();
+      List<ComicDetailTagItem> detail =
+          jsonMap.map((i) => ComicDetailTagItem.fromJson(i)).toList();
+      Map<String, int> list = {};
+      for (var item in detail) {
+        list.addAll({(item.tag_id == 0 ? "全部分类" : item.tag_name): item.tag_id});
       }
+      setState(() {
+        _tags = list;
+      });
+      await loadData();
     } catch (e) {
       print(e);
     }

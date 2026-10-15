@@ -14,12 +14,14 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class ComicRecommend extends StatefulWidget {
-  ComicRecommend({Key? key}) : super(key: key);
+  const ComicRecommend({Key? key}) : super(key: key);
 
+  @override
   ComicRecommendState createState() => ComicRecommendState();
 }
 
-class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveClientMixin {
+class ComicRecommendState extends State<ComicRecommend>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -33,7 +35,7 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
   List<ComicHomeComicItem> _hot = [];
   List<ComicHomeNewItem> _new = [];
   List<ComicHomeComicItem> _tiaoman = [];
-  List<ComicHomeComicItem> _anime = [];
+  final List<ComicHomeComicItem> _anime = [];
   List<ComicHomeNewItem> _mySub = [];
 
   //如果是IOS，且在审核期间，隐藏Banner
@@ -94,7 +96,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
         onRefresh: refreshData,
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: _expand ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
+            crossAxisAlignment: _expand
+                ? CrossAxisAlignment.stretch
+                : CrossAxisAlignment.center,
             children: <Widget>[
               //banner
               (Platform.isIOS && _hideBanner)
@@ -104,13 +108,15 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                           .map<Widget>((i) => BannerImageItem(
                                 pic: i.cover,
                                 title: i.title,
-                                onTaped: () => Utils.openPage(context, i.id, i.type!, url: i.url, title: i.title),
+                                onTaped: () => Utils.openPage(
+                                    context, i.id, i.type!,
+                                    url: i.url, title: i.title),
                               ))
                           .toList()),
               _getItem2(
                 "我的订阅",
                 _mySub,
-                icon: Icon(Icons.chevron_right, color: Colors.grey),
+                icon: const Icon(Icons.chevron_right, color: Colors.grey),
                 ontap: () => Utils.openSubscribePage(context),
                 ratio: getWidth() / ((getWidth() * (360 / 270)) + 24),
               ),
@@ -125,15 +131,21 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                   imgWidth: 320,
                   count: 2,
                   ratio: getWidth2() / ((getWidth2() * (170 / 320)) + 32),
-                  icon: Icon(Icons.chevron_right, color: Colors.grey),
+                  icon: const Icon(Icons.chevron_right, color: Colors.grey),
                   ontap: () => Utils.changeComicHomeTabIndex.fire(4)),
-              _getItem2("猜你喜欢", _like, icon: Icon(Icons.refresh, color: Colors.grey), ratio: getWidth() / ((getWidth() * (360 / 270)) + 36), ontap: () async => await loadLike()),
+              _getItem2("猜你喜欢", _like,
+                  icon: const Icon(Icons.refresh, color: Colors.grey),
+                  ratio: getWidth() / ((getWidth() * (360 / 270)) + 36),
+                  ontap: () async => await loadLike()),
               _getItem(
                 "大师级作者怎能不看",
                 _authors,
                 ratio: getWidth() / ((getWidth() * (360 / 270)) + 24),
               ),
-              _getItem("国漫也精彩", _guoman, icon: Icon(Icons.refresh, color: Colors.grey), ratio: getWidth() / ((getWidth() * (360 / 270)) + 36), ontap: () => loadGuoman()),
+              _getItem("国漫也精彩", _guoman,
+                  icon: const Icon(Icons.refresh, color: Colors.grey),
+                  ratio: getWidth() / ((getWidth() * (360 / 270)) + 36),
+                  ontap: () => loadGuoman()),
               _getItem(
                 "美漫大事件",
                 _meiman,
@@ -143,7 +155,10 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                 count: 2,
                 ratio: getWidth2() / ((getWidth2() * (170 / 320)) + 32),
               ),
-              _getItem("热门连载", _hot, icon: Icon(Icons.refresh, color: Colors.grey), ratio: getWidth() / ((getWidth() * (360 / 270)) + 36), ontap: () => loadHot()),
+              _getItem("热门连载", _hot,
+                  icon: const Icon(Icons.refresh, color: Colors.grey),
+                  ratio: getWidth() / ((getWidth() * (360 / 270)) + 36),
+                  ontap: () => loadHot()),
               _getItem(
                 "条漫专区",
                 _tiaoman,
@@ -154,9 +169,14 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                 ratio: getWidth2() / ((getWidth2() * (170 / 320)) + 32),
               ),
               _getItem("动画专区", _anime,
-                  icon: Icon(Icons.chevron_right, color: Colors.grey), ratio: getWidth() / ((getWidth() * (360 / 270)) + 36), ontap: () => Utils.openPage(context, 17192, 11, title: "动画")),
-              _getItem2("最新上架", _new, icon: Icon(Icons.chevron_right, color: Colors.grey), ratio: getWidth() / ((getWidth() * (360 / 270)) + 36), ontap: () => Utils.changeComicHomeTabIndex.fire(1)),
-              Container(
+                  icon: const Icon(Icons.chevron_right, color: Colors.grey),
+                  ratio: getWidth() / ((getWidth() * (360 / 270)) + 36),
+                  ontap: () => Utils.openPage(context, 17192, 11, title: "动画")),
+              _getItem2("最新上架", _new,
+                  icon: const Icon(Icons.chevron_right, color: Colors.grey),
+                  ratio: getWidth() / ((getWidth() * (360 / 270)) + 36),
+                  ontap: () => Utils.changeComicHomeTabIndex.fire(1)),
+              const SizedBox(
                 width: double.infinity,
                 //padding: EdgeInsets.all(12),
                 child: Center(
@@ -173,14 +193,23 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
     );
   }
 
-  Widget _getItem(String title, List items, {Icon? icon, Function? ontap, bool needSubTitle = true, int count = 3, double ratio = 3 / 5.2, double imgWidth = 270, double imgHeight = 360}) {
+  Widget _getItem(String title, List items,
+      {Icon? icon,
+      Function? ontap,
+      bool needSubTitle = true,
+      int count = 3,
+      double ratio = 3 / 5.2,
+      double imgWidth = 270,
+      double imgHeight = 360}) {
     return Offstage(
       offstage: items.isEmpty,
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(8)),
           constraints: const BoxConstraints(maxWidth: 584),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,9 +222,17 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),
                 itemCount: items.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: count, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0, childAspectRatio: ratio),
-                itemBuilder: (context, i) => _getComicItemBuilder(items[i].id, items[i].type, items[i].cover, items[i].title,
-                    author: needSubTitle ? items[i].sub_title : "", url: items[i].url, width: imgWidth, height: imgHeight),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: count,
+                    crossAxisSpacing: 4.0,
+                    mainAxisSpacing: 4.0,
+                    childAspectRatio: ratio),
+                itemBuilder: (context, i) => _getComicItemBuilder(
+                    items[i].id, items[i].type, items[i].cover, items[i].title,
+                    author: needSubTitle ? items[i].sub_title : "",
+                    url: items[i].url,
+                    width: imgWidth,
+                    height: imgHeight),
               ),
             ],
           ),
@@ -204,29 +241,46 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
     );
   }
 
-  Widget _getItem2(String title, List items, {Icon? icon, Function? ontap, bool needSubTitle = true, int count = 3, double ratio = 3 / 5.2, double imgWidth = 270, double imgHeight = 360}) {
+  Widget _getItem2(String title, List items,
+      {Icon? icon,
+      Function? ontap,
+      bool needSubTitle = true,
+      int count = 3,
+      double ratio = 3 / 5.2,
+      double imgWidth = 270,
+      double imgHeight = 360}) {
     return Offstage(
-        offstage: items == null || items.length == 0,
+        offstage: items.isEmpty,
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-            decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
-            constraints: BoxConstraints(maxWidth: 584),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(8)),
+            constraints: const BoxConstraints(maxWidth: 584),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _getTitle(title, icon: icon!, ontap: ontap!),
-                SizedBox(
+                const SizedBox(
                   height: 4.0,
                 ),
                 GridView.builder(
                   shrinkWrap: true,
-                  physics: ScrollPhysics(),
+                  physics: const ScrollPhysics(),
                   itemCount: items.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: count, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0, childAspectRatio: ratio),
-                  itemBuilder: (context, i) => _getComicItemBuilder(items[i].id, items[i].type, items[i].cover, items[i].title,
-                      author: needSubTitle ? items[i].authors : "", url: items[i].url, width: imgWidth, height: imgHeight),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: count,
+                      crossAxisSpacing: 4.0,
+                      mainAxisSpacing: 4.0,
+                      childAspectRatio: ratio),
+                  itemBuilder: (context, i) => _getComicItemBuilder(items[i].id,
+                      items[i].type, items[i].cover, items[i].title,
+                      author: needSubTitle ? items[i].authors : "",
+                      url: items[i].url,
+                      width: imgWidth,
+                      height: imgHeight),
                 ),
               ],
             ),
@@ -239,10 +293,11 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       children: <Widget>[
         Expanded(
           child: Padding(
-              padding: EdgeInsets.fromLTRB(4, 4, 4, 0),
+              padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
               child: Text(
                 title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               )),
         ),
         Offstage(
@@ -253,9 +308,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                 borderRadius: BorderRadius.circular(12),
                 onTap: () => ontap,
                 child: Padding(
-                    padding: EdgeInsets.all(4),
+                    padding: const EdgeInsets.all(4),
                     child: icon ??
-                        Icon(
+                        const Icon(
                           Icons.refresh,
                           color: Colors.grey,
                         )),
@@ -265,11 +320,16 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
     );
   }
 
-  Widget _getComicItemBuilder(int id, int type, String pic, String title, {String author = "", String url = "", double width = 270, double height = 360}) {
+  Widget _getComicItemBuilder(int id, int type, String pic, String title,
+      {String author = "",
+      String url = "",
+      double width = 270,
+      double height = 360}) {
     return RawMaterialButton(
-      onPressed: () => Utils.openPage(context, id, type, url: url, title: title),
+      onPressed: () =>
+          Utils.openPage(context, id, type, url: url, title: title),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -279,25 +339,25 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                 child: CachedNetworkImage(
                   imageUrl: pic,
                   fit: BoxFit.cover,
-                  httpHeaders: {"Referer": "http://www.dmzj.com/"},
+                  httpHeaders: const {"Referer": "http://www.dmzj.com/"},
                   placeholder: (context, url) => AspectRatio(
                     aspectRatio: width / height,
-                    child: Container(
+                    child: SizedBox(
                       width: width,
                       height: height,
-                      child: Icon(Icons.photo),
+                      child: const Icon(Icons.photo),
                     ),
                   ),
                   errorWidget: (context, url, error) => AspectRatio(
                     aspectRatio: width / height,
-                    child: Container(
+                    child: SizedBox(
                       width: width,
                       height: height,
-                      child: Icon(Icons.error),
+                      child: const Icon(Icons.error),
                     ),
                   ),
                 )),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             Flexible(
@@ -307,17 +367,17 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             author == ""
                 ? Container()
                 : Flexible(
                     child: Text(
-                      author,
+                    author,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    style: const TextStyle(color: Colors.grey, fontSize: 12.0),
                   ))
           ],
         ),
@@ -342,8 +402,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //Banner
       {
         List bannerItem = jsonMap[0]["data"];
-        List<ComicHomeBannerItem> banners = bannerItem.map((i) => ComicHomeBannerItem.fromJson(i)).toList();
-        if (banners.length != 0) {
+        List<ComicHomeBannerItem> banners =
+            bannerItem.map((i) => ComicHomeBannerItem.fromJson(i)).toList();
+        if (banners.isNotEmpty) {
           setState(() {
             _banners = banners.where((e) => e.type != 10).toList();
           });
@@ -352,8 +413,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //近期必看
       {
         List recommendItem = jsonMap[1]["data"];
-        List<ComicHomeComicItem> recommends = recommendItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (recommends.length != 0) {
+        List<ComicHomeComicItem> recommends =
+            recommendItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (recommends.isNotEmpty) {
           setState(() {
             _recommend = recommends;
           });
@@ -362,8 +424,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //火热专题
       {
         List specialItem = jsonMap[2]["data"];
-        List<ComicHomeComicItem> special = specialItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (special.length != 0) {
+        List<ComicHomeComicItem> special =
+            specialItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (special.isNotEmpty) {
           setState(() {
             _special = special;
           });
@@ -372,8 +435,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //大师级作者
       {
         List authorItem = jsonMap[3]["data"];
-        List<ComicHomeComicItem> authors = authorItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (authors.length != 0) {
+        List<ComicHomeComicItem> authors =
+            authorItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (authors.isNotEmpty) {
           setState(() {
             _authors = authors;
           });
@@ -382,8 +446,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //国漫
       {
         List guomanItem = jsonMap[4]["data"];
-        List<ComicHomeComicItem> guoman = guomanItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (guoman.length != 0) {
+        List<ComicHomeComicItem> guoman =
+            guomanItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (guoman.isNotEmpty) {
           setState(() {
             _guoman = guoman;
           });
@@ -392,8 +457,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //美漫
       {
         List meimanItem = jsonMap[5]["data"];
-        List<ComicHomeComicItem> meiman = meimanItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (meiman.length != 0) {
+        List<ComicHomeComicItem> meiman =
+            meimanItem.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (meiman.isNotEmpty) {
           setState(() {
             _meiman = meiman;
           });
@@ -402,8 +468,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //热门连载
       {
         List items = jsonMap[6]["data"];
-        List<ComicHomeComicItem> _items = items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeComicItem> _items =
+            items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _hot = _items;
           });
@@ -412,8 +479,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //条漫专区
       {
         List items = jsonMap[7]["data"];
-        List<ComicHomeComicItem> _items = items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeComicItem> _items =
+            items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _tiaoman = _items;
           });
@@ -433,8 +501,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //最新
       {
         List items = jsonMap[8]["data"];
-        List<ComicHomeNewItem> _items = items.map((i) => ComicHomeNewItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeNewItem> _items =
+            items.map((i) => ComicHomeNewItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _new = _items;
           });
@@ -462,8 +531,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //最新
       {
         List items = jsonMap["data"]["data"];
-        List<ComicHomeNewItem> _items = items.map((i) => ComicHomeNewItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeNewItem> _items =
+            items.map((i) => ComicHomeNewItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _like = _items;
           });
@@ -489,8 +559,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //最新
       {
         List items = jsonMap["data"]["data"];
-        List<ComicHomeComicItem> _items = items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeComicItem> _items =
+            items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _guoman = _items;
           });
@@ -516,8 +587,9 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       //最新
       {
         List items = jsonMap["data"]["data"];
-        List<ComicHomeComicItem> _items = items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
-        if (_items.length != 0) {
+        List<ComicHomeComicItem> _items =
+            items.map((i) => ComicHomeComicItem.fromJson(i)).toList();
+        if (_items.isNotEmpty) {
           setState(() {
             _hot = _items;
           });
@@ -535,12 +607,14 @@ class ComicRecommendState extends State<ComicRecommend> with AutomaticKeepAliveC
       if (!Provider.of<AppUserInfo>(context, listen: false).isLogin) {
         return;
       }
-      var response = await http.get(Uri.parse(Api.comicMySub(Provider.of<AppUserInfo>(context, listen: false).loginInfo!.uid!)));
+      var response = await http.get(Uri.parse(Api.comicMySub(
+          Provider.of<AppUserInfo>(context, listen: false).loginInfo!.uid!)));
       var jsonMap = jsonDecode(response.body);
 
       List items = jsonMap["data"]["data"];
-      List<ComicHomeNewItem> _items = items.map((i) => ComicHomeNewItem.fromJson(i)).toList();
-      if (_items.length != 0) {
+      List<ComicHomeNewItem> _items =
+          items.map((i) => ComicHomeNewItem.fromJson(i)).toList();
+      if (_items.isNotEmpty) {
         setState(() {
           _mySub = _items;
         });

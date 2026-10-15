@@ -7,18 +7,19 @@ import 'package:dashboard/models/comic/comic_specia_datail_model.dart';
 import 'package:dashboard/views/other/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ComicSpecialDetailPage extends StatefulWidget {
   final int id;
 
-  ComicSpecialDetailPage(this.id, {Key? key}) : super(key: key);
+  const ComicSpecialDetailPage(this.id, {Key? key}) : super(key: key);
 
   @override
   _ComicSpecialDetailPageState createState() => _ComicSpecialDetailPageState();
 }
 
-class _ComicSpecialDetailPageState extends State<ComicSpecialDetailPage> with AutomaticKeepAliveClientMixin {
+class _ComicSpecialDetailPageState extends State<ComicSpecialDetailPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   ComicSpecia? _detail;
@@ -38,29 +39,38 @@ class _ComicSpecialDetailPageState extends State<ComicSpecialDetailPage> with Au
             child: Scaffold(
               appBar: AppBar(
                 title: Text(_detail!.title),
-                actions: <Widget>[IconButton(icon: Icon(Icons.share), onPressed: () => Share.share("${_detail!.title}\r\nhttp://m.dmzj.com/zhuanti/${_detail!.page_url}"))],
-                bottom: TabBar(tabs: [Tab(text: "介绍"), Tab(text: "漫画"), Tab(text: "评论")]),
+                actions: <Widget>[
+                  IconButton(
+                      icon: const Icon(Icons.share),
+                      onPressed: () => Share.share(
+                          "${_detail!.title}\r\nhttp://m.dmzj.com/zhuanti/${_detail!.page_url}"))
+                ],
+                bottom: const TabBar(
+                    tabs: [Tab(text: "介绍"), Tab(text: "漫画"), Tab(text: "评论")]),
               ),
               body: TabBarView(
                 children: [
                   SingleChildScrollView(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Utils.createCacheImage(_detail!.mobile_header_pic, 710, 350),
-                        SizedBox(height: 12),
+                        Utils.createCacheImage(
+                            _detail!.mobile_header_pic, 710, 350),
+                        const SizedBox(height: 12),
                         Text(
                           _detail!.title,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         Text(_detail!.description)
                       ],
                     ),
                   ),
                   ListView(
-                    children: _detail!.comics.map<Widget>((f) => createItem(f)).toList(),
+                    children: _detail!.comics
+                        .map<Widget>((f) => createItem(f))
+                        .toList(),
                   ),
                   CommentWidget(2, widget.id),
                 ],
@@ -70,7 +80,7 @@ class _ComicSpecialDetailPageState extends State<ComicSpecialDetailPage> with Au
         : Scaffold(
             appBar: AppBar(),
             body: Center(
-              child: _loading ? CircularProgressIndicator() : Container(),
+              child: _loading ? const CircularProgressIndicator() : Container(),
             ),
           );
   }
@@ -81,15 +91,15 @@ class _ComicSpecialDetailPageState extends State<ComicSpecialDetailPage> with Au
         Utils.openPage(context, item.id, 1);
       },
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
+            SizedBox(
               width: 80,
               child: Utils.createCacheImage(item.cover, 270, 360),
             ),
-            SizedBox(
+            const SizedBox(
               width: 12,
             ),
             Expanded(
@@ -100,16 +110,18 @@ class _ComicSpecialDetailPageState extends State<ComicSpecialDetailPage> with Au
                     item.name,
                     maxLines: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 4,
                   ),
-                  Text(item.recommend_brief, style: TextStyle(color: Colors.grey, fontSize: 14), maxLines: 1),
-                  SizedBox(
+                  Text(item.recommend_brief,
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                      maxLines: 1),
+                  const SizedBox(
                     height: 4,
                   ),
                   Text(
                     item.recommend_reason,
-                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                    style: const TextStyle(color: Colors.grey, fontSize: 14),
                     maxLines: 3,
                   )
                 ],
@@ -117,7 +129,7 @@ class _ComicSpecialDetailPageState extends State<ComicSpecialDetailPage> with Au
             ),
             Center(
               child: IconButton(
-                  icon: Icon(Icons.favorite_border),
+                  icon: const Icon(Icons.favorite_border),
                   onPressed: () {
                     UserHelper.comicSubscribe(item.id);
                   }),
@@ -138,12 +150,13 @@ class _ComicSpecialDetailPageState extends State<ComicSpecialDetailPage> with Au
       setState(() {
         _loading = true;
       });
-      var response = await http.get(Uri.parse(Api.comicSpeciaDetail(widget.id)));
+      var response =
+          await http.get(Uri.parse(Api.comicSpeciaDetail(widget.id)));
 
       var jsonMap = jsonDecode(response.body)["data"];
 
       ComicSpecia detail = ComicSpecia.fromJson(jsonMap);
-      if (detail.title == null || detail.title == "") {
+      if (detail.title == "") {
         setState(() {
           _loading = false;
         });

@@ -150,11 +150,11 @@ class ComicWebChapterDetail {
         _comment_count = comment_count;
 
   factory ComicWebChapterDetail.fromJson(jsonRes) {
-    List<String>? page_url = jsonRes['page_url'] is List ? [] : null;
-    if (page_url != null) {
+    List<String>? pageUrl = jsonRes['page_url'] is List ? [] : null;
+    if (pageUrl != null) {
       for (var item in jsonRes['page_url']) {
         if (item != null) {
-          page_url.add(item);
+          pageUrl.add(item);
         }
       }
     }
@@ -166,7 +166,7 @@ class ComicWebChapterDetail {
       chapter_order: jsonRes['chapter_order'],
       createtime: jsonRes['createtime'],
       folder: jsonRes['folder'],
-      page_url: page_url,
+      page_url: pageUrl,
       chapter_type: jsonRes['chapter_type'],
       chaptertype: jsonRes['chaptertype'],
       chapter_true_type: jsonRes['chapter_true_type'],

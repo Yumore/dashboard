@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dashboard/app/app_setting.dart';
 import 'package:dashboard/app/config_helper.dart';
 import 'package:dashboard/app/utils.dart';
+import 'package:dashboard/features/content_hub/content_hub_page.dart';
 import 'package:dashboard/sql/comic_down.dart';
 import 'package:dashboard/sql/comic_history.dart';
 import 'package:dashboard/views/comic/comic_home.dart';
@@ -27,27 +28,39 @@ import 'app/user_info.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ),
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
   ConfigHelper.prefs = await SharedPreferences.getInstance();
   await initDatabase();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<AppTheme>(create: (_) => AppTheme(), lazy: false),
-      ChangeNotifierProvider<AppUserInfo>(create: (_) => AppUserInfo(), lazy: false),
-      ChangeNotifierProvider<AppSetting>(create: (_) => AppSetting(), lazy: false),
-    ],
-    child: MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AppTheme>(
+          create: (_) => AppTheme(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider<AppUserInfo>(
+          create: (_) => AppUserInfo(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider<AppSetting>(
+          create: (_) => AppSetting(),
+          lazy: false,
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 Future initDatabase() async {
   var databasesPath = await getDatabasesPath();
   // File(databasesPath+"/nsplayer.db").deleteSync();
-  var db = await openDatabase(databasesPath + "/comic_history.db", version: 1, onCreate: (Database _db, int version) async {
-    await _db.execute('''
+  var db = await openDatabase(
+    databasesPath + "/comic_history.db",
+    version: 1,
+    onCreate: (Database _db, int version) async {
+      await _db.execute('''
 create table $comicHistoryTable ( 
   $comicHistoryColumnComicID integer primary key not null, 
   $comicHistoryColumnChapterID integer not null,
@@ -55,7 +68,7 @@ create table $comicHistoryTable (
   $comicHistoryMode integer not null)
 ''');
 
-    await _db.execute('''
+      await _db.execute('''
 create table $comicDownloadTableName (
 $comicDownloadColumnChapterID integer primary key not null,
 $comicDownloadColumnChapterName text not null,
@@ -68,13 +81,16 @@ $comicDownloadColumnCount integer ,
 $comicDownloadColumnSavePath text ,
 $comicDownloadColumnUrls text )
 ''');
-  });
+    },
+  );
 
   ComicHistoryProvider.database = db;
   ComicDownloadProvider.database = db;
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -83,37 +99,47 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Provider.of<AppTheme>(context).themeColor,
         appBarTheme: const AppBarTheme(
-          brightness: Brightness.dark,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
       ),
       themeMode: Provider.of<AppTheme>(context).themeMode,
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Provider.of<AppTheme>(context).themeColor,
-        accentColor: Provider.of<AppTheme>(context).themeColor,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Provider.of<AppTheme>(context).themeColor,
+        ).copyWith(secondary: Provider.of<AppTheme>(context).themeColor),
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
       initialRoute: "/",
       routes: {
-        "/Setting": (_) => SettingPage(),
-        "/Login": (_) => LoginPage(),
-        "/User": (_) => UserPage(),
-        "/ComicReaderSettings": (_) => ComicReaderSettings(),
-        "/NovelReaderSettings": (_) => NovelReaderSettings(),
+        "/Setting": (_) => const SettingPage(),
+        "/Login": (_) => const LoginPage(),
+        "/User": (_) => const UserPage(),
+        "/ComicReaderSettings": (_) => const ComicReaderSettings(),
+        "/NovelReaderSettings": (_) => const NovelReaderSettings(),
       },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   static NewsHomePage? newsPage;
   static NovelHomePage? novelPage;
-  List<Widget> pages = [ComicHomePage(), Container(), Container(), PersonalPage()];
+  List<Widget> pages = [
+    const ContentHubPage(),
+    const ComicHomePage(),
+    Container(),
+    Container(),
+    const PersonalPage(),
+  ];
   int _index = 0;
 
   @override
@@ -122,17 +148,21 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     checkUpdate();
   }
 
-  void checkUpdate() async {
-    var newVer = await Utils.checkVersion();
-    if (newVer == null) {
+  Future<void> checkUpdate() async {
+    final newVer = await Utils.checkVersion();
+    if (!mounted || newVer.message == null) {
       return;
     }
-    if (await Utils.showAlertDialogAsync(context, const Text('有新版本可以更新'), Text(newVer.message!))) {
-      if (Platform.isAndroid) {
-        launch(newVer.android_url!);
-      } else {
-        launch(newVer.ios_url!);
+    if (await Utils.showAlertDialogAsync(
+      context,
+      const Text('有新版本可以更新'),
+      Text(newVer.message!),
+    )) {
+      final url = Platform.isAndroid ? newVer.android_url : newVer.ios_url;
+      if (url == null) {
+        return;
       }
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
     }
   }
 
@@ -144,30 +174,25 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         currentIndex: _index,
         onTap: (index) {
           setState(() {
-            if (index == 1 && newsPage == null) {
-              newsPage = NewsHomePage();
-              pages[1] = newsPage ?? NewsHomePage();
+            if (index == 2 && newsPage == null) {
+              newsPage = const NewsHomePage();
+              pages[2] = newsPage ?? const NewsHomePage();
             }
-            if (index == 2 && novelPage == null) {
-              novelPage = NovelHomePage();
-              pages[2] = novelPage ?? NovelHomePage();
+            if (index == 3 && novelPage == null) {
+              novelPage = const NovelHomePage();
+              pages[3] = novelPage ?? const NovelHomePage();
             }
             _index = index;
           });
         },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            label: "漫画",
-            icon: Icon(Icons.library_books),
+            label: "内容",
+            icon: Icon(Icons.dashboard_outlined),
           ),
-          BottomNavigationBarItem(
-            label: "新闻",
-            icon: Icon(Icons.whatshot),
-          ),
-          BottomNavigationBarItem(
-            label: "轻小说",
-            icon: Icon(Icons.book),
-          ),
+          BottomNavigationBarItem(label: "漫画", icon: Icon(Icons.library_books)),
+          BottomNavigationBarItem(label: "新闻", icon: Icon(Icons.whatshot)),
+          BottomNavigationBarItem(label: "轻小说", icon: Icon(Icons.book)),
           BottomNavigationBarItem(
             label: "我的",
             icon: Icon(Icons.account_circle),
@@ -205,10 +230,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           //     selectedIndex: _index),
           // VerticalDivider(thickness: 1, width: 1),
           Expanded(
-              child: IndexedStack(
-            index: _index,
-            children: pages,
-          ))
+            child: IndexedStack(index: _index, children: pages),
+          ),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

@@ -38,9 +38,6 @@ class ComicDownloadHelper {
   static void addDownload(ComicDownloadSqlItem info) async {
     //保存数据库
     var item = await ComicDownloadProvider.getItem(info.chapterID);
-    if (item == null) {
-      await ComicDownloadProvider.insert(info);
-    }
     //加入队列
     dwonloadQueues!.add(info);
   }

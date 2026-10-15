@@ -6,13 +6,12 @@ import 'package:dashboard/app/utils.dart';
 import 'package:dashboard/models/comic/comic_author_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:http/http.dart' as http;
 
 class ComicAuthorPage extends StatefulWidget {
   final int auhtoId;
 
-  ComicAuthorPage(this.auhtoId, {Key? key}) : super(key: key);
+  const ComicAuthorPage(this.auhtoId, {Key? key}) : super(key: key);
 
   @override
   _ComicAuthorPageState createState() => _ComicAuthorPageState();
@@ -36,7 +35,9 @@ class _ComicAuthorPageState extends State<ComicAuthorPage> {
         header: MaterialHeader(),
         onRefresh: loadData,
         child: ListView(
-          children: _detail != null ? _detail!.data.map<Widget>((f) => createItem(f)).toList() : [],
+          children: _detail != null
+              ? _detail!.data.map<Widget>((f) => createItem(f)).toList()
+              : [],
         ),
       ),
     );
@@ -50,16 +51,16 @@ class _ComicAuthorPageState extends State<ComicAuthorPage> {
         Utils.openPage(context, item.id, 1);
       },
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         height: 120,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
+            SizedBox(
               height: 100,
               child: Utils.createCacheImage(item.cover, 270, 360),
             ),
-            SizedBox(
+            const SizedBox(
               width: 12,
             ),
             Expanded(
@@ -70,16 +71,18 @@ class _ComicAuthorPageState extends State<ComicAuthorPage> {
                     item.name,
                     maxLines: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 4,
                   ),
-                  Text(item.status, style: TextStyle(color: Colors.grey, fontSize: 14), maxLines: 1),
+                  Text(item.status,
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                      maxLines: 1),
                 ],
               ),
             ),
             Center(
               child: IconButton(
-                  icon: Icon(Icons.favorite_border),
+                  icon: const Icon(Icons.favorite_border),
                   onPressed: () {
                     UserHelper.comicSubscribe(item.id);
                   }),
@@ -100,7 +103,8 @@ class _ComicAuthorPageState extends State<ComicAuthorPage> {
       setState(() {
         _loading = true;
       });
-      var response = await http.get(Uri.parse(Api.comicAuthorDetail(widget.auhtoId)));
+      var response =
+          await http.get(Uri.parse(Api.comicAuthorDetail(widget.auhtoId)));
 
       var jsonMap = jsonDecode(response.body);
 

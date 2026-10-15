@@ -24,6 +24,12 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>由您点击拍照时使用相机，照片仅在本机预览。</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>由您选择照片时读取相册，照片仅在本机预览。</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>连接您配置的局域网聊天和媒体服务。</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -52,5 +58,9 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

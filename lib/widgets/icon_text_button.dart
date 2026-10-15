@@ -5,8 +5,10 @@ class IconTextButton extends StatefulWidget {
   final String title;
   final Function onTap;
 
-  IconTextButton(this.icon, this.title, this.onTap, {Key? key}) : super(key: key);
+  const IconTextButton(this.icon, this.title, this.onTap, {Key? key})
+      : super(key: key);
 
+  @override
   _IconTextButtonState createState() => _IconTextButtonState();
 }
 
@@ -18,10 +20,15 @@ class _IconTextButtonState extends State<IconTextButton> {
           child: InkWell(
         onTap: () => widget.onTap,
         child: Container(
-          padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+          padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[widget.icon, Padding(padding: EdgeInsets.only(left: 8.0), child: Text(widget.title))],
+            children: <Widget>[
+              widget.icon,
+              Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(widget.title))
+            ],
           ),
         ),
       )),

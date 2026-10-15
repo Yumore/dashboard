@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:dashboard/app/api.dart';
@@ -8,8 +7,6 @@ import 'package:dashboard/models/comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:http/http.dart' as http;
@@ -20,13 +17,14 @@ class CommentWidget extends StatefulWidget {
 
   final int objId;
 
-  CommentWidget(this.type, this.objId, {Key? key}) : super(key: key);
+  const CommentWidget(this.type, this.objId, {Key? key}) : super(key: key);
 
   @override
   _CommentWidgetState createState() => _CommentWidgetState();
 }
 
-class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveClientMixin {
+class _CommentWidgetState extends State<CommentWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -52,8 +50,8 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
     }
   }
 
-  HtmlUnescape _htmlUnescape = new HtmlUnescape();
-  ScrollController _controller = ScrollController();
+  final HtmlUnescape _htmlUnescape = HtmlUnescape();
+  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -75,23 +73,24 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
           child: Column(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                 child: Row(
                   children: <Widget>[
                     Expanded(
                       child: Text(
                         text + "评论" + "($_commentCount)",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     ),
                     PopupMenuButton<bool>(
-                      child: Container(
+                      child: SizedBox(
                           height: 36,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(_isHot ? "热门评论" : "最新评论"),
-                              Icon(
+                              const Icon(
                                 Icons.arrow_drop_down,
                                 color: Colors.grey,
                               )
@@ -106,12 +105,12 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
                       },
                       itemBuilder: (c) => [
                         CheckedPopupMenuItem<bool>(
-                          child: Text("最新评论"),
+                          child: const Text("最新评论"),
                           value: false,
                           checked: !_isHot,
                         ),
                         CheckedPopupMenuItem<bool>(
-                          child: Text("最热评论"),
+                          child: const Text("最热评论"),
                           value: true,
                           checked: _isHot,
                         )
@@ -121,20 +120,21 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
                 ),
               ),
               _page == 1 && _loading
-                  ? Center(
+                  ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : Container(),
-              _list.length != 0
+              _list.isNotEmpty
                   ? ListView(
                       shrinkWrap: true,
                       controller: _controller,
-                      children: _list.map<Widget>((f) => createItem(f)).toList(),
+                      children:
+                          _list.map<Widget>((f) => createItem(f)).toList(),
                     )
                   : Center(
                       child: Container(
-                        padding: EdgeInsets.all(24),
-                        child: Text(
+                        padding: const EdgeInsets.all(24),
+                        child: const Text(
                           "什么都没有呢~",
                           style: TextStyle(color: Colors.grey),
                         ),
@@ -153,7 +153,7 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -171,14 +171,14 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
                 children: <Widget>[
                   ListTile(
                     title: Text(item.nickname),
-                    leading: Icon(Icons.account_circle),
+                    leading: const Icon(Icons.account_circle),
                     onTap: () {
                       Utils.openPage(context, item.sender_uid, 12);
                     },
                   ),
                   ListTile(
-                    title: Text("点赞"),
-                    leading: Icon(Icons.thumb_up),
+                    title: const Text("点赞"),
+                    leading: const Icon(Icons.thumb_up),
                     onTap: () {
                       setState(() {
                         item.like_amount++;
@@ -187,15 +187,15 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
                     },
                   ),
                   ListTile(
-                    title: Text("回复"),
-                    leading: Icon(Icons.reply),
+                    title: const Text("回复"),
+                    leading: const Icon(Icons.reply),
                     onTap: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   ListTile(
-                    title: Text("复制"),
-                    leading: Icon(Icons.content_copy),
+                    title: const Text("复制"),
+                    leading: const Icon(Icons.content_copy),
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: item.content));
                       Fluttertoast.showToast(msg: '已将内容复制到剪贴板');
@@ -207,7 +207,7 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
             });
       },
       child: Container(
-        padding: EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
+        padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
         decoration: BoxDecoration(
             border: Border(
           top: BorderSide(
@@ -221,16 +221,17 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
               onTap: () {
                 Utils.openPage(context, item.sender_uid, 12);
               },
-              child: Container(
+              child: SizedBox(
                 width: 48,
                 height: 48,
                 child: CircleAvatar(
                   radius: 24,
-                  backgroundImage: Utils.createCachedImageProvider(item.avatar_url),
+                  backgroundImage:
+                      Utils.createCachedImageProvider(item.avatar_url),
                 ),
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,17 +242,18 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
                       child: Text(
                         item.nickname,
                         maxLines: 1,
-                        style: TextStyle(color: Theme.of(context).accentColor),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Text(
+                    const Text(
                       "",
                       style: TextStyle(color: Colors.grey),
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 item.masterCommentNum != 0
@@ -262,26 +264,31 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
                 Text(
                   text,
                 ),
-                item.upload_images != null && item.upload_images.length != 0
+                item.upload_images.isNotEmpty
                     ? Padding(
-                        padding: EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.only(top: 8),
                         child: Wrap(
-                          children: item.upload_images.split(",").map<Widget>((f) {
+                          children:
+                              item.upload_images.split(",").map<Widget>((f) {
                             var str = f.split(".").toList();
                             var fileImg = str[0];
                             var fileImgSuffix = str[1];
                             return InkWell(
-                                onTap: () => Utils.showImageViewDialog(context, "https://images.dmzj.com/commentImg/${item.obj_id % 500}/$f"),
+                                onTap: () => Utils.showImageViewDialog(context,
+                                    "https://images.dmzj.com/commentImg/${item.obj_id % 500}/$f"),
                                 child: Container(
-                                  padding: EdgeInsets.only(right: 8),
+                                  padding: const EdgeInsets.only(right: 8),
                                   width: 100,
-                                  child: Utils.createCacheImage("https://images.dmzj.com/commentImg/${item.obj_id % 500}/${fileImg}_small.$fileImgSuffix", 100, 100),
+                                  child: Utils.createCacheImage(
+                                      "https://images.dmzj.com/commentImg/${item.obj_id % 500}/${fileImg}_small.$fileImgSuffix",
+                                      100,
+                                      100),
                                 ));
                           }).toList(),
                         ),
                       )
                     : Container(),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Row(
@@ -293,22 +300,33 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
                           item.create_time * 1000,
                           locale: 'zh',
                         ),
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                     ),
                     InkWell(
                       child: Text(
-                        "点赞" + (item.like_amount == 0 ? "" : "(${item.like_amount})"),
-                        style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),
+                        "点赞" +
+                            (item.like_amount == 0
+                                ? ""
+                                : "(${item.like_amount})"),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 12),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     InkWell(
                       child: Text(
-                        "回复" + (item.reply_amount == 0 ? "" : "(${item.reply_amount})"),
-                        style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),
+                        "回复" +
+                            (item.reply_amount == 0
+                                ? ""
+                                : "(${item.reply_amount})"),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 12),
                       ),
                     )
                   ],
@@ -335,16 +353,18 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
         },
         child: Container(
           width: double.infinity,
-          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(4)),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Center(
               child: Text(
             "点击展开${list.length - 2}条评论",
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
           )),
         ),
       ));
-      items.add(SizedBox(height: 8));
+      items.add(const SizedBox(height: 8));
       items.add(createMsterCommentItem(list.last));
     } else {
       for (var item in list) {
@@ -370,7 +390,7 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
 
   Widget createMsterCommentItem(MasterCommentItem item) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       child: InkWell(
         onTap: () {
           showModalBottomSheet(
@@ -382,14 +402,14 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
                   children: <Widget>[
                     ListTile(
                       title: Text(item.nickname),
-                      leading: Icon(Icons.account_circle),
+                      leading: const Icon(Icons.account_circle),
                       onTap: () {
                         Utils.openPage(context, item.sender_uid, 12);
                       },
                     ),
                     ListTile(
-                      title: Text("复制内容"),
-                      leading: Icon(Icons.content_copy),
+                      title: const Text("复制内容"),
+                      leading: const Icon(Icons.content_copy),
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: item.content));
                         Fluttertoast.showToast(msg: '已将内容复制到剪贴板');
@@ -402,8 +422,10 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
         },
         child: Container(
           width: double.infinity,
-          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(4)),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -413,26 +435,35 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
                     child: InkWell(
                       child: Text(
                         item.nickname,
-                        style: TextStyle(color: Theme.of(context).accentColor),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                     ),
                   ),
-                  TextSpan(text: ": " + _htmlUnescape.convert(item.content), style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color))
+                  TextSpan(
+                      text: ": " + _htmlUnescape.convert(item.content),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge!.color))
                 ]),
               ),
-              item.upload_images != null && item.upload_images.length != 0
+              item.upload_images.isNotEmpty
                   ? Padding(
-                      padding: EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.only(top: 8),
                       child: Wrap(
-                        children: item.upload_images.split(",").map<Widget>((f) {
+                        children:
+                            item.upload_images.split(",").map<Widget>((f) {
                           var str = f.split(".").toList();
                           var fileImg = str[0];
                           var fileImgSuffix = str[1];
                           return InkWell(
-                            onTap: () => Utils.showImageViewDialog(context, "https://images.dmzj.com/commentImg/${item.obj_id % 500}/$f"),
-                            child: Container(
+                            onTap: () => Utils.showImageViewDialog(context,
+                                "https://images.dmzj.com/commentImg/${item.obj_id % 500}/$f"),
+                            child: SizedBox(
                               width: 100,
-                              child: Utils.createCacheImage("https://images.dmzj.com/commentImg/${item.obj_id % 500}/${fileImg}_small.$fileImgSuffix", 100, 100),
+                              child: Utils.createCacheImage(
+                                  "https://images.dmzj.com/commentImg/${item.obj_id % 500}/${fileImg}_small.$fileImgSuffix",
+                                  100,
+                                  100),
                             ),
                           );
                         }).toList(),
@@ -459,24 +490,25 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
       if (_page == 1) {
         await loadCount();
       }
-      var response = await http.get(Uri.parse(Api.commentV2(widget.objId, widget.type, page: _page, ishot: _isHot)));
+      var response = await http.get(Uri.parse(Api.commentV2(
+          widget.objId, widget.type,
+          page: _page, ishot: _isHot)));
 
       List jsonMap = jsonDecode(response.body);
 
-      List<CommentItem> detail = jsonMap.map((f) => CommentItem.fromJson(f)).toList();
-      if (detail != null) {
-        setState(() {
-          if (_page == 1) {
-            _list = detail;
-          } else {
-            _list.addAll(detail);
-          }
-        });
-        if (detail.length != 0) {
-          _page++;
+      List<CommentItem> detail =
+          jsonMap.map((f) => CommentItem.fromJson(f)).toList();
+      setState(() {
+        if (_page == 1) {
+          _list = detail;
         } else {
-          Fluttertoast.showToast(msg: "加载完毕");
+          _list.addAll(detail);
         }
+      });
+      if (detail.isNotEmpty) {
+        _page++;
+      } else {
+        Fluttertoast.showToast(msg: "加载完毕");
       }
     } catch (e) {
       print(e);
@@ -489,7 +521,8 @@ class _CommentWidgetState extends State<CommentWidget> with AutomaticKeepAliveCl
 
   Future loadCount() async {
     try {
-      var response = await http.get(Uri.parse(Api.commentCountV2(widget.objId, widget.type)));
+      var response = await http
+          .get(Uri.parse(Api.commentCountV2(widget.objId, widget.type)));
       var jsonMap = jsonDecode(response.body);
       int num = jsonMap["data"];
       setState(() {

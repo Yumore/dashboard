@@ -134,12 +134,17 @@ class AppSetting with ChangeNotifier {
     ConfigHelper.setNovelReadDirection(value);
   }
 
-  static List<Color> bgColors = [Color.fromRGBO(245, 239, 217, 1), Color.fromRGBO(248, 247, 252, 1), Color.fromRGBO(192, 237, 198, 1), Colors.black];
+  static List<Color> bgColors = [
+    const Color.fromRGBO(245, 239, 217, 1),
+    const Color.fromRGBO(248, 247, 252, 1),
+    const Color.fromRGBO(192, 237, 198, 1),
+    Colors.black
+  ];
   static List<Color> fontColors = [
     Colors.black,
     Colors.black,
     Colors.black,
-    Color.fromRGBO(200, 200, 200, 1),
+    const Color.fromRGBO(200, 200, 200, 1),
   ];
 
   int _novelReadTheme = 0;

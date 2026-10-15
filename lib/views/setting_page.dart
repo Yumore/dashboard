@@ -4,12 +4,12 @@ import 'package:dashboard/app/app_theme.dart';
 import 'package:dashboard/app/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatefulWidget {
-  SettingPage({Key? key}) : super(key: key);
+  const SettingPage({Key? key}) : super(key: key);
 
   @override
   _SettingPageState createState() => _SettingPageState();
@@ -52,23 +52,24 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("设置"),
+        title: const Text("设置"),
       ),
       body: ListView(
         children: <Widget>[
           Material(
             color: Theme.of(context).cardColor,
             child: ListTile(
-              title: Text("夜间模式"),
-              leading: Icon(Icons.brightness_4),
+              title: const Text("夜间模式"),
+              leading: const Icon(Icons.brightness_4),
               trailing: Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text(
                   Provider.of<AppTheme>(context).themeModeName,
-                  style: TextStyle(fontSize: 14.0, color: Colors.grey),
+                  style: const TextStyle(fontSize: 14.0, color: Colors.grey),
                 ),
               ),
-              onTap: () => Provider.of<AppTheme>(context, listen: false).showThemeModeDialog(
+              onTap: () => Provider.of<AppTheme>(context, listen: false)
+                  .showThemeModeDialog(
                 context,
               ),
             ),
@@ -77,39 +78,44 @@ class _SettingPageState extends State<SettingPage> {
           Material(
             color: Theme.of(context).cardColor,
             child: ListTile(
-              title: Text("主题切换"),
-              leading: Icon(Icons.color_lens),
+              title: const Text("主题切换"),
+              leading: const Icon(Icons.color_lens),
               trailing: Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text(
                   Provider.of<AppTheme>(context).themeColorName,
-                  style: TextStyle(color: Provider.of<AppTheme>(context).themeColor, fontSize: 14.0),
+                  style: TextStyle(
+                      color: Provider.of<AppTheme>(context).themeColor,
+                      fontSize: 14.0),
                 ),
               ),
-              onTap: () => Provider.of<AppTheme>(context, listen: false).showThemeDialog(context), //Provider.of<AppThemeData>(context).changeThemeColor(3),
+              onTap: () => Provider.of<AppTheme>(context, listen: false)
+                  .showThemeDialog(
+                      context), //Provider.of<AppThemeData>(context).changeThemeColor(3),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Material(
             color: Theme.of(context).cardColor,
             child: ListTile(
-              title: Text("漫画阅读设置"),
-              leading: Icon(Icons.chrome_reader_mode),
-              trailing: Icon(
+              title: const Text("漫画阅读设置"),
+              leading: const Icon(Icons.chrome_reader_mode),
+              trailing: const Icon(
                 Icons.chevron_right,
                 color: Colors.grey,
               ),
-              onTap: () => Navigator.pushNamed(context, '/ComicReaderSettings'), //Provider.of<AppThemeData>(context).changeThemeColor(3),
+              onTap: () => Navigator.pushNamed(context,
+                  '/ComicReaderSettings'), //Provider.of<AppThemeData>(context).changeThemeColor(3),
             ),
           ),
           Material(
             color: Theme.of(context).cardColor,
             child: ListTile(
-              title: Text("漫画下载设置"),
-              leading: Icon(Icons.file_download),
-              trailing: Icon(
+              title: const Text("漫画下载设置"),
+              leading: const Icon(Icons.file_download),
+              trailing: const Icon(
                 Icons.chevron_right,
                 color: Colors.grey,
               ),
@@ -125,27 +131,28 @@ class _SettingPageState extends State<SettingPage> {
               }, //Provider.of<AppThemeData>(context).changeThemeColor(3),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Material(
             color: Theme.of(context).cardColor,
             child: ListTile(
-              title: Text("小说阅读设置"),
-              leading: Icon(Icons.chrome_reader_mode),
-              trailing: Icon(
+              title: const Text("小说阅读设置"),
+              leading: const Icon(Icons.chrome_reader_mode),
+              trailing: const Icon(
                 Icons.chevron_right,
                 color: Colors.grey,
               ),
-              onTap: () => Navigator.pushNamed(context, '/NovelReaderSettings'), //Provider.of<AppThemeData>(context).changeThemeColor(3),
+              onTap: () => Navigator.pushNamed(context,
+                  '/NovelReaderSettings'), //Provider.of<AppThemeData>(context).changeThemeColor(3),
             ),
           ),
           Material(
             color: Theme.of(context).cardColor,
             child: ListTile(
-              title: Text("小说下载设置"),
-              leading: Icon(Icons.file_download),
-              trailing: Icon(
+              title: const Text("小说下载设置"),
+              leading: const Icon(Icons.file_download),
+              trailing: const Icon(
                 Icons.chevron_right,
                 color: Colors.grey,
               ),
@@ -161,25 +168,22 @@ class _SettingPageState extends State<SettingPage> {
               }, //Provider.of<AppThemeData>(context).changeThemeColor(3),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Material(
             color: Theme.of(context).cardColor,
             child: ListTile(
-              title: Text("检查更新"),
-              leading: Icon(Icons.update),
+              title: const Text("检查更新"),
+              leading: const Icon(Icons.update),
               trailing: Text(
                 _version,
-                style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                style: const TextStyle(color: Colors.grey, fontSize: 14.0),
               ),
               onTap: () async {
                 var newVer = await Utils.checkVersion();
-                if (newVer == null) {
-                  Fluttertoast.showToast(msg: "已经是最新版本了");
-                  return;
-                }
-                if (await Utils.showAlertDialogAsync(context, Text('有新版本可以更新'), Text(newVer.message!))) {
+                if (await Utils.showAlertDialogAsync(
+                    context, const Text('有新版本可以更新'), Text(newVer.message!))) {
                   if (Platform.isAndroid) {
                     launch(newVer.android_url!);
                   } else {
@@ -192,21 +196,22 @@ class _SettingPageState extends State<SettingPage> {
           Material(
             color: Theme.of(context).cardColor,
             child: ListTile(
-              title: Text("关于"),
-              leading: Icon(Icons.info_outline),
-              trailing: Icon(
+              title: const Text("关于"),
+              leading: const Icon(Icons.info_outline),
+              trailing: const Icon(
                 Icons.chevron_right,
                 color: Colors.grey,
               ),
               onTap: () {
                 showAboutDialog(
-                    applicationIcon: Image(
+                    applicationIcon: const Image(
                       image: AssetImage("assets/ic_launcher.png"),
                       width: 48,
                     ),
                     context: context,
                     applicationVersion: "@xiaoyaocz",
-                    applicationLegalese: "此程序仅供学习交流编程技术使用,禁止用于任何商业用途。如侵犯你的合法权益，请联系本人以第一时间删除");
+                    applicationLegalese:
+                        "此程序仅供学习交流编程技术使用,禁止用于任何商业用途。如侵犯你的合法权益，请联系本人以第一时间删除");
               }, //Provider.of<AppThemeData>(context).changeThemeColor(3),
             ),
           ),

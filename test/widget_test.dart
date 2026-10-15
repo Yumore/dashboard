@@ -5,25 +5,25 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:dashboard/main.dart';
+import 'package:dashboard/features/content_hub/content_hub_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('content hub exposes every migrated module', (
+    WidgetTester tester,
+  ) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MaterialApp(home: ContentHubPage()));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    for (final module in ['阅读', '小说', '动漫', '漫画', '影视', '聊天', '直播', '爬虫']) {
+      await tester.scrollUntilVisible(find.text(module), 180);
+      expect(find.text(module), findsOneWidget);
+    }
+    await tester.tap(find.text('直播'));
+    await tester.pumpAndSettle();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('直播订阅'), findsOneWidget);
+    expect(find.text('M3U / TXT 订阅地址'), findsOneWidget);
   });
 }

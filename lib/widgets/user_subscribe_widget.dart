@@ -6,7 +6,8 @@ class UserSubscribeWidget extends StatefulWidget {
   final List<SubscribeItem> list;
   final int type;
 
-  UserSubscribeWidget(this.list, {this.type = 0, Key? key}) : super(key: key);
+  const UserSubscribeWidget(this.list, {this.type = 0, Key? key})
+      : super(key: key);
 
   @override
   _UserSubscribeWidgetState createState() => _UserSubscribeWidgetState();
@@ -21,24 +22,33 @@ class _UserSubscribeWidgetState extends State<UserSubscribeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.list.length != 0
+    return widget.list.isNotEmpty
         ? GridView.builder(
             shrinkWrap: true,
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            physics: ScrollPhysics(),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            physics: const ScrollPhysics(),
             itemCount: widget.list.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: MediaQuery.of(context).size.width ~/ 160 < 3 ? 3 : MediaQuery.of(context).size.width ~/ 160,
+                crossAxisCount: MediaQuery.of(context).size.width ~/ 160 < 3
+                    ? 3
+                    : MediaQuery.of(context).size.width ~/ 160,
                 crossAxisSpacing: 2.0,
                 mainAxisSpacing: 4.0,
-                childAspectRatio: getWidth() / ((getWidth() * (360 / 270)) + 64)),
-            itemBuilder: (context, i) =>
-                _getComicItemBuilder(context, widget.list[i].id, widget.type + 1, widget.list[i].sub_img, widget.list[i].name, '更新:' + widget.list[i].sub_update, widget.list[i].status),
+                childAspectRatio:
+                    getWidth() / ((getWidth() * (360 / 270)) + 64)),
+            itemBuilder: (context, i) => _getComicItemBuilder(
+                context,
+                widget.list[i].id,
+                widget.type + 1,
+                widget.list[i].sub_img,
+                widget.list[i].name,
+                '更新:' + widget.list[i].sub_update,
+                widget.list[i].status),
           )
         : Center(
             child: Container(
-              padding: EdgeInsets.all(24),
-              child: Text(
+              padding: const EdgeInsets.all(24),
+              child: const Text(
                 "什么都没有呢~",
                 style: TextStyle(color: Colors.grey),
               ),
@@ -46,7 +56,8 @@ class _UserSubscribeWidgetState extends State<UserSubscribeWidget> {
           );
   }
 
-  Widget _getComicItemBuilder(BuildContext context, int id, int type, String pic, String title, String lastUpdate, String view) {
+  Widget _getComicItemBuilder(BuildContext context, int id, int type,
+      String pic, String title, String lastUpdate, String view) {
     return Card(
       child: InkWell(
           onTap: () => Utils.openPage(context, id, type, title: title),
@@ -56,7 +67,7 @@ class _UserSubscribeWidgetState extends State<UserSubscribeWidget> {
               children: <Widget>[
                 Utils.createCacheImage(pic, 270, 360),
                 Padding(
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
                   child: Text(
                     title,
                     maxLines: 1,
@@ -65,22 +76,23 @@ class _UserSubscribeWidgetState extends State<UserSubscribeWidget> {
                 ),
                 Flexible(
                     child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     lastUpdate,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    style: const TextStyle(color: Colors.grey, fontSize: 12.0),
                   ),
                 )),
                 Flexible(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: Text(
                       view,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                      style:
+                          const TextStyle(color: Colors.grey, fontSize: 12.0),
                     ),
                   ),
                 ),

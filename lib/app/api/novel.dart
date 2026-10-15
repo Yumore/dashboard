@@ -11,9 +11,7 @@ class NovelApi {
   static NovelApi? _novelApi;
 
   static NovelApi get instance {
-    if (_novelApi == null) {
-      _novelApi = NovelApi();
-    }
+    _novelApi ??= NovelApi();
     return _novelApi!;
   }
 
@@ -53,7 +51,8 @@ class NovelApi {
   String getNovelContentUrl(int volumeId, int chapterId) {
     var path = "/lnovel/${volumeId}_$chapterId.txt";
     var ts = (DateTime.now().millisecondsSinceEpoch / 1000).toStringAsFixed(0);
-    var key = "IBAAKCAQEAsUAdKtXNt8cdrcTXLsaFKj9bSK1nEOAROGn2KJXlEVekcPssKUxSN8dsfba51kmHM";
+    var key =
+        "IBAAKCAQEAsUAdKtXNt8cdrcTXLsaFKj9bSK1nEOAROGn2KJXlEVekcPssKUxSN8dsfba51kmHM";
     key += path;
     key += ts;
     key = md5.convert(utf8.encode(key)).toString().toLowerCase();

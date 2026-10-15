@@ -1,12 +1,12 @@
 import 'package:sqflite/sqflite.dart';
 
-final String comicHistoryTable = 'comic_history';
+const String comicHistoryTable = 'comic_history';
 //主键
-final String comicHistoryColumnComicID = 'comic_id';
-final String comicHistoryColumnChapterID = 'chapter_id';
-final String comicHistoryColumnPage = 'page';
+const String comicHistoryColumnComicID = 'comic_id';
+const String comicHistoryColumnChapterID = 'chapter_id';
+const String comicHistoryColumnPage = 'page';
 //1为横向，2为纵向阅读百分比
-final String comicHistoryMode = 'mode';
+const String comicHistoryMode = 'mode';
 
 class ComicHistory {
   int comic_id = 0;
@@ -45,8 +45,15 @@ class ComicHistoryProvider {
 
   static Future<ComicHistory> getItem(int id) async {
     List<Map<String, dynamic>> maps = await database!.query(comicHistoryTable,
-        columns: [comicHistoryColumnComicID, comicHistoryColumnChapterID, comicHistoryColumnPage, comicHistoryMode], where: '$comicHistoryColumnComicID = ?', whereArgs: [id]);
-    if (maps.length > 0) {
+        columns: [
+          comicHistoryColumnComicID,
+          comicHistoryColumnChapterID,
+          comicHistoryColumnPage,
+          comicHistoryMode
+        ],
+        where: '$comicHistoryColumnComicID = ?',
+        whereArgs: [id]);
+    if (maps.isNotEmpty) {
       return ComicHistory.fromMap(maps.first);
     }
     return ComicHistory.fromMap(<String, dynamic>{});
@@ -57,16 +64,20 @@ class ComicHistoryProvider {
   }
 
   static Future<List<ComicHistory>> getItems() async {
-    List<ComicHistory> maps = (await database!.query(comicHistoryTable)).map<ComicHistory>((x) => ComicHistory.fromMap(x)).toList();
+    List<ComicHistory> maps = (await database!.query(comicHistoryTable))
+        .map<ComicHistory>((x) => ComicHistory.fromMap(x))
+        .toList();
     return maps;
   }
 
   static Future<int> delete(String id) async {
-    return await database!.delete(comicHistoryTable, where: '$comicHistoryColumnComicID = ?', whereArgs: [id]);
+    return await database!.delete(comicHistoryTable,
+        where: '$comicHistoryColumnComicID = ?', whereArgs: [id]);
   }
 
   static Future<int> update(ComicHistory item) async {
-    return await database!.update(comicHistoryTable, item.toMap(), where: '$comicHistoryColumnComicID = ?', whereArgs: [item.comic_id]);
+    return await database!.update(comicHistoryTable, item.toMap(),
+        where: '$comicHistoryColumnComicID = ?', whereArgs: [item.comic_id]);
   }
 
   static Future close() async => database!.close();
