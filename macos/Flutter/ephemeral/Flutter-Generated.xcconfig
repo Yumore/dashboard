@@ -1,11 +1,12 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=D:\Flutter
-FLUTTER_APPLICATION_PATH=E:\Flutter\00flutter
+FLUTTER_ROOT=/opt/flutter
+FLUTTER_APPLICATION_PATH=/Users/nathaniel/workspace/Flutter/dashboard
+FLUTTER_FRAMEWORK_SWIFT_PACKAGE_PATH=/Users/nathaniel/workspace/Flutter/dashboard/macos/Flutter/ephemeral/Packages/.packages/FlutterFramework
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
-FLUTTER_BUILD_NAME=1.22.0
-FLUTTER_BUILD_NUMBER=210616
+FLUTTER_BUILD_NAME=1.23.0
+FLUTTER_BUILD_NUMBER=230000
 DART_OBFUSCATION=false
-TRACK_WIDGET_CREATION=false
+TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false
 PACKAGE_CONFIG=.dart_tool/package_config.json
