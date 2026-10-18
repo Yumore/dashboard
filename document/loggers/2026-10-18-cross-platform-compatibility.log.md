@@ -37,3 +37,9 @@
 - 两个只读审查者对平台层/启动链路/入口过滤/SQLite 资产/macOS 配置/文档做独立核查。
 - 修复：亮度两处守卫、bootstrap try/catch、开眼上传与图片保存能力判定、traits 收紧（unknown/OHOS）、还原 macOS 生成文件、文档 6 处不准确表述。
 - 复核：analyze 0 error / 9 warning / 1118 info；全量测试 1677 通过；Web 重新构建通过。
+
+## 构建产物（2026-10-18 12:31）
+
+- Web：`flutter build web --release --no-wasm-dry-run` → `build/web/`（72 MB，含 canvaskit、main.dart.js、sqlite3.wasm、sqflite_sw.js）；备用压缩包 `build/dashboard-web.zip`。
+- Android：`GRADLE_OPTS="-Dorg.gradle.workers.max=4 -Dorg.gradle.parallel=false" flutter build apk --release` → `build/app/outputs/flutter-apk/app-release.apk`（147 MB，release 证书签名；首次构建因 Gradle 下载网络中断自动重试后成功）。
+- APK SHA-256：`e3e9bcc792c531a82105a4c0a00f85aba38a48ce24f40ec2748c8845956f9e90`
