@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:battery_plus/battery_plus.dart';
 import 'package:dashboard/app/api/novel.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/app_setting.dart';
 import 'package:dashboard/app/config_helper.dart';
 import 'package:dashboard/app/user_helper.dart';
@@ -14,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:provider/provider.dart';
 
@@ -692,7 +692,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                           listen: false,
                         ).novelFontSize;
                         if (size == 10) {
-                          Fluttertoast.showToast(msg: '不能再小了');
+                          AppToast.show(msg: '不能再小了');
                           return;
                         }
                         Provider.of<AppSetting>(
@@ -713,7 +713,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                           listen: false,
                         ).novelFontSize;
                         if (size == 30) {
-                          Fluttertoast.showToast(msg: '不能再大了');
+                          AppToast.show(msg: '不能再大了');
                           return;
                         }
                         Provider.of<AppSetting>(
@@ -741,7 +741,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                           listen: false,
                         ).novelLineHeight;
                         if (height == 0.8) {
-                          Fluttertoast.showToast(msg: '不能再减少了');
+                          AppToast.show(msg: '不能再减少了');
                           return;
                         }
                         Provider.of<AppSetting>(
@@ -762,7 +762,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                           listen: false,
                         ).novelLineHeight;
                         if (height == 2.0) {
-                          Fluttertoast.showToast(msg: '不能再增加了');
+                          AppToast.show(msg: '不能再增加了');
                           return;
                         }
                         Provider.of<AppSetting>(
@@ -1122,7 +1122,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
 
   void nextChapter() async {
     if (widget.chapters.indexOf(_currentItem!) == widget.chapters.length - 1) {
-      Fluttertoast.showToast(msg: '已经是最后一章了');
+      AppToast.show(msg: '已经是最后一章了');
       return;
     }
     setState(() {
@@ -1134,7 +1134,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
 
   void previousChapter() async {
     if (widget.chapters.indexOf(_currentItem!) == 0) {
-      Fluttertoast.showToast(msg: '已经是最前面一章了');
+      AppToast.show(msg: '已经是最前面一章了');
       return;
     }
     setState(() {

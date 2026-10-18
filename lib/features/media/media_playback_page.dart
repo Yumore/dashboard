@@ -1,4 +1,5 @@
-import 'package:dashboard/features/media/media_playback_page_state.dart';
+import 'package:dashboard/features/media/media_playback_page_state_stub.dart'
+    if (dart.library.io) 'package:dashboard/features/media/media_playback_page_state.dart';
 import 'package:dashboard/features/media/media_stream_source.dart';
 import 'package:flutter/material.dart';
 

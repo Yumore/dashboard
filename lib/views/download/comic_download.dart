@@ -1,6 +1,6 @@
 import 'package:dashboard/models/comic/comic_detail_model.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ComicDownloadPage extends StatefulWidget {
   final ComicDetail detail;
@@ -70,7 +70,7 @@ class _ComicDownloadPageState extends State<ComicDownloadPage> {
         heroTag: 'ComicDownload',
         child: const Icon(Icons.file_download),
         onPressed: () {
-          Fluttertoast.showToast(msg: '就快写好了');
+          AppToast.show(msg: '就快写好了');
         },
       ),
     );

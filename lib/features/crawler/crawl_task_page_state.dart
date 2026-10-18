@@ -4,6 +4,7 @@ import 'package:dashboard/features/crawler/crawl_exporter.dart';
 import 'package:dashboard/features/crawler/crawl_html_parser.dart';
 import 'package:dashboard/features/crawler/crawl_state.dart';
 import 'package:dashboard/features/crawler/crawl_task_page.dart';
+import 'package:dashboard/app/platform/app_platform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -59,6 +60,10 @@ class CrawlTaskPageState extends State<CrawlTaskPage> {
   }
 
   Future<void> _export(String kind) async {
+    if (!AppPlatform.supportsFileSystem) {
+      _message('当前平台不支持导出到本地文件');
+      return;
+    }
     try {
       final file = await _exporter.save(widget.task, kind);
       if (!mounted) return;

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_platform.dart';
 import 'package:dashboard/app/user_info.dart';
 import 'package:dashboard/app/utils.dart';
 import 'package:dashboard/models/comic/comic_home_banner_item.dart';
@@ -101,7 +101,7 @@ class ComicRecommendState extends State<ComicRecommend>
                 : CrossAxisAlignment.center,
             children: <Widget>[
               //banner
-              (Platform.isIOS && _hideBanner)
+              (AppPlatform.isIOS && _hideBanner)
                   ? Container()
                   : AppBanner(
                       items: _banners

@@ -1,0 +1,25 @@
+import 'app_platform.dart';
+
+/// 功能能力标签：入口 catalog 依据它决定是否展示某个功能入口。
+enum AppCapability {
+  fileSystem,
+  sqlite,
+  webView,
+  socket,
+  screenBrightness,
+  videoPlayback,
+  selfUpdate,
+}
+
+/// 能力查询入口，统一委托给 [AppPlatform]。
+abstract final class AppCapabilities {
+  static bool supports(AppCapability capability) => switch (capability) {
+    AppCapability.fileSystem => AppPlatform.supportsFileSystem,
+    AppCapability.sqlite => AppPlatform.supportsSqlite,
+    AppCapability.webView => AppPlatform.supportsWebView,
+    AppCapability.socket => AppPlatform.supportsSocket,
+    AppCapability.screenBrightness => AppPlatform.supportsScreenBrightness,
+    AppCapability.videoPlayback => AppPlatform.supportsVideoPlayback,
+    AppCapability.selfUpdate => AppPlatform.supportsSelfUpdate,
+  };
+}

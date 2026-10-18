@@ -1,9 +1,9 @@
-import 'dart:io';
 
+import 'package:dashboard/app/platform/app_platform.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/app_theme.dart';
 import 'package:dashboard/app/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -120,14 +120,14 @@ class _SettingPageState extends State<SettingPage> {
                 color: Colors.grey,
               ),
               onTap: () {
-                Fluttertoast.showToast(msg: '老子没写完呢');
+                AppToast.show(msg: '老子没写完呢');
                 //下载使用API
                 //下载允许使用数据
                 //下载失败，跳过or失败
                 //下载队列数量
 
                 //_cacheManager.emptyCache();
-                //Fluttertoast.showToast(msg: '已清除');
+                //AppToast.show(msg: '已清除');
               }, //Provider.of<AppThemeData>(context).changeThemeColor(3),
             ),
           ),
@@ -157,14 +157,14 @@ class _SettingPageState extends State<SettingPage> {
                 color: Colors.grey,
               ),
               onTap: () {
-                Fluttertoast.showToast(msg: '老子没写完呢');
+                AppToast.show(msg: '老子没写完呢');
                 //下载使用API
                 //下载允许使用数据
                 //下载失败，跳过or失败
                 //下载队列数量
 
                 //_cacheManager.emptyCache();
-                //Fluttertoast.showToast(msg: '已清除');
+                //AppToast.show(msg: '已清除');
               }, //Provider.of<AppThemeData>(context).changeThemeColor(3),
             ),
           ),
@@ -181,14 +181,21 @@ class _SettingPageState extends State<SettingPage> {
                 style: const TextStyle(color: Colors.grey, fontSize: 14.0),
               ),
               onTap: () async {
+                if (!AppPlatform.supportsSelfUpdate) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('当前平台不支持应用内更新')),
+                  );
+                  return;
+                }
                 var newVer = await Utils.checkVersion();
+                final message = newVer.message;
+                if (message == null) return;
                 if (await Utils.showAlertDialogAsync(
-                    context, const Text('有新版本可以更新'), Text(newVer.message!))) {
-                  if (Platform.isAndroid) {
-                    launch(newVer.android_url!);
-                  } else {
-                    launch(newVer.ios_url!);
-                  }
+                    context, const Text('有新版本可以更新'), Text(message))) {
+                  final url =
+                      AppPlatform.isAndroid ? newVer.android_url : newVer.ios_url;
+                  if (url == null) return;
+                  launch(url);
                 }
               }, //Provider.of<AppThemeData>(context).changeThemeColor(3),
             ),

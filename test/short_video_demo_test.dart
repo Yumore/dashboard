@@ -2,6 +2,7 @@ import 'package:dashboard/features/short_video/short_video_clip.dart';
 import 'package:dashboard/features/short_video/short_video_demo_page.dart';
 import 'package:dashboard/features/short_video/short_video_feed_page.dart';
 import 'package:dashboard/features/short_video/short_video_layout_page.dart';
+import 'package:dashboard/features/short_video/fluttertiktok_demo/fluttertiktok_demo_page.dart';
 import 'package:dashboard/features/short_video/short_video_like_page.dart';
 import 'package:dashboard/features/short_video/short_video_music_title.dart';
 import 'package:dashboard/features/movie/movie_module_page.dart';
@@ -35,6 +36,11 @@ void main() {
     await tester.tap(find.text('双击点赞动画'));
     await tester.pumpAndSettle();
     expect(find.byType(ShortVideoLikePage), findsOneWidget);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('TikTok 本地界面演示'));
+    await tester.pumpAndSettle();
+    expect(find.byType(FlutterTiktokDemoPage), findsOneWidget);
   });
 
   testWidgets('double tap creates a temporary heart', (tester) async {

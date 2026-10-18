@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/config_helper.dart';
 import 'package:dashboard/models/comic/comic_history_item.dart';
 import 'package:dashboard/sql/comic_history.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class UserHelper {
@@ -12,7 +12,7 @@ class UserHelper {
     try {
       //TODO 跳转登录
       if (!ConfigHelper.getUserIsLogined()) {
-        Fluttertoast.showToast(msg: '没有登录');
+        AppToast.show(msg: '没有登录');
         return false;
       }
       var uid = ConfigHelper.getUserInfo().uid ?? "";
@@ -28,15 +28,15 @@ class UserHelper {
       }
       var jsonMap = jsonDecode(result);
       if (jsonMap["code"] == 0) {
-        Fluttertoast.showToast(msg: cancel ? "已取消订阅" : "订阅成功");
+        AppToast.show(msg: cancel ? "已取消订阅" : "订阅成功");
         return true;
       } else {
-        Fluttertoast.showToast(msg: cancel ? "取消订阅失败" : "订阅失败");
+        AppToast.show(msg: cancel ? "取消订阅失败" : "订阅失败");
         return false;
       }
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(msg: cancel ? "取消订阅出现错误" : "订阅出现错误");
+      AppToast.show(msg: cancel ? "取消订阅出现错误" : "订阅出现错误");
       return false;
     }
   }
@@ -45,7 +45,7 @@ class UserHelper {
     try {
       //TODO 跳转登录
       if (!ConfigHelper.getUserIsLogined()) {
-        Fluttertoast.showToast(msg: '没有登录');
+        AppToast.show(msg: '没有登录');
         return false;
       }
       var uid = ConfigHelper.getUserInfo().uid ?? "";
@@ -61,15 +61,15 @@ class UserHelper {
       }
       var jsonMap = jsonDecode(result);
       if (jsonMap["code"] == 0) {
-        Fluttertoast.showToast(msg: cancel ? "已取消订阅" : "订阅成功");
+        AppToast.show(msg: cancel ? "已取消订阅" : "订阅成功");
         return true;
       } else {
-        Fluttertoast.showToast(msg: cancel ? "取消订阅失败" : "订阅失败");
+        AppToast.show(msg: cancel ? "取消订阅失败" : "订阅失败");
         return false;
       }
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(msg: cancel ? "取消订阅出现错误" : "订阅出现错误");
+      AppToast.show(msg: cancel ? "取消订阅出现错误" : "订阅出现错误");
       return false;
     }
   }
@@ -80,7 +80,7 @@ class UserHelper {
     try {
       //TODO 跳转登录
       if (!ConfigHelper.getUserIsLogined()) {
-        Fluttertoast.showToast(msg: '没有登录');
+        AppToast.show(msg: '没有登录');
         return false;
       }
       var uid = ConfigHelper.getUserInfo().uid ?? "";
@@ -95,15 +95,15 @@ class UserHelper {
       var jsonMap = jsonDecode(response.body);
 
       if (jsonMap["code"] == 0) {
-        Fluttertoast.showToast(msg: "发表成功");
+        AppToast.show(msg: "发表成功");
         return true;
       } else {
-        Fluttertoast.showToast(msg: "发表失败");
+        AppToast.show(msg: "发表失败");
         return false;
       }
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(msg: "发表出现错误");
+      AppToast.show(msg: "发表出现错误");
       return false;
     }
   }
@@ -111,7 +111,7 @@ class UserHelper {
   static Future<bool> comicLikeViewPoint(int id) async {
     try {
       // if (!ConfigHelper.getUserIsLogined() ?? false) {
-      //   Fluttertoast.showToast(msg: '没有登录');
+      //   AppToast.show(msg: '没有登录');
       //   return false;
       // }
 
@@ -120,15 +120,15 @@ class UserHelper {
       var jsonMap = jsonDecode(response.body);
 
       if (jsonMap["code"] == 0) {
-        Fluttertoast.showToast(msg: "点赞成功");
+        AppToast.show(msg: "点赞成功");
         return true;
       } else {
-        Fluttertoast.showToast(msg: "点赞失败");
+        AppToast.show(msg: "点赞失败");
         return false;
       }
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(msg: "点赞出现错误");
+      AppToast.show(msg: "点赞出现错误");
       return false;
     }
   }
@@ -208,7 +208,7 @@ class UserHelper {
     try {
       //TODO 跳转登录
       if (!ConfigHelper.getUserIsLogined()) {
-        Fluttertoast.showToast(msg: '没有登录');
+        AppToast.show(msg: '没有登录');
         return false;
       }
       var uid = ConfigHelper.getUserInfo().uid ?? "";
@@ -223,12 +223,12 @@ class UserHelper {
       if (jsonMap["result"] == 1000) {
         return true;
       } else {
-        Fluttertoast.showToast(msg: '操作失败');
+        AppToast.show(msg: '操作失败');
         return false;
       }
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(msg: '发送操作出现错误');
+      AppToast.show(msg: '发送操作出现错误');
       return false;
     }
   }

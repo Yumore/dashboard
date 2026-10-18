@@ -1,21 +1,29 @@
-import 'package:dashboard/views/novel/novel_home.dart';
+import 'package:dashboard/features/shared/ui/content_entry_section_view.dart';
+import 'package:dashboard/features/novel/novel_entry_catalog.dart';
+import 'package:dashboard/features/shared/ui/content_tokens.dart';
+import 'package:dashboard/features/shared/ui/module_page_scaffold.dart';
 import 'package:flutter/material.dart';
 
+/// Novel module page: the local library and the network-novel reader.
 class NovelModulePage extends StatelessWidget {
   const NovelModulePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('小说')),
-      body: Center(
-        child: FilledButton.icon(
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute<void>(builder: (_) => const NovelHomePage()),
-          ),
-          icon: const Icon(Icons.auto_stories_outlined),
-          label: const Text('打开小说库'),
-        ),
+    return ModulePageScaffold(
+      title: '小说',
+      body: ListView(
+        padding: ModulePageScaffold.pagePadding,
+        children: [
+          for (
+            var index = 0;
+            index < novelEntryCatalog.length;
+            index++
+          ) ...[
+            if (index > 0) const SizedBox(height: ContentSpacing.md),
+            ContentEntrySectionView(section: novelEntryCatalog[index]),
+          ],
+        ],
       ),
     );
   }

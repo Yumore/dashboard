@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_platform.dart';
 import 'package:dashboard/app/api/news.dart';
 import 'package:dashboard/app/utils.dart';
 import 'package:dashboard/models/news/news_banner_model.dart';
@@ -137,7 +137,7 @@ class NewsNewTabViewState extends State<NewsNewTabView>
               controller: scrollController,
               child: Column(
                 children: <Widget>[
-                  (Platform.isIOS && _hideBanner)
+                  (AppPlatform.isIOS && _hideBanner)
                       ? Container()
                       : AppBanner(
                           items: _banners

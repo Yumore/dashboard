@@ -1,6 +1,7 @@
-import 'dart:io';
-
 import 'package:dashboard/app/app_setting.dart';
+import 'package:dashboard/app/platform/app_messenger.dart';
+import 'package:dashboard/app/platform/app_platform.dart';
+import 'package:dashboard/app/platform/app_platform_bootstrap.dart';
 import 'package:dashboard/app/config_helper.dart';
 import 'package:dashboard/app/utils.dart';
 import 'package:dashboard/features/content_hub/content_hub_page.dart';
@@ -27,9 +28,20 @@ import 'app/user_info.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-  );
+  // 平台初始化：Web/桌面需要先安装对应的 SQLite databaseFactory。
+  // 即使初始化失败也允许应用进入内容中心（数据功能降级）。
+  try {
+    await AppPlatformBootstrap.initialize();
+  } catch (error, stackTrace) {
+    debugPrint('平台数据库工厂初始化失败：$error\n$stackTrace');
+  }
+  try {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
+  } catch (error) {
+    debugPrint('系统 UI 样式设置不可用：$error');
+  }
   ConfigHelper.prefs = await SharedPreferences.getInstance();
   await initDatabase();
   runApp(
@@ -54,6 +66,16 @@ void main() async {
 }
 
 Future initDatabase() async {
+  try {
+    await _openAppDatabase();
+  } catch (error, stackTrace) {
+    // 平台没有可用 SQLite（例如 Web 未安装 wasm）时允许应用继续启动；
+    // 历史/下载记录等依赖数据库的旧版页面此时不可用（会抛空值错误）。
+    debugPrint('SQLite 初始化失败：$error\n$stackTrace');
+  }
+}
+
+Future _openAppDatabase() async {
   var databasesPath = await getDatabasesPath();
   // File(databasesPath+"/nsplayer.db").deleteSync();
   var db = await openDatabase(
@@ -95,6 +117,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: AppMessenger.key,
       title: '动漫之家Flutter',
       theme: ThemeData(
         primarySwatch: Provider.of<AppTheme>(context).themeColor,
@@ -149,6 +172,10 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   Future<void> checkUpdate() async {
+    if (!AppPlatform.supportsSelfUpdate) {
+      // Web/桌面/鸿蒙没有应用内安装包的更新链路。
+      return;
+    }
     final newVer = await Utils.checkVersion();
     if (!mounted || newVer.message == null) {
       return;
@@ -158,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage>
       const Text('有新版本可以更新'),
       Text(newVer.message!),
     )) {
-      final url = Platform.isAndroid ? newVer.android_url : newVer.ios_url;
+      final url = AppPlatform.isAndroid ? newVer.android_url : newVer.ios_url;
       if (url == null) {
         return;
       }

@@ -8,7 +8,7 @@ import 'package:dashboard/widgets/icon_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:dashboard/app/platform/app_web_view.dart';
 
 class NewsDetailPage extends StatefulWidget {
   final int articleId;
@@ -23,40 +23,30 @@ class NewsDetailPage extends StatefulWidget {
 }
 
 class _NewsDetailPageState extends State<NewsDetailPage> {
-  late final WebViewController _webViewController;
-
   @override
   void initState() {
     super.initState();
     loadStat();
-    _webViewController = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onNavigationRequest: (request) {
-            final uri = Uri.parse(request.url);
-            if (uri.scheme == "dmzjimage") {
-              Utils.showImageViewDialog(
-                context,
-                uri.queryParameters["src"] ?? "",
-              );
-              return NavigationDecision.prevent;
-            }
-            if (uri.scheme == "dmzjandroid") {
-              Utils.openPage(
-                context,
-                int.parse(uri.queryParameters["id"] ?? "0"),
-                uri.path == "/cartoon_description" ? 1 : 2,
-              );
-              return NavigationDecision.prevent;
-            }
-            return uri.scheme == "https" || uri.scheme == "http"
-                ? NavigationDecision.navigate
-                : NavigationDecision.prevent;
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse(widget.pageUrl));
+  }
+
+  /// 资讯页自定义 scheme：图片查看与站内跳转仍在宿主内拦截。
+  AppWebNavigationDecision _handleNavigation(String url) {
+    final uri = Uri.parse(url);
+    if (uri.scheme == "dmzjimage") {
+      Utils.showImageViewDialog(context, uri.queryParameters["src"] ?? "");
+      return AppWebNavigationDecision.prevent;
+    }
+    if (uri.scheme == "dmzjandroid") {
+      Utils.openPage(
+        context,
+        int.parse(uri.queryParameters["id"] ?? "0"),
+        uri.path == "/cartoon_description" ? 1 : 2,
+      );
+      return AppWebNavigationDecision.prevent;
+    }
+    return uri.scheme == "https" || uri.scheme == "http"
+        ? AppWebNavigationDecision.navigate
+        : AppWebNavigationDecision.prevent;
   }
 
   @override
@@ -83,7 +73,11 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
           ),
         ],
       ),
-      body: WebViewWidget(controller: _webViewController),
+      body: AppWebView(
+        url: widget.pageUrl,
+        title: widget.title,
+        onNavigationRequest: _handleNavigation,
+      ),
       bottomNavigationBar: Offstage(
         offstage: widget.articleId == 0,
         child: BottomAppBar(

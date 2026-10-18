@@ -1,8 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dashboard/app/config_helper.dart';
+import 'package:dashboard/app/platform/app_file_writer.dart';
+import 'package:dashboard/app/platform/app_platform.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/models/novel/novel_volume_item.dart';
 import 'package:dashboard/models/version_info.dart';
 import 'package:dashboard/protobuf/comic/detail_response.pb.dart';
@@ -25,10 +27,8 @@ import 'package:dashboard/views/user/user_subscribe.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 
 class Utils {
@@ -152,19 +152,23 @@ class Utils {
               right: 12,
               child: TextButton(
                 onPressed: () async {
+                  if (!AppPlatform.supportsFileSystem) {
+                    AppToast.show(msg: '当前平台不支持保存到本地');
+                    return;
+                  }
                   try {
                     var file = DefaultCacheManager().getFileFromMemory(image);
-                    var byes = (await file)!.file.readAsBytesSync();
-                    var dir = await getApplicationDocumentsDirectory();
-                    await File(
-                      dir.path +
-                          "/" +
-                          DateTime.now().millisecondsSinceEpoch.toString() +
-                          ".jpg",
-                    ).writeAsBytes(byes, mode: FileMode.write);
-                    Fluttertoast.showToast(msg: '保存成功');
+                    var bytes = (await file)!.file.readAsBytesSync();
+                    final path = await AppFileWriter.writeBytes(
+                      bytes: bytes,
+                      fileName:
+                          '${DateTime.now().millisecondsSinceEpoch}.jpg',
+                    );
+                    AppToast.show(
+                      msg: path == null ? '当前平台不支持保存到本地' : '保存成功',
+                    );
                   } catch (e) {
-                    Fluttertoast.showToast(msg: '保存失败');
+                    AppToast.show(msg: '保存失败');
                   }
                 },
                 style: TextButton.styleFrom(foregroundColor: Colors.white),
@@ -343,7 +347,7 @@ class Utils {
 
   static void openSubscribePage(BuildContext context, {int index = 0}) {
     if (!ConfigHelper.getUserIsLogined()) {
-      Fluttertoast.showToast(msg: '没有登录');
+      AppToast.show(msg: '没有登录');
       return;
     }
     Navigator.push(
@@ -356,7 +360,7 @@ class Utils {
 
   static void openHistoryPage(BuildContext context) {
     if (!ConfigHelper.getUserIsLogined()) {
-      Fluttertoast.showToast(msg: '没有登录');
+      AppToast.show(msg: '没有登录');
       return;
     }
     Navigator.push(
@@ -369,7 +373,7 @@ class Utils {
 
   static void openMyCommentPage(BuildContext context) {
     if (!ConfigHelper.getUserIsLogined()) {
-      Fluttertoast.showToast(msg: '没有登录');
+      AppToast.show(msg: '没有登录');
       return;
     }
     Navigator.push(

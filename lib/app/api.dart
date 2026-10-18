@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:convert/convert.dart';
+
+import 'platform/app_platform.dart';
 import 'package:crypto/crypto.dart';
 
 class Api {
@@ -317,7 +318,7 @@ class Api {
   }
 
   static String defaultParameter() {
-    return "channel=${Platform.operatingSystem}&version$version&timestamp=$timeStamp";
+    return "channel=${AppPlatform.channel}&version$version&timestamp=$timeStamp";
   }
 
   static String sign(String content, String mode) {

@@ -3,6 +3,7 @@ import 'package:dashboard/features/chat/messenger_demo/messenger_chat_model.dart
 import 'package:dashboard/features/chat/messenger_demo/messenger_demo_page.dart';
 import 'package:dashboard/features/chat/messenger_demo/messenger_story_model.dart';
 import 'package:dashboard/features/chat/chat_module_page.dart';
+import 'package:dashboard/features/chat/flutterwechatfull_demo/flutterwechatfull_demo_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,5 +46,21 @@ void main() {
     expect(find.text('Where are you ?'), findsOneWidget);
     expect(find.text('Contacts'), findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('chat module menu exposes the full WeChat demo', (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    await tester.pumpWidget(const MaterialApp(home: ChatModulePage()));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('更多本地界面演示'));
+    await tester.pumpAndSettle();
+    expect(find.text('微信全量界面演示'), findsOneWidget);
+    await tester.ensureVisible(find.text('微信全量界面演示'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('微信全量界面演示'));
+    await tester.pumpAndSettle();
+    expect(find.byType(FlutterWechatFullDemoPage), findsOneWidget);
+    await tester.pump(const Duration(seconds: 6));
+    await tester.pumpAndSettle();
   });
 }

@@ -1,31 +1,35 @@
-import 'package:dashboard/features/chat/chat_conversation.dart';
-import 'package:dashboard/features/chat/chat_local_store.dart';
-import 'package:dashboard/features/chat/chat_module_page.dart';
+import 'package:dashboard/features/chat/chat_hub_body.dart';
+import 'package:dashboard/features/chat/chat_hub_controller.dart';
 import 'package:dashboard/features/chat/chat_thread_page.dart';
 import 'package:dashboard/features/chat/lan_chat_page.dart';
-import 'package:dashboard/features/chat/messenger_demo/messenger_demo_page.dart';
+import 'package:dashboard/features/shared/ui/content_navigation.dart';
+import 'package:dashboard/features/shared/ui/module_page_scaffold.dart';
+import 'package:dashboard/features/chat/chat_module_page.dart';
+import 'package:dashboard/app/platform/app_platform.dart';
 import 'package:flutter/material.dart';
 
 class ChatModulePageState extends State<ChatModulePage> {
-  final _store = ChatLocalStore();
-  List<ChatConversation> _conversations = const [];
+  final _controller = ChatHubController();
+  final _conversationNameInput = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _refresh();
+    _controller.load();
   }
 
-  Future<void> _refresh() async {
-    final conversations = await _store.conversations();
-    if (mounted) setState(() => _conversations = conversations);
+  @override
+  void dispose() {
+    _conversationNameInput.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 
-  Future<void> _create() async {
-    final input = TextEditingController();
+  Future<void> _createConversation() async {
+    final input = _conversationNameInput..clear();
     final name = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('新建本地会话'),
         content: TextField(
           controller: input,
@@ -34,76 +38,53 @@ class ChatModulePageState extends State<ChatModulePage> {
         ),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(builder: (_) => const LanChatPage()),
-            ),
+            onPressed: () {
+              if (!AppPlatform.supportsSocket) {
+                ScaffoldMessenger.of(dialogContext).showSnackBar(
+                  const SnackBar(content: Text('当前平台不支持局域网聊天')),
+                );
+                return;
+              }
+              openContentPage<void>(
+                dialogContext,
+                (_) => const LanChatPage(),
+              );
+            },
             icon: const Icon(Icons.lan_outlined),
             tooltip: '局域网聊天',
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: const Text('取消'),
           ),
           FilledButton(
-            onPressed: () => Navigator.pop(context, input.text.trim()),
+            onPressed: () => Navigator.pop(dialogContext, input.text.trim()),
             child: const Text('创建'),
           ),
         ],
       ),
     );
-    input.dispose();
     if (name == null || name.isEmpty) return;
-    final conversation = await _store.create(name);
-    await _refresh();
-    if (mounted) _open(conversation);
-  }
-
-  Future<void> _open(ChatConversation conversation) async {
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => ChatThreadPage(conversation: conversation),
-      ),
+    final conversation = await _controller.create(name);
+    if (!mounted) return;
+    openContentPage<void>(
+      context,
+      (_) => ChatThreadPage(conversation: conversation),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('聊天'),
-        actions: [
-          IconButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const MessengerDemoPage(),
-              ),
-            ),
-            icon: const Icon(Icons.dashboard_customize_outlined),
-            tooltip: 'Messenger 本地界面演示',
-          ),
-          IconButton(
-            onPressed: _create,
-            icon: const Icon(Icons.add_comment_outlined),
-            tooltip: '新建会话',
-          ),
-        ],
-      ),
-      body: _conversations.isEmpty
-          ? const Center(child: Text('暂无会话。此处先支持本地消息；云 IM 需要服务配置。'))
-          : ListView.builder(
-              itemCount: _conversations.length,
-              itemBuilder: (context, index) {
-                final conversation = _conversations[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    child: Text(conversation.name.characters.first),
-                  ),
-                  title: Text(conversation.name),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () => _open(conversation),
-                );
-              },
-            ),
+    return ModulePageScaffold(
+      title: '聊天',
+      actions: [
+        IconButton(
+          onPressed: _createConversation,
+          icon: const Icon(Icons.add_comment_outlined),
+          tooltip: '新建会话',
+        ),
+      ],
+      body: ChatHubBody(controller: _controller),
     );
   }
 }

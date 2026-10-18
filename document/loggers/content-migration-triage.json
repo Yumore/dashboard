@@ -1,0 +1,709 @@
+{
+  "generated_by": "five read-only triage subagents, one per domain, 2026-10-16/17",
+  "method": "Each source's pubspec.yaml, lib/ Dart sources, README and referenced assets were read on disk; verdicts come from code, not README claims. No source was modified.",
+  "user_policy": {
+    "decided_at": "2026-10-16 (m00187)",
+    "rule_private": "Sources whose business depends on a private backend service are skipped and their directories are kept (original user rule).",
+    "rule_no_business": "User chose: static UI demos are migrated into the host as demo modules (preserving their real data and interactions, following the Messenger and zhihu-flutter precedent) and only then retired. Sources with no real business, plugin packages, and native-blocked sources are KEPT, because retiring them would destroy code that was never migrated.",
+    "rule_dart_simple_live": "User chose: dart_simple_live is skipped strictly and its directory is kept, even though only one optional remote-sync screen depends on the author's server.",
+    "delete_scope": "Only sources whose real business is verifiably present in the host may be retired: MIGRATE sources after host verification, STATIC_DEMO sources after their demo module lands, and DUPLICATE_ONLY sources once their canonical source is in the host."
+  },
+  "verdicts": {
+    "Alexandria": {
+      "domain": "reading",
+      "verdict": "MIGRATE",
+      "private": false,
+      "host_module": "features/reading/alexandria",
+      "evidence": "public 1lib.pl / libgen.rs / sci-hub.se only",
+      "size": "11 files / 96362 B"
+    },
+    "book_app": {
+      "domain": "reading",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "pubspec.yaml:53-55 woshilll_flutter_plugin is an SSH-only git dependency with no source anywhere; lib/module/book/home/book_home_controller.dart:523 also targets book.private.woshilll.top",
+      "size": "75 files / 197958 B"
+    },
+    "EasyMyGo": {
+      "domain": "reading",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "only external host is a public Bangumi cover URL in test data (lib/plugin/inner/test/component/novel/novel_test_component.dart:100)",
+      "size": "197 files / 809306 B"
+    },
+    "eso": {
+      "domain": "reading",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "sosadfun.link only in an Easter-egg page; netcut.cn public clipboard; dav.jianguoyun.com is user-configured WebDAV",
+      "size": "193 files / 2276401 B",
+      "note": "highest-value reading source; only one with audio/video/RSS/DLNA; dirty tree (38 tracked deletions + untracked dirs)"
+    },
+    "flutter_books": {
+      "domain": "reading",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "canonical": "flutter_novel",
+      "evidence": "public zhuishushenqi.com; its whole zssq surface is a subset of flutter_novel's",
+      "size": "33 files / 146110 B"
+    },
+    "flutter_learn_news": {
+      "domain": "reading",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/common/values/server.dart:1 SERVER_API_URL=https://yapi.ducafecat.tech/mock/11 is the single base URL for all core data; lib/common/values/proxy.dart:6 LAN proxy 172.16.43.74; lib/common/utils/http.dart:102 disables TLS validation",
+      "size": "62 files / 132719 B"
+    },
+    "flutter_novel": {
+      "domain": "reading",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public v3api.dmzj.com + api/statics/chapterup.zhuishushenqi.com",
+      "size": "100 files / 374612 B",
+      "note": "three page-turn animations; canonical for flutter_books"
+    },
+    "flutter_read": {
+      "domain": "reading",
+      "verdict": "NO_REAL_BUSINESS",
+      "private": false,
+      "evidence": "wanandroid training client; 43 of 75 lib/**.dart are 100% NUL bytes and git status fails with 'index file corrupt'; content recoverable from git objects",
+      "size": "75 files / 145129 B"
+    },
+    "flutter_shuqi": {
+      "domain": "reading",
+      "verdict": "NO_REAL_BUSINESS",
+      "private": false,
+      "evidence": "lib/app/request.dart:8-21 get()/post() both delegate to Request.mock() reading mock/*.json; 18 bundled mock JSONs",
+      "size": "57 files / 90963 B"
+    },
+    "FlutterEbookApp": {
+      "domain": "reading",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public catalog.feedbooks.com; packages/iridium is vendored third-party Readium, not this project's business",
+      "size": "140 files / 158545 B"
+    },
+    "LegadoFlutter": {
+      "domain": "reading",
+      "verdict": "NO_REAL_BUSINESS",
+      "private": false,
+      "evidence": "six zero-byte files including lib/pages/ruleEditor.dart and lib/pages/ruleList.dart; lib/pages/bookSearch.dart is a stub; what exists is a GitHub API client",
+      "size": "39 files / 46380 B"
+    },
+    "YueY": {
+      "domain": "reading",
+      "verdict": "NO_REAL_BUSINESS",
+      "private": false,
+      "evidence": "four public list clients only; gank.io API defunct since 2021; zhihu half already in the host, wanandroid half duplicates flutter_read",
+      "size": "22 files / 55130 B"
+    },
+    "AnimeOne": {
+      "domain": "anime_comics",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public anime1.me; the app is under AnimeOne/animeone/; MethodChannel org.github.henryquan.animeone is app-local",
+      "size": "44 files / 149249 B"
+    },
+    "PicaComic": {
+      "domain": "anime_comics",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "six public sources (e-hentai, hitomi, nhentai, 18comic, wnacg, picacomic) plus a user-JS source engine",
+      "size": "196 files / 1670785 B"
+    },
+    "anime_trace": {
+      "domain": "anime_comics",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "12 public site scrapers; local sqflite plus user WebDAV; no equivalent in the host",
+      "size": "218 files / 1152821 B"
+    },
+    "comic_flutter1": {
+      "domain": "anime_comics",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "canonical": "comic_flutter",
+      "evidence": "same pubspec name and same app.u17.com endpoints as comic_flutter, which the host already ported into features/comic/u17_source.dart",
+      "size": "28 files / 64720 B"
+    },
+    "daisy": {
+      "domain": "anime_comics",
+      "verdict": "BLOCKED_NATIVE",
+      "private": false,
+      "evidence": "all business is Rust (28 .rs / 9894 lines) behind flutter_rust_bridge; Dart is screens only",
+      "size": "72 files / 773981 B"
+    },
+    "dmzj_flutter": {
+      "domain": "anime_comics",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "canonical": "host features/comic plus lib/app/api.dart",
+      "evidence": "public nnv4api.muwai.com protobuf client; the host already ships the same dmzj module and protobuf schemas",
+      "size": "108 files / 708118 B"
+    },
+    "flutter_dmzj": {
+      "domain": "anime_comics",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "canonical": "host features/comic",
+      "evidence": "minimal public v2.api.dmzj.com client with ancient deps that cannot build without a rewrite",
+      "size": "19 files / 80574 B"
+    },
+    "flutter_manhuatai": {
+      "domain": "anime_comics",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public 321mh/yyhao/zymk network; the only LAN literal is an inactive commented-out dev proxy",
+      "size": "210 files / 2503678 B",
+      "note": "largest lib payload in the set"
+    },
+    "haka_comic": {
+      "domain": "anime_comics",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public picacomic schema; DEFAULT is a community relay (lib/config/app_config.dart:63 Api.go2778; lib/network/utils.dart:31; lib/network/http.dart:193 macapi1.com) but official direct mode is user-selectable",
+      "size": "186 files / 955665 B",
+      "note": "flagged for the ledger: default relay hosts"
+    },
+    "jasmine": {
+      "domain": "anime_comics",
+      "verdict": "BLOCKED_NATIVE",
+      "private": false,
+      "evidence": "Dart is a thin channel client to a Rust/FFI backend, but jasmine/native/ is absent from the checkout (0 .rs files) so the backend source does not exist here",
+      "size": "92 files / 549796 B"
+    },
+    "kobi": {
+      "domain": "anime_comics",
+      "verdict": "BLOCKED_NATIVE",
+      "private": false,
+      "evidence": "all business is Rust (30 .rs / 12162 lines) behind flutter_rust_bridge; Dart is screens only",
+      "size": "69 files / 2555422 B"
+    },
+    "nhentai-cross": {
+      "domain": "anime_comics",
+      "verdict": "BLOCKED_NATIVE",
+      "private": false,
+      "evidence": "Dart is only a flatInvoke channel client; fetching/parsing/persistence live in Go (17 .go / 2151 lines) called via gomobile",
+      "size": "29 files / 169067 B"
+    },
+    "pikapi-flutter": {
+      "domain": "anime_comics",
+      "verdict": "BLOCKED_NATIVE",
+      "private": false,
+      "evidence": "Dart is only a flatInvoke channel client; business lives in Go (22 .go / 2768 lines) called via gomobile",
+      "size": "47 files / 222109 B"
+    },
+    "pixez-flutter": {
+      "domain": "anime_comics",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "pixiv only; the hard-coded 210.140.x IPs are pixiv's own DNS-bypass/SNI servers; saucenao reached by IP is public",
+      "size": "319 files / 1835456 B",
+      "note": "superset of pixiv_func_mobile"
+    },
+    "pixiv_func_mobile": {
+      "domain": "anime_comics",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "canonical": "pixez-flutter",
+      "evidence": "pixiv; its API layer is the external pixiv_dart_api package; smaller and older than pixez",
+      "size": "132 files / 314458 B"
+    },
+    "tsdm_client": {
+      "domain": "anime_comics",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public www.tsdm39.com forum only; its git dep is public GitHub",
+      "size": "508 files / 2087854 B"
+    },
+    "FlutterCinematic": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public api.themoviedb.org",
+      "note": "lib/util/constants.dart:2 API_KEY is the placeholder <your-api-key> (invalid Dart) and no in-app playback"
+    },
+    "FlutterDouBan": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public api.douban.com with the public key 0b2bdeda43b5688921839c8ecb20399b",
+      "note": "default runtime is MOCK: useNetData defaults false at lib/repository/movie_repository.dart:44-49"
+    },
+    "FlutterMovies": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "canonical_for": "morec",
+      "evidence": "public https://www.jinrikanpian.net/appapi.php",
+      "note": "non-portable vendor coupling: Bugly appIds, tencent_ad and a native tencentplayer plugin"
+    },
+    "Flutter_Eyepetizer": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public http://baobab.kaiyanapp.com/api/",
+      "note": "modular; pick one of the two eyepetizer sources"
+    },
+    "MovieApp": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "host_module": "features/movie/movieapp",
+      "evidence": "public api.themoviedb.org with public key 24d18ef569e3997bf2779d05440d3c6e",
+      "note": "done; no movie stream exists, only YouTube trailers"
+    },
+    "Tako-Play": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public gogoanime.wiki / gogoplay.io",
+      "note": "real AES stream extractor at lib/utils/extractor.dart:7-50; better_player must be swapped"
+    },
+    "ZY_Player_flutter": {
+      "domain": "movies_video",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/net/http_api.dart:22-35 operator backend with login/register/activation endpoints; lib/main.dart:67 blanks the base URL; README ships a test account",
+      "size": "152 files / 459952 B"
+    },
+    "bilivideo_down": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public api.bilibili.com; HTTP range multi-thread downloader plus sqflite",
+      "size": "40 files / 103687 B"
+    },
+    "douyin": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public tiktok.com / creator.douyin.com",
+      "note": "3 apps, no root lib; hard-coded stale _signature means live fetch likely 403s"
+    },
+    "dytt_flutter": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public http://m.dydytt.net:8080/adminapi/",
+      "note": "GAP: native signing channel com.bzh.dytt/key_utils getHeaderKey() is not implemented in Dart"
+    },
+    "eyeperizer": {
+      "domain": "movies_video",
+      "verdict": "NO_REAL_BUSINESS",
+      "private": false,
+      "evidence": "lib/main.dart returns Text(\"\"); lib/app_init.dart only hides the splash",
+      "size": "2 files / 981 B"
+    },
+    "eyepetizer_flutter": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "canonical_for": "Flutter_Eyepetizer",
+      "evidence": "public baobab.kaiyanapp.com plus account.kaiyanapp.com",
+      "note": "CORRECTED 2026-10-17: not a duplicate. Flutter_Eyepetizer is a 120-file modularized project (module/module_home|discover|hot|detail|person|common) whose home/category/detail/search surface is what lib/features/movie/eyepetizer ports. eyepetizer_flutter is a separate 108-file app with account.kaiyanapp.com login/register, mine/person pages, community (recommend/attention), photo detail + picture gallery and a local history DB - none of that is in Flutter_Eyepetizer.",
+      "pending": "port login/register + mine/person + community + photo gallery + history DB into the host"
+    },
+    "flutter_bilibili": {
+      "domain": "movies_video",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/http/request/base_request.dart:20 returns api.devio.org and lib/barrage/hi_socket.dart:9 uses wss://api.devio.org/uapi/fa/barrage/; every DAO resolves there with a baked-in course token",
+      "size": "90 files / 168255 B"
+    },
+    "flutter_tiktok": {
+      "domain": "movies_video",
+      "verdict": "STATIC_DEMO_ONLY",
+      "private": false,
+      "evidence": "no backend; lib/mock/video.dart:2-31 hard-codes 9 test filenames on static.ybhospital.net",
+      "size": "29 files / 127801 B"
+    },
+    "inKino": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public finnkino.fi plus TMDb",
+      "note": "unique cinema showtimes, Redux, and an AngularDart PWA in web/"
+    },
+    "morec": {
+      "domain": "movies_video",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "canonical": "FlutterMovies",
+      "evidence": "fork of FlutterMovies with 29 of 72 files byte-identical; data layer swapped to douban plus an HTML scraper",
+      "size": "72 files / 143758 B"
+    },
+    "visitor-flutter": {
+      "domain": "movies_video",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/common/api.dart:11,14,17 all three content endpoints are https://dd.shmy.tech/api/client/...; BASE_URL at api.dart:5 is blank",
+      "size": "55 files / 96490 B"
+    },
+    "youtube_downloader_flutter": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "YouTube via youtube_explode_dart plus flutter_ffmpeg muxing",
+      "size": "18 files / 68586 B",
+      "note": "unpinned git dep window_size"
+    },
+    "yyets_flutter": {
+      "domain": "movies_video",
+      "verdict": "MIGRATE",
+      "private": false,
+      "evidence": "public a.zmzapi.com, file.apicvn.com, m1.rrys2019.com",
+      "size": "46 files / 226560 B"
+    },
+    "FlutterSocialAppUIKit": {
+      "domain": "chat_social",
+      "verdict": "STATIC_DEMO_ONLY",
+      "private": false,
+      "evidence": "no network import at all; every list is generated by Random in lib/util/data.dart",
+      "size": "26 files / 56593 B"
+    },
+    "Getx-PinkApp": {
+      "domain": "chat_social",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/pink_constants.dart:5 domain=10.0.2.2 with :9 port 8080 and lib/app/core/socket.dart:11 ws://.../api/v1/chat; README requires the author's Gin-PinkApp backend; Bugly ids at pink_constants.dart:11-12",
+      "size": "225 files / 607136 B"
+    },
+    "OpenFlutterYim": {
+      "domain": "chat_social",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/module_cloud_music/common/Http.dart:50 dio baseUrl http://106.13.32.37:3000 is the author-deployed NeteaseCloudMusicApi proxy",
+      "size": "160 files / 389967 B"
+    },
+    "OpenJMU": {
+      "domain": "chat_social",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/constants/messages.dart:10-13 socketConfig host 210.34.130.61 port 7777 with a closed binary protocol; lib/utils/net_utils.dart:21 SOCKS5 192.168.0.103:9876; README states non-members cannot log in",
+      "size": "167 files / 1117863 B"
+    },
+    "fake_wechat": {
+      "domain": "chat_social",
+      "verdict": "STATIC_DEMO_ONLY",
+      "private": false,
+      "evidence": "replies come from an in-process Isolate (lib/server/ChatAI.dart:10-17); friends/moments are const literals; real but obsolete local flutter_sound recorder",
+      "size": "31 files / 263866 B"
+    },
+    "flutter-grpc-tutorial": {
+      "domain": "chat_social",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "flutter_client/lib/api/chat_service.dart:13 serverIP 172.16.1.18 port 3000",
+      "size": "26 files / 51812 B"
+    },
+    "flutter-social": {
+      "domain": "chat_social",
+      "verdict": "STATIC_DEMO_ONLY",
+      "private": false,
+      "evidence": "its only URL is a comment; lib/models/chat.dart:11-16 and lib/models/message.dart:8-15 are hard-coded literals",
+      "size": "26 files / 68540 B"
+    },
+    "flutter-webrtc-demo": {
+      "domain": "chat_social",
+      "verdict": "NO_REAL_BUSINESS",
+      "private": false,
+      "evidence": "it is the flutter_webrtc plugin's own example app; the signalling host is user-supplied at runtime and the server is open-source and self-hostable; no chat, persistence or accounts",
+      "size": "16 files / 69530 B"
+    },
+    "flutter-wechat": {
+      "domain": "chat_social",
+      "verdict": "STATIC_DEMO_ONLY",
+      "private": false,
+      "evidence": "lib/home/Message.dart is a const list of canned conversations; the only network object is a barely-used public api.douban.com base URL; no IM dependency",
+      "size": "24 files / 82517 B"
+    },
+    "flutterWechat": {
+      "domain": "chat_social",
+      "verdict": "STATIC_DEMO_ONLY",
+      "private": false,
+      "evidence": "no HTTP/socket/IM dependency in pubspec at all; lib/views/mainframe/mainframe_page.dart:132 loads mock/mainframe.json; all data is bundled mock JSON",
+      "size": "104 files / 599073 B"
+    },
+    "flutter_campus_social_app": {
+      "domain": "chat_social",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/commons/NetUtil.dart:77 LeanCloud host avefaaux.api.lncld.net with hard-coded X-LC-Id/X-LC-Key at :82-84; IM is a LeanMessage webview stub; lib/commons/ui.dart:30 owned host 114.116.46.204:8003",
+      "size": "175 files / 1192401 B"
+    },
+    "flutter_chat": {
+      "domain": "chat_social",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "client/flutter_chat/lib/config/app_config.dart:15 both DEV and PROD return http://120.77.215.190:8888; socket_manager.dart:25 dials it",
+      "size": "client 13 + server 14 files"
+    },
+    "flutter_chat1": {
+      "domain": "chat_social",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "README.md:38-41 says the server source is not open-source; lib/data/constants/src/urls.dart:1 serverUrl is empty yet is the only host for both transports",
+      "size": "137 files / 365802 B"
+    },
+    "wechat-flutter": {
+      "domain": "chat_social",
+      "verdict": "NO_REAL_BUSINESS",
+      "private": false,
+      "evidence": "a folder of five unrelated mini-projects; the chat-named one is a static shell; phonewallet and wallet duplicate each other; tomatoplan and videoplayer are out of domain",
+      "size": "28 files across subprojects / 88851 B"
+    },
+    "alltv_flutter": {
+      "domain": "live",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/http/dio_util.dart:5 baseurl http://debugers.com:8888/api is the author's own server and every business call routes through it (lib/http/api.dart:12,25,42,72,78,90)",
+      "size": "38 files / 97426 B"
+    },
+    "dart_simple_live": {
+      "domain": "live",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "simple_live_app/lib/services/signalr_service.dart:15 and simple_live_tv_app/lib/services/signalr_service.dart:13 kUrl=https://sync1.nsapps.cn/sync is the author's remote-sync backend",
+      "size": "253 files across packages",
+      "note": "user chose strict skip even though the four site adapters are public-API-only and this is the highest-value live source; local LAN sync and WebDAV alternatives exist in-tree"
+    },
+    "my_tv": {
+      "domain": "live",
+      "verdict": "MIGRATE",
+      "private": false,
+      "host_module": "features/live/my_tv",
+      "evidence": "public IPTV m3u, public EPG, api.github.com; its only server binds LAN 0.0.0.0:10381 itself",
+      "size": "72 files / 126972 B"
+    },
+    "chewie": {
+      "domain": "media_plugin",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "evidence": "Flutter plugin package, 100% Dart, no native dirs; control layer duplicates media_kit_video which the host standardised on",
+      "size": "54 files / 274470 B",
+      "note": "plugin package: KEEP"
+    },
+    "fijkplayer": {
+      "domain": "media_plugin",
+      "verdict": "PLUGIN_NOT_APP",
+      "private": false,
+      "evidence": "platform-channel binding to befovy's ijkplayer; the unique code is the native FFmpeg/ijkplayer binding",
+      "size": "12 files / 114393 B"
+    },
+    "flutter-p2p-engine": {
+      "domain": "media_plugin",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "lib/cdnbye.dart:25 requires a vendor token; example/lib/main.dart:25 ships a placeholder token; engine is the closed-source android/libs/cdnbye-2.6.0.jar",
+      "size": "1 file / 8241 B"
+    },
+    "flutter-webrtc": {
+      "domain": "media_plugin",
+      "verdict": "PLUGIN_NOT_APP",
+      "private": false,
+      "evidence": "open prebuilt libwebrtc binding with no account; the host has no WebRTC capability at all",
+      "size": "32 files / 113811 B",
+      "note": "dirty tree: untracked native audio-routing utils and macos/third_party/"
+    },
+    "flutter_ijkplayer": {
+      "domain": "media_plugin",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "evidence": "stale twin of fijkplayer over the same ijkplayer upstream; the only unique artifact is the in-tree ijkplayer Java fork and vendored .so files",
+      "size": "24 files / 74434 B",
+      "note": "plugin package: KEEP"
+    },
+    "flutter_live": {
+      "domain": "media_plugin",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "evidence": "archived aggregator of exactly fijkplayer + flutter_webrtc + camera_with_rtmp; the only unique remnant is a ~60-line SRS WebRTC handshake",
+      "size": "1 file / 9653 B",
+      "note": "plugin package: KEEP"
+    },
+    "flutter_rtmppublisher": {
+      "domain": "media_plugin",
+      "verdict": "PLUGIN_NOT_APP",
+      "private": false,
+      "evidence": "camera2 + RTMP encoder native binding (pubspec name camera_with_rtmp); outbound publish is orthogonal to a playback host",
+      "size": "5 files / 39162 B"
+    },
+    "flutter_tencentplayer": {
+      "domain": "media_plugin",
+      "verdict": "SKIP_PRIVATE",
+      "private": true,
+      "evidence": "closed-source Tencent LiteAV SDK (android/build.gradle:41, ios podspec:19) and cloud VOD appId/fileId/sign required (example/lib/page/full_video_page.dart:99)",
+      "size": "7 files / 18193 B"
+    },
+    "flutter_torrent_streamer": {
+      "domain": "media_plugin",
+      "verdict": "PLUGIN_NOT_APP",
+      "private": false,
+      "evidence": "torrent engine binding; iOS is a stub returning FlutterMethodNotImplemented and it uses the removed Flutter v1 embedding",
+      "size": "1 file / 5535 B",
+      "note": "unique capability in the tree: KEEP"
+    },
+    "AnimeTV": {
+      "domain": "anime_comics",
+      "verdict": "MIGRATE",
+      "private": false,
+      "host_module": "features/anime/anime_source.dart (partial)",
+      "evidence": "public wcostream.net",
+      "note": "PARTIAL: untaken = stream resolver getStreamUrls/getJsonApiLink/_decodeVideoLink (lib/api/api.dart:14/43/48), getEpisodeDetails/getShowDetails, better_player widgets, favourites, remaining pages"
+    },
+    "book": {
+      "domain": "reading",
+      "verdict": "MIGRATE",
+      "private": false,
+      "host_module": "features/reading/reading_web_source.dart + chapter_text_cleaner.dart (partial)",
+      "evidence": "public web sources",
+      "note": "PARTIAL: only HTML chapter cleanup is in the host; the whole source engine, reader stack, DB and repositories remain un-mined; largest reading asset"
+    },
+    "comic_flutter": {
+      "domain": "anime_comics",
+      "verdict": "MIGRATED_IN_HOST",
+      "private": false,
+      "host_module": "features/comic/u17_*.dart (partial)",
+      "evidence": "public app.u17.com",
+      "note": "Covered by lib/features/comic/u17_*.dart (12 files) + lib/sql/comic_history.dart; only the About-page link and the app shell (splash/router/toast/storage helpers) are intentionally not ported"
+    },
+    "easy_tv_live": {
+      "domain": "live",
+      "verdict": "MIGRATE",
+      "private": false,
+      "host_module": "features/live/live_playlist_parser.dart + live_subscription_store.dart (partial)",
+      "evidence": "public IPTV sources",
+      "note": "PARTIAL: untaken = epg_util, latency_checker_util, remote_util + setting_remote, device_sync_util, font_util + font page, bing_util, qr_scan, reward, subscribe pages, tv/*, channel_drawer_page, mobile/table video widgets, volume_brightness_widget, provider/download_provider"
+    },
+    "flutter_tiktok1": {
+      "domain": "movies_video",
+      "verdict": "DUPLICATE_ONLY",
+      "private": false,
+      "canonical": "flutter_tiktok",
+      "evidence": "clean, no network layer",
+      "note": "PARTIAL: untaken detail state machines live in flutter_tiktok/lib (video_play_view_controller, video_view_controller, layout controllers, like controller, widget/extension services)"
+    }
+  },
+  "roll_up": {
+    "MIGRATE": [
+      "Alexandria",
+      "EasyMyGo",
+      "eso",
+      "flutter_novel",
+      "FlutterEbookApp",
+      "AnimeOne",
+      "PicaComic",
+      "anime_trace",
+      "flutter_manhuatai",
+      "haka_comic",
+      "pixez-flutter",
+      "tsdm_client",
+      "FlutterCinematic",
+      "FlutterDouBan",
+      "FlutterMovies",
+      "Flutter_Eyepetizer",
+      "MovieApp",
+      "Tako-Play",
+      "bilivideo_down",
+      "douyin",
+      "dytt_flutter",
+      "eyepetizer_flutter",
+      "inKino",
+      "youtube_downloader_flutter",
+      "yyets_flutter",
+      "my_tv"
+    ],
+    "MIGRATE_PARTIAL": [
+      "AnimeTV",
+      "book",
+      "comic_flutter",
+      "easy_tv_live"
+    ],
+    "STATIC_DEMO_ONLY": [
+      "FlutterSocialAppUIKit",
+      "fake_wechat",
+      "flutter-social",
+      "flutter-wechat",
+      "flutterWechat",
+      "flutter_tiktok"
+    ],
+    "DUPLICATE_ONLY_APPS": [
+      "flutter_books",
+      "comic_flutter1",
+      "dmzj_flutter",
+      "flutter_dmzj",
+      "pixiv_func_mobile",
+      "morec",
+      "flutter_tiktok1"
+    ],
+    "DUPLICATE_ONLY_PLUGINS_KEEP": [
+      "chewie",
+      "flutter_ijkplayer",
+      "flutter_live"
+    ],
+    "SKIP_PRIVATE": [
+      "book_app",
+      "flutter_learn_news",
+      "ZY_Player_flutter",
+      "flutter_bilibili",
+      "visitor-flutter",
+      "Getx-PinkApp",
+      "OpenFlutterYim",
+      "OpenJMU",
+      "flutter-grpc-tutorial",
+      "flutter_campus_social_app",
+      "flutter_chat",
+      "flutter_chat1",
+      "alltv_flutter",
+      "dart_simple_live",
+      "flutter-p2p-engine",
+      "flutter_tencentplayer"
+    ],
+    "BLOCKED_NATIVE_KEEP": [
+      "daisy",
+      "jasmine",
+      "kobi",
+      "nhentai-cross",
+      "pikapi-flutter"
+    ],
+    "NO_REAL_BUSINESS_KEEP": [
+      "flutter_read",
+      "flutter_shuqi",
+      "LegadoFlutter",
+      "YueY",
+      "eyeperizer",
+      "flutter-webrtc-demo",
+      "wechat-flutter"
+    ],
+    "PLUGIN_NOT_APP_KEEP": [
+      "fijkplayer",
+      "flutter-webrtc",
+      "flutter_rtmppublisher",
+      "flutter_torrent_streamer"
+    ]
+  },
+  "cross_cutting_findings": [
+    "The anime/comic domain contains zero private backends; every 192.168.x/127.0.0.1 hit there is a settings hint, a proxy-error comment, or a commented-out dev packet-capture proxy.",
+    "Five anime/comic sources put all real business in Rust/Go behind flutter_rust_bridge or gomobile; jasmine's native backend is not even present in the checkout.",
+    "Three reading sources share one source-engine concept (eso, EasyMyGo, and book's engine); only one host target should be chosen.",
+    "Two movie sources implement eyepetizer and three implement TMDb; duplicates should collapse to one canonical source each.",
+    "No movie source uses media_kit; every MIGRATE there needs its player swapped (better_player, fijkplayer, chewie, video_player_win, native tencentplayer).",
+    "flutter_read's working tree is NUL-corrupted and its git index is unreadable; any future read must recover blobs via git cat-file."
+  ],
+  "corrections": [
+    {
+      "date": "2026-10-17",
+      "source": "eyepetizer_flutter",
+      "from": "DUPLICATE_ONLY",
+      "to": "MIGRATE",
+      "evidence": "eyepetizer_flutter/lib/http/api.dart:8 BASE_URL=https://baobab.kaiyanapp.com, :10 ACCOUNT_BASE_URL=https://account.kaiyanapp.com; 108 lib dart files vs Flutter_Eyepetizer 5 top-level + 115 under module/"
+    },
+    {
+      "source": "comic_flutter",
+      "field": "note",
+      "was": "lizhujiang.com second source",
+      "now": "lizhujiang.com appears only as a link on the About page (comic_flutter/lib/pages/About.dart), not as a second data source; the host already carries the U17 list/detail/chapter/reader/history business in lib/features/comic/u17_*.dart and lib/sql/comic_history.dart"
+    }
+  ]
+}

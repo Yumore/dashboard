@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypton/crypton.dart';
 import 'package:dashboard/app/config_helper.dart';
+import 'package:dashboard/app/platform/app_platform.dart';
 
 import '../http_util.dart';
 
@@ -25,7 +25,7 @@ class ApiUtil {
   static const BASE_URL_V4 = "https://nnv4api.muwai.com";
 
   static Map<String, dynamic> defaultParameter({bool needLogined = false}) {
-    Map<String, dynamic> map = {"channel": Platform.operatingSystem, "version": "3.0.0", "timestamp": (DateTime.now().millisecondsSinceEpoch / 1000).toStringAsFixed(0)};
+    Map<String, dynamic> map = {"channel": AppPlatform.channel, "version": "3.0.0", "timestamp": (DateTime.now().millisecondsSinceEpoch / 1000).toStringAsFixed(0)};
     if (needLogined && ConfigHelper.getUserIsLogined()) {
       map.addAll({'uid': ConfigHelper.getUserInfo().uid ?? ""});
     }

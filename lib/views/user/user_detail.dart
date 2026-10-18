@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/utils.dart';
 import 'package:dashboard/models/user/user_profile.dart';
 import 'package:dashboard/models/user/user_subscribe_item.dart';
@@ -8,7 +9,6 @@ import 'package:dashboard/widgets/user_comment_widget.dart';
 import 'package:dashboard/widgets/user_subscribe_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class UserDetailPage extends StatefulWidget {
@@ -69,7 +69,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
             IconButton(
                 icon: const Icon(Icons.mail_outline),
                 onPressed: () {
-                  Fluttertoast.showToast(msg: '啊，还没写完呢');
+                  AppToast.show(msg: '啊，还没写完呢');
                 })
           ],
         ),
@@ -195,7 +195,7 @@ class _SubscribeTabViewState extends State<SubscribeTabView>
       if (detail.isNotEmpty) {
         _page++;
       } else {
-        Fluttertoast.showToast(msg: "加载完毕");
+        AppToast.show(msg: "加载完毕");
       }
     } catch (e) {
       print(e);

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/api/comic.dart';
 import 'package:dashboard/app/config_helper.dart';
 import 'package:dashboard/app/http_util.dart';
@@ -14,7 +15,6 @@ import 'package:dashboard/sql/comic_history.dart';
 import 'package:dashboard/views/other/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -119,7 +119,7 @@ class _ComicDetailPageState extends State<ComicDetailPage>
                             "${_detail!.title}\r\nhttp://m.dmzj.com/info/${_detail!.comicPy}.html");
                       } else {
                         if (_detail == null || _detail!.chapters.isEmpty) {
-                          Fluttertoast.showToast(msg: '没有可以下载的章节');
+                          AppToast.show(msg: '没有可以下载的章节');
                           return;
                         }
                         // Navigator.push(
@@ -426,7 +426,7 @@ class _ComicDetailPageState extends State<ComicDetailPage>
     if (_detail == null ||
         _detail!.chapters.isEmpty ||
         _detail!.chapters[0].data.isEmpty) {
-      Fluttertoast.showToast(msg: '没有可读的章节');
+      AppToast.show(msg: '没有可读的章节');
       return;
     }
     if (historyChapter != 0) {
@@ -630,7 +630,7 @@ class _ComicDetailPageState extends State<ComicDetailPage>
         return;
       }
       print(e);
-      Fluttertoast.showToast(msg: e.toString());
+      AppToast.show(msg: e.toString());
     } finally {
       setState(() {
         _loading = false;
@@ -839,7 +839,7 @@ class _ComicChapterViewState extends State<ComicChapterView>
   void openRead() async {
     if (widget.detail.chapters.isEmpty ||
         widget.detail.chapters[0].data.isEmpty) {
-      Fluttertoast.showToast(msg: '没有可读的章节');
+      AppToast.show(msg: '没有可读的章节');
       return;
     }
     if (widget.historyChapter != 0) {

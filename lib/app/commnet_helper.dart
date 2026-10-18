@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/config_helper.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class CommentHelper {
@@ -14,15 +14,15 @@ class CommentHelper {
       var jsonMap = jsonDecode(result);
       if (jsonMap["code"] == 0) {
         //TODO 添加到数据库中
-        Fluttertoast.showToast(msg: "点赞成功");
+        AppToast.show(msg: "点赞成功");
         return true;
       } else {
-        Fluttertoast.showToast(msg: "点赞失败");
+        AppToast.show(msg: "点赞失败");
         return false;
       }
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(msg: "点赞出现错误");
+      AppToast.show(msg: "点赞出现错误");
       return false;
     }
   }

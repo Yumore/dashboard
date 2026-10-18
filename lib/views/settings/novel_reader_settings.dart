@@ -1,6 +1,6 @@
 import 'package:dashboard/app/app_setting.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class NovelReaderSettings extends StatefulWidget {
@@ -36,7 +36,7 @@ class _NovelReaderSettingsState extends State<NovelReaderSettings> {
                   var size = Provider.of<AppSetting>(context, listen: false)
                       .novelFontSize;
                   if (size == 10) {
-                    Fluttertoast.showToast(msg: '不能再小了');
+                    AppToast.show(msg: '不能再小了');
                     return;
                   }
                   Provider.of<AppSetting>(context, listen: false)
@@ -51,7 +51,7 @@ class _NovelReaderSettingsState extends State<NovelReaderSettings> {
                   var size = Provider.of<AppSetting>(context, listen: false)
                       .novelFontSize;
                   if (size == 30) {
-                    Fluttertoast.showToast(msg: '不能再大了');
+                    AppToast.show(msg: '不能再大了');
                     return;
                   }
                   Provider.of<AppSetting>(context, listen: false)
@@ -76,7 +76,7 @@ class _NovelReaderSettingsState extends State<NovelReaderSettings> {
                   var height = Provider.of<AppSetting>(context, listen: false)
                       .novelLineHeight;
                   if (height == 0.8) {
-                    Fluttertoast.showToast(msg: '不能再减少了');
+                    AppToast.show(msg: '不能再减少了');
                     return;
                   }
                   Provider.of<AppSetting>(context, listen: false)
@@ -91,7 +91,7 @@ class _NovelReaderSettingsState extends State<NovelReaderSettings> {
                   var height = Provider.of<AppSetting>(context, listen: false)
                       .novelLineHeight;
                   if (height == 2.0) {
-                    Fluttertoast.showToast(msg: '不能再增加了');
+                    AppToast.show(msg: '不能再增加了');
                     return;
                   }
                   Provider.of<AppSetting>(context, listen: false)

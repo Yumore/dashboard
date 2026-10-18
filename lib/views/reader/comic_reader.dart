@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/app_setting.dart';
 import 'package:dashboard/app/config_helper.dart';
 import 'package:dashboard/app/user_helper.dart';
@@ -16,11 +17,11 @@ import 'package:dashboard/protobuf/comic/detail_response.pb.dart';
 import 'package:dashboard/sql/comic_history.dart';
 import 'package:dashboard/views/reader/comic_tc.dart';
 import 'package:dashboard/widgets/comic_view.dart';
+import 'package:dashboard/app/platform/app_platform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -138,8 +139,9 @@ class _ComicReaderPageState extends State<ComicReaderPage> {
   }
 
   void setBrightness() async {
-    //亮度信息
-    if (!ConfigHelper.getComicSystemBrightness()) {
+    //亮度信息（Web/部分桌面平台不支持系统亮度，跳过而不是抛异常）
+    if (AppPlatform.supportsScreenBrightness &&
+        !ConfigHelper.getComicSystemBrightness()) {
       currentBrightness = await ScreenBrightness().current;
       await ScreenBrightness().setScreenBrightness(
         ConfigHelper.getComicBrightness(),
@@ -164,7 +166,9 @@ class _ComicReaderPageState extends State<ComicReaderPage> {
       overlays: SystemUiOverlay.values,
     );
     WakelockPlus.disable();
-    ScreenBrightness().setScreenBrightness(currentBrightness);
+    if (AppPlatform.supportsScreenBrightness) {
+      ScreenBrightness().setScreenBrightness(currentBrightness);
+    }
     int page = 1;
     if (!ConfigHelper.getComicVertical()) {
       print(_selectIndex);
@@ -851,7 +855,9 @@ class _ComicReaderPageState extends State<ComicReaderPage> {
                               max: 1,
                               min: 0.01,
                               onChanged: (e) {
-                                ScreenBrightness().setScreenBrightness(e);
+                                if (AppPlatform.supportsScreenBrightness) {
+                                  ScreenBrightness().setScreenBrightness(e);
+                                }
                                 Provider.of<AppSetting>(
                                   context,
                                   listen: false,
@@ -1079,7 +1085,7 @@ class _ComicReaderPageState extends State<ComicReaderPage> {
 
   void nextChapter() async {
     if (widget.chapters.indexOf(_currentItem!) == widget.chapters.length - 1) {
-      Fluttertoast.showToast(msg: '已经是最后一章了');
+      AppToast.show(msg: '已经是最后一章了');
       return;
     }
     setState(() {
@@ -1091,7 +1097,7 @@ class _ComicReaderPageState extends State<ComicReaderPage> {
 
   void previousChapter() async {
     if (widget.chapters.indexOf(_currentItem!) == 0) {
-      Fluttertoast.showToast(msg: '已经是最前面一章了');
+      AppToast.show(msg: '已经是最前面一章了');
       return;
     }
     setState(() {

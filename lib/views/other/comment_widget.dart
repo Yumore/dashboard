@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/utils.dart';
 import 'package:dashboard/models/comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:http/http.dart' as http;
 
@@ -198,7 +198,7 @@ class _CommentWidgetState extends State<CommentWidget>
                     leading: const Icon(Icons.content_copy),
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: item.content));
-                      Fluttertoast.showToast(msg: '已将内容复制到剪贴板');
+                      AppToast.show(msg: '已将内容复制到剪贴板');
                       Navigator.of(context).pop();
                     },
                   ),
@@ -412,7 +412,7 @@ class _CommentWidgetState extends State<CommentWidget>
                       leading: const Icon(Icons.content_copy),
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: item.content));
-                        Fluttertoast.showToast(msg: '已将内容复制到剪贴板');
+                        AppToast.show(msg: '已将内容复制到剪贴板');
                         Navigator.of(context).pop();
                       },
                     )
@@ -508,7 +508,7 @@ class _CommentWidgetState extends State<CommentWidget>
       if (detail.isNotEmpty) {
         _page++;
       } else {
-        Fluttertoast.showToast(msg: "加载完毕");
+        AppToast.show(msg: "加载完毕");
       }
     } catch (e) {
       print(e);

@@ -1,5 +1,6 @@
 import 'package:dashboard/features/short_video/short_video_clip.dart';
-import 'package:dashboard/features/short_video/short_video_player_state.dart';
+import 'package:dashboard/features/short_video/short_video_player_state_stub.dart'
+    if (dart.library.io) 'package:dashboard/features/short_video/short_video_player_state.dart';
 import 'package:flutter/material.dart';
 
 class ShortVideoPlayer extends StatefulWidget {

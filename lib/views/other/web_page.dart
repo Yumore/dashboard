@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:dashboard/app/platform/app_web_view.dart';
 
 class WebViewPage extends StatefulWidget {
   final String url;
@@ -13,28 +13,8 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  late final WebViewController _controller;
   String _title = "网页加载中...";
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setUserAgent("")
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageFinished: (_) async {
-            final title = await _controller.getTitle();
-            if (!mounted) {
-              return;
-            }
-            setState(() => _title = title ?? widget.url);
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse(widget.url));
-  }
+  String? _currentUrl;
 
   @override
   void setState(fn) {
@@ -52,22 +32,28 @@ class _WebViewPageState extends State<WebViewPage> {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () async {
-              Share.share(
-                "${await _controller.getTitle()}\r\n${await _controller.currentUrl()}",
-              );
+              Share.share("$_title\r\n${_currentUrl ?? widget.url}");
             },
           ),
           IconButton(
             icon: const Icon(Icons.open_in_browser),
             onPressed: () async {
-              launchUrl(
-                Uri.parse(await _controller.currentUrl() ?? widget.url),
-              );
+              launchUrl(Uri.parse(_currentUrl ?? widget.url));
             },
           ),
         ],
       ),
-      body: WebViewWidget(controller: _controller),
+      body: AppWebView(
+        url: widget.url,
+        title: _title,
+        onPageFinished: (title, url) {
+          if (!mounted) return;
+          setState(() {
+            _title = title ?? widget.url;
+            _currentUrl = url;
+          });
+        },
+      ),
     );
   }
 }

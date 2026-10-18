@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/api/novel.dart';
 import 'package:dashboard/app/config_helper.dart';
 import 'package:dashboard/app/user_helper.dart';
@@ -12,7 +13,6 @@ import 'package:dashboard/protobuf/novel/novel_detail_response.pb.dart';
 import 'package:dashboard/views/other/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -284,10 +284,10 @@ class _NovelDetailPageState extends State<NovelDetailPage>
   }
 
   void openRead() async {
-    //Fluttertoast.showToast(msg: '没写完');
+    //AppToast.show(msg: '没写完');
 
     if (volumes[0].chapters.isEmpty) {
-      Fluttertoast.showToast(msg: '没有可读的章节');
+      AppToast.show(msg: '没有可读的章节');
       return;
     }
 

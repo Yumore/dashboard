@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/user_helper.dart';
 import 'package:dashboard/app/user_info.dart';
 import 'package:dashboard/models/user/user_model.dart';
@@ -94,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
               //         icon: ImageIcon(
               //           AssetImage("assets/qq.png"),
               //         ),
-              //         onPressed: () => Fluttertoast.showToast(
+              //         onPressed: () => AppToast.show(
               //             msg: "暂未支持", toastLength: Toast.LENGTH_SHORT),
               //       ),
               //     ),
@@ -105,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
               //         icon: ImageIcon(
               //           AssetImage("assets/weibo.png"),
               //         ),
-              //         onPressed: () => Fluttertoast.showToast(
+              //         onPressed: () => AppToast.show(
               //             msg: "暂未支持", toastLength: Toast.LENGTH_SHORT),
               //       ),
               //     ),
@@ -116,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
               //         icon: ImageIcon(
               //           AssetImage("assets/weixin.png"),
               //         ),
-              //         onPressed: () => Fluttertoast.showToast(
+              //         onPressed: () => AppToast.show(
               //             msg: "暂未支持", toastLength: Toast.LENGTH_SHORT),
               //       ),
               //     )
@@ -140,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
 
   _doLogin(String username, String password) async {
     if (username.isEmpty || password.isEmpty) {
-      Fluttertoast.showToast(msg: "检查你的输入", toastLength: Toast.LENGTH_SHORT);
+      AppToast.show(msg: "检查你的输入", toastLength: Toast.LENGTH_SHORT);
       return;
     }
     setState(() {
@@ -160,16 +161,16 @@ class _LoginPageState extends State<LoginPage> {
             .changeLoginInfo(data.data!);
         Provider.of<AppUserInfo>(context, listen: false)
             .getUserProfile(data.data!.uid!, data.data!.dmzj_token!);
-        Fluttertoast.showToast(msg: "登录成功", toastLength: Toast.LENGTH_SHORT);
+        AppToast.show(msg: "登录成功", toastLength: Toast.LENGTH_SHORT);
         UserHelper.loadComicHistory();
         Navigator.pop(context);
       } else {
-        Fluttertoast.showToast(msg: data.msg!, toastLength: Toast.LENGTH_SHORT);
+        AppToast.show(msg: data.msg!, toastLength: Toast.LENGTH_SHORT);
       }
       print(body);
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(msg: "登录失败,请重试", toastLength: Toast.LENGTH_SHORT);
+      AppToast.show(msg: "登录失败,请重试", toastLength: Toast.LENGTH_SHORT);
     } finally {
       setState(() {
         _loading = false;

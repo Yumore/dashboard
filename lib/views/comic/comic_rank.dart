@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:dashboard/app/api.dart';
+import 'package:dashboard/app/platform/app_toast.dart';
 import 'package:dashboard/app/api/comic.dart';
 import 'package:dashboard/app/user_helper.dart';
 import 'package:dashboard/app/utils.dart';
@@ -9,7 +10,6 @@ import 'package:dashboard/models/comic/comic_detail_model.dart';
 import 'package:dashboard/protobuf/comic/rank_list_response.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class ComicRankPage extends StatefulWidget {
@@ -262,11 +262,11 @@ class _ComicUpdatePageState extends State<ComicRankPage>
       if (detail.isNotEmpty) {
         _page++;
       } else {
-        Fluttertoast.showToast(msg: "加载完毕");
+        AppToast.show(msg: "加载完毕");
       }
     } catch (e) {
       print(e);
-      Fluttertoast.showToast(msg: e.toString());
+      AppToast.show(msg: e.toString());
     } finally {
       setState(() {
         _loading = false;

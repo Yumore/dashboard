@@ -1,3 +1,4 @@
+import 'package:dashboard/features/short_video/fluttertiktok_demo/fluttertiktok_demo_page.dart';
 import 'package:dashboard/features/short_video/short_video_feed_page.dart';
 import 'package:dashboard/features/short_video/short_video_layout_page.dart';
 import 'package:dashboard/features/short_video/short_video_like_page.dart';
@@ -22,6 +23,12 @@ class ShortVideoDemoPage extends StatelessWidget {
         ListTile(
           title: const Text('竖向视频列表'),
           onTap: () => _open(context, const ShortVideoFeedPage()),
+        ),
+        ListTile(
+          leading: const Icon(Icons.music_video_outlined),
+          title: const Text('TikTok 本地界面演示'),
+          subtitle: const Text('推荐 / 关注 / 消息 / 我 · 点赞 / 评论 / 资料'),
+          onTap: () => _open(context, const FlutterTiktokDemoPage()),
         ),
       ],
     ),

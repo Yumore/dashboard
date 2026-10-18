@@ -82,7 +82,86 @@ SKIPPED_PRIVATE = {
     'Flutter-Project': 'lib/Moments/: publishing, comments and timeline call the source developer api.cleven1.com backend',
     'flutter_news': 'lib/support/di/dependency_injection.dart: notices are loaded from a project-specific IP backend',
     'flutter_WeChat': 'lib/provide/websocket.dart: messaging initializes a hard-coded source-developer WebSocket server at 111.231.225.178:3001',
+    # Added by the 2026-10-16/17 code-level triage; evidence in
+    # document/loggers/content-migration-triage.json.
+    'book_app': 'pubspec.yaml: SSH-only private git dependency woshilll_flutter_plugin with no source anywhere',
+    'flutter_learn_news': 'lib/common/values/server.dart: the single base URL is the developer-owned yapi.ducafecat.tech mock',
+    'ZY_Player_flutter': 'lib/net/http_api.dart: operator backend with login, register and activation endpoints',
+    'flutter_bilibili': 'lib/http/request/base_request.dart: every DAO resolves to api.devio.org with a baked-in course token',
+    'visitor-flutter': 'lib/common/api.dart: all content endpoints are the app-specific host dd.shmy.tech',
+    'Getx-PinkApp': 'lib/pink_constants.dart and lib/app/core/socket.dart: chat dials the developer host and the author Gin backend is required',
+    'OpenFlutterYim': 'lib/module_cloud_music/common/Http.dart: music module requires the author-deployed proxy at 106.13.32.37:3000',
+    'OpenJMU': 'lib/constants/messages.dart: messaging dials the university server 210.34.130.61:7777 over a closed binary protocol',
+    'flutter-grpc-tutorial': 'flutter_client/lib/api/chat_service.dart: gRPC channel targets LAN 172.16.1.18:3000',
+    'flutter_campus_social_app': 'lib/commons/NetUtil.dart: LeanCloud account credentials and an owned host are required',
+    'flutter_chat': 'client/flutter_chat/lib/config/app_config.dart: both dev and prod point at the author host 120.77.215.190:8888',
+    'flutter_chat1': 'README.md: the server source is explicitly not open-source and the configured base URL is empty',
+    'alltv_flutter': 'lib/http/dio_util.dart: every business call routes through the author release server debugers.com:8888',
+    'dart_simple_live': 'simple_live_app/lib/services/signalr_service.dart: remote sync requires the author server sync1.nsapps.cn',
+    'flutter-p2p-engine': 'lib/cdnbye.dart: the closed-source CDNBye engine requires a vendor token',
+    'flutter_tencentplayer': 'android/build.gradle and README: closed-source Tencent LiteAV SDK plus a cloud VOD appId/fileId/sign',
 }
+# Reviewed as having real business that cannot be represented in a Dart app host,
+# or no business at all. These directories must be kept: retiring them would
+# destroy code that was never migrated.
+BLOCKED_NATIVE = {
+    'daisy': 'all business is Rust behind flutter_rust_bridge',
+    'jasmine': 'Dart is a channel client; the native backend source is absent from the checkout',
+    'kobi': 'all business is Rust behind flutter_rust_bridge',
+    'nhentai-cross': 'Dart is a channel client; business lives in Go via gomobile',
+    'pikapi-flutter': 'Dart is a channel client; business lives in Go via gomobile',
+}
+PLAYER_PLUGIN = {
+    'fijkplayer': 'platform-channel binding to ijkplayer; the unique code is native',
+    'flutter-webrtc': 'open libwebrtc binding; the host has no WebRTC capability',
+    'flutter_rtmppublisher': 'camera2 and RTMP encoder binding; outbound publish is orthogonal to the host',
+    'flutter_torrent_streamer': 'torrent engine binding; unique capability, Android-only and legacy embedding',
+}
+NO_REAL_BUSINESS = {
+    'flutter_read': 'wanandroid training client; lib is NUL-corrupted and its git index is unreadable',
+    'flutter_shuqi': 'reader UI over bundled mock JSON; every request delegates to a mock loader',
+    'LegadoFlutter': 'the advertised rule editor and book content files are zero bytes; the rest is a GitHub client',
+    'YueY': 'four demo list clients; gank.io is defunct and the rest duplicates other sources',
+    'eyeperizer': 'lib/main.dart returns an empty Text widget',
+    'flutter-webrtc-demo': 'the flutter_webrtc package example app; no chat, accounts or persistence',
+    'wechat-flutter': 'a folder of unrelated mini-apps; the chat-named one is a static shell',
+}
+# Business fully represented by another selected source or by the host already.
+DUPLICATE_ONLY = {
+    'flutter_books': 'zssq surface is a subset of flutter_novel',
+    'comic_flutter1': 'clone of comic_flutter, whose U17 endpoints the host already ports',
+    'dmzj_flutter': 'the host already ships the same dmzj module and protobuf schemas',
+    'flutter_dmzj': 'thinnest dmzj client; dmzj_flutter is far more complete',
+    'pixiv_func_mobile': 'pixez-flutter is the superset',
+    'morec': 'fork of FlutterMovies with 29 of 72 files byte-identical',
+    'flutter_tiktok1': 'the untaken detail state machines live in flutter_tiktok',
+    'chewie': 'plugin package; control layer duplicates media_kit_video',
+    'flutter_ijkplayer': 'stale twin of fijkplayer over the same ijkplayer upstream',
+    'flutter_live': 'archived aggregator of fijkplayer, flutter-webrtc and camera_with_rtmp',
+}
+# Real business already ported into the host and verified by tests, but the
+# source directory has not been retired yet.
+# Sources whose real business is already ported and verified, but whose
+# directory has not been retired yet. Retired sources disappear from the parent
+# scan; their receipts live in document/loggers/content-migration-retirements.json
+# (Alexandria, my_tv, MovieApp, FlutterDouBan, inKino, FlutterMovies,
+# flutter_novel, flutter-social, anime_trace, dmzj_flutter, flutter_dmzj,
+# comic_flutter1, bilivideo_down, Tako-Play, Flutter_Eyepetizer).
+MIGRATED_IN_HOST = {
+    'tsdm_client': 'features/anime/tsdm',
+}
+# Real UI and real bundled data, but no network business. The user chose to port
+# these as host demo modules and only then retire them.
+STATIC_DEMO = {
+    'FlutterSocialAppUIKit': 'every list is generated by Random',
+    'fake_wechat': 'replies come from an in-process Isolate and the contacts are const literals',
+    'flutter-wechat': 'a const list of canned conversations',
+    'flutterWechat': 'all data is bundled mock JSON',
+    'flutter_tiktok': 'hard-coded sample video filenames',
+}
+# NOTE eyepetizer_flutter is NOT a duplicate: its login/community/mine surface is
+# absent from Flutter_Eyepetizer (see document/loggers/content-migration-triage.json
+# corrections[]). It stays a MIGRATE target.
 BLOCKED_PRIVATE_DEPENDENCY = {
     'MagicMagnet': 'pubspec.yaml and README.md: private magic_magnet_engine source is not included',
 }
@@ -163,13 +242,21 @@ def inspect_project(directory, domain):
               'packages': package_list}
     if domain:
         result['migration_status'] = 'partial' if directory.name in PARTIAL else 'not_started'
-        if directory.name in SKIPPED_PRIVATE:
-            result['prior_migration_status'] = result['migration_status']
-            result['migration_status'] = 'skipped_private_service'
-            result['skip_reason'] = SKIPPED_PRIVATE[directory.name]
-        if directory.name in BLOCKED_PRIVATE_DEPENDENCY:
-            result['migration_status'] = 'blocked_private_dependency'
-            result['skip_reason'] = BLOCKED_PRIVATE_DEPENDENCY[directory.name]
+        for status, table in (
+            ('skipped_private_service', SKIPPED_PRIVATE),
+            ('blocked_private_dependency', BLOCKED_PRIVATE_DEPENDENCY),
+            ('blocked_native', BLOCKED_NATIVE),
+            ('player_plugin_keep', PLAYER_PLUGIN),
+            ('no_real_business_keep', NO_REAL_BUSINESS),
+            ('duplicate_only', DUPLICATE_ONLY),
+            ('static_demo_to_port', STATIC_DEMO),
+            ('migrated_pending_retirement', MIGRATED_IN_HOST),
+        ):
+            if directory.name in table:
+                if result['migration_status'] in ('not_started', 'partial'):
+                    result['prior_migration_status'] = result['migration_status']
+                result['migration_status'] = status
+                result.setdefault('triage_notes', []).append(table[directory.name])
         result['git'] = git_metadata(directory)
         result['files'] = source_manifest(directory)
         result['source_tree_sha256'] = hashlib.sha256(
@@ -203,8 +290,12 @@ def main():
             projects.append(previous[directory.name])
         else:
             projects.append(inspect_project(directory, domains.get(directory.name)))
-    active_count = len(projects)
     retirements = json.loads(RETIREMENTS.read_text()) if RETIREMENTS.exists() else []
+    retired_names = {receipt['directory'] for receipt in retirements}
+    # A just-retired source can still be listed by the live scan when --refresh ran
+    # before the move; the receipt is authoritative, so drop the stale duplicate.
+    projects = [project for project in projects if project['directory'] not in retired_names]
+    active_count = len(projects)
     for receipt in retirements:
         name = receipt['directory']
         if receipt['status'] != 'retired' or Path(name).name != name or name not in domains:
